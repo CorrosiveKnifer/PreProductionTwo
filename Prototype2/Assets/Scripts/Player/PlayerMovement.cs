@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public float m_gravityMult = 9.81f;
     public float m_jumpSpeed = 5.0f;
 
-    float m_turnSmoothTime = 0.1f;
+    float m_turnSmoothTime = 0.075f;
     float m_turnSmoothVelocity;
 
     public float m_moveSpeed = 6.0f;
@@ -81,7 +81,6 @@ public class PlayerMovement : MonoBehaviour
         if (_move.magnitude >= 0.1f && m_playerModel != null)
         {
             float targetAngle = Mathf.Atan2(direction.normalized.x, direction.normalized.z) * Mathf.Rad2Deg;
-            Debug.Log(targetAngle);
             float angle = Mathf.SmoothDampAngle(m_playerModel.transform.eulerAngles.y, targetAngle, ref m_turnSmoothVelocity, m_turnSmoothTime);
             m_playerModel.transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
 
