@@ -19,10 +19,14 @@ public class Boss_AI : MonoBehaviour
     }
 
     [Header("Current Stats")]
-    private float m_currentHealth;
-    private float m_currentPatiences;
+    public float m_currentHealth;
+    public float m_currentPatiences;
 
+    [Header("Externals")]
     [SerializeField] private BossData m_myData;
+    [SerializeField] private Transform m_projSpawn;
+    [SerializeField] private GameObject m_projPrefab;
+
     private AI_BEHAVOUR_STATE m_myCurrentState;
     private GameObject m_player;
     private Boss_Movement m_myMovement;
@@ -31,10 +35,13 @@ public class Boss_AI : MonoBehaviour
     void Start()
     {
         m_currentHealth = m_myData.health;
+        m_currentPatiences = m_myData.patience;
         m_player = GameObject.FindGameObjectWithTag("Player");
         m_myMovement = GetComponentInChildren<Boss_Movement>();
         if (m_roarOnAwake)
         {
+            m_behavour = "Waiting";
+            m_myCurrentState = AI_BEHAVOUR_STATE.WAITING;
             CameraManager.instance.PlayDirector("BossRoar");
             //Play animation
         }
@@ -43,10 +50,8 @@ public class Boss_AI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!CameraManager.instance.IsDirectorPlaying("BossRoar"))
-        {
-            m_myMovement.SetTargetLocation(m_player.transform.position);
-        }
+        BehavourUpdate();
+        
     }
 
     public void BehavourUpdate()
@@ -54,19 +59,44 @@ public class Boss_AI : MonoBehaviour
         switch (m_myCurrentState)
         {
             case AI_BEHAVOUR_STATE.WAITING:
-
+                if (!CameraManager.instance.IsDirectorPlaying("BossRoar"))
+                {
+                    TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+                }
                 break;
             case AI_BEHAVOUR_STATE.CLOSE_DISTANCE:
-                if(m_myMovement.IsNearTargetLocation(m_player.transform.position, m_myData.meleeAttackRange))
+
+                m_myMovement.SetTargetLocation(m_player.transform.position);
+
+                if (m_myMovement.IsNearTargetLocation(m_player.transform.position, m_myData.meleeAttackRange))
                 {
                     TransitionBehavourTo(AI_BEHAVOUR_STATE.MELEE_ATTACK);
+                }
+                else
+                {
+                    if (m_myMovement.IsNearTargetLocation(m_player.transform.position, m_myData.meleeAttackRange * 2.0f))
+                    {
+                        m_currentPatiences -= Time.deltaTime * 0.5f;
+                    }
+                    else
+                    {
+                        m_currentPatiences -= Time.deltaTime;
+                    }
+
+                    if(m_currentPatiences <= 0)
+                    {
+                        TransitionBehavourTo(AI_BEHAVOUR_STATE.RANGE_ATTACK);
+                    }
                 }
                 break;
             case AI_BEHAVOUR_STATE.MELEE_ATTACK:
 
                 break;
             case AI_BEHAVOUR_STATE.RANGE_ATTACK:
-
+                Vector3 forward = m_player.transform.position - transform.position;
+                Rigidbody proj = GameObject.Instantiate(m_projPrefab, m_projSpawn.position, Quaternion.LookRotation(forward, Vector3.up)).GetComponent<Rigidbody>();
+                proj.AddForce(forward * 20.0f, ForceMode.Impulse);
+                TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
                 break;
             default:
                 break;
@@ -88,6 +118,7 @@ public class Boss_AI : MonoBehaviour
                 break;
             case AI_BEHAVOUR_STATE.RANGE_ATTACK:
                 m_behavour = "Attacking (Range)";
+                m_currentPatiences = m_myData.patience;
                 break;
             case AI_BEHAVOUR_STATE.MELEE_ATTACK:
                 m_behavour = "Attacking (Melee)";
@@ -102,6 +133,6 @@ public class Boss_AI : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, m_myData.m_meleeAttackRange);
+        Gizmos.DrawWireSphere(transform.position, m_myData.meleeAttackRange);
     }
 }

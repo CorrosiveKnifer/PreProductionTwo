@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dfd7832409ddbb46b4a282c2122fd7d, type: 3}
   m_Name: bossData
   m_EditorClassIdentifier: 
-  m_health: 0
-  m_resistance: 0
-  m_meleeAttackRange: 0
-  m_patience: 0
+  health: 250
+  resistance: 0
+  meleeAttackRange: 5
+  patience: 5

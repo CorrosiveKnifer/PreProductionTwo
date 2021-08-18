@@ -27,6 +27,6 @@ public class Boss_Movement : MonoBehaviour
 
     public bool IsNearTargetLocation(Vector3 _targetPos, float distOffset = 1.0f)
     {
-        return (m_myAgent.destination - _targetPos).magnitude < distOffset;
+        return (transform.position - _targetPos).magnitude < distOffset;
     }
 }
