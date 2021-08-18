@@ -68,13 +68,13 @@ public class Boss_AI : MonoBehaviour
 
                 m_myMovement.SetTargetLocation(m_player.transform.position);
 
-                if (m_myMovement.IsNearTargetLocation(m_player.transform.position, m_myData.meleeAttackRange))
+                if (m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange))
                 {
                     TransitionBehavourTo(AI_BEHAVOUR_STATE.MELEE_ATTACK);
                 }
                 else
                 {
-                    if (m_myMovement.IsNearTargetLocation(m_player.transform.position, m_myData.meleeAttackRange * 2.0f))
+                    if (m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange * 2.0f))
                     {
                         m_currentPatiences -= Time.deltaTime * 0.5f;
                     }
@@ -90,12 +90,16 @@ public class Boss_AI : MonoBehaviour
                 }
                 break;
             case AI_BEHAVOUR_STATE.MELEE_ATTACK:
-
+                if (m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange))
+                {
+                    TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+                }
                 break;
             case AI_BEHAVOUR_STATE.RANGE_ATTACK:
                 Vector3 forward = m_player.transform.position - transform.position;
                 Rigidbody proj = GameObject.Instantiate(m_projPrefab, m_projSpawn.position, Quaternion.LookRotation(forward, Vector3.up)).GetComponent<Rigidbody>();
-                proj.AddForce(forward * 20.0f, ForceMode.Impulse);
+                proj.AddForce(forward * 10.0f, ForceMode.Impulse);
+                Physics.IgnoreCollision(proj.GetComponent<Collider>(), GetComponent<Collider>());
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
                 break;
             default:
@@ -118,6 +122,7 @@ public class Boss_AI : MonoBehaviour
                 break;
             case AI_BEHAVOUR_STATE.RANGE_ATTACK:
                 m_behavour = "Attacking (Range)";
+                m_myMovement.Stop();
                 m_currentPatiences = m_myData.patience;
                 break;
             case AI_BEHAVOUR_STATE.MELEE_ATTACK:

@@ -5,13 +5,12 @@ using UnityEngine.AI;
 
 public class Boss_Movement : MonoBehaviour
 {
-    [SerializeField] private NavMeshAgent m_myAgent;
+    private NavMeshAgent m_myAgent;
     
     // Start is called before the first frame update
     void Start()
     {
-        if(m_myAgent == null)
-            m_myAgent = GetComponentInChildren<NavMeshAgent>();
+        m_myAgent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
@@ -20,13 +19,19 @@ public class Boss_Movement : MonoBehaviour
         
     }
 
-    public void SetTargetLocation(Vector3 _targetPos)
+    public void Stop()
     {
-        m_myAgent.destination = _targetPos;
+        m_myAgent.isStopped = true;
     }
 
-    public bool IsNearTargetLocation(Vector3 _targetPos, float distOffset = 1.0f)
+    public void SetTargetLocation(Vector3 _targetPos)
     {
-        return (transform.position - _targetPos).magnitude < distOffset;
+        m_myAgent.isStopped = false;
+        m_myAgent.destination = _targetPos;  
+    }
+
+    public bool IsNearTargetLocation(float distOffset = 1.0f)
+    {
+        return (transform.position - m_myAgent.destination).magnitude < distOffset;
     }
 }
