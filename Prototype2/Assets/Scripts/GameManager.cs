@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    public static Vector2 m_sensitivity = new Vector2(100.0f, 100.0f);
+
     // Start is called before the first frame update
     void Start()
     {
