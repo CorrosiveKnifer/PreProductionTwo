@@ -96,15 +96,23 @@ public class Boss_AI : MonoBehaviour
                 }
                 break;
             case AI_BEHAVOUR_STATE.RANGE_ATTACK:
-                Vector3 forward = m_player.transform.position - transform.position;
-                Rigidbody proj = GameObject.Instantiate(m_projPrefab, m_projSpawn.position, Quaternion.LookRotation(forward, Vector3.up)).GetComponent<Rigidbody>();
-                proj.AddForce(forward * 10.0f, ForceMode.Impulse);
-                Physics.IgnoreCollision(proj.GetComponent<Collider>(), GetComponent<Collider>());
+                CreateProjectile((m_player.transform.position - m_projSpawn.position).normalized);
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+
                 break;
             default:
                 break;
         }
+    }
+    private void CreateProjectile(Vector3 forward)
+    {
+        Rigidbody proj = GameObject.Instantiate(m_projPrefab, m_projSpawn.position, Quaternion.LookRotation(forward, Vector3.up)).GetComponent<Rigidbody>();
+        proj.AddForce(forward * 10.0f, ForceMode.Impulse);
+        Physics.IgnoreCollision(proj.GetComponent<Collider>(), GetComponent<Collider>());
+        Boss_Projectile boss_proj = proj.GetComponent<Boss_Projectile>();
+        boss_proj.m_sender = transform;
+        boss_proj.m_target = m_player;
+        proj.gameObject.SetActive(true);
     }
 
     private void TransitionBehavourTo(AI_BEHAVOUR_STATE nextState)
@@ -138,6 +146,7 @@ public class Boss_AI : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, m_myData.meleeAttackRange);
     }
 }
