@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private CharacterController m_characterController;
     private PlayerController m_playerController;
+    private CameraController m_cameraController;
     private PlayerResources m_playerResources;
 
     public Camera m_camera;
@@ -29,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     {
         m_characterController = GetComponent<CharacterController>();
         m_playerController = GetComponent<PlayerController>();
+        m_cameraController = GetComponent<CameraController>();
         m_playerResources = GetComponent<PlayerResources>();
     }
 
@@ -108,7 +110,15 @@ public class PlayerMovement : MonoBehaviour
                 + transform.up * m_yVelocity * Time.deltaTime); // Jump
         }
 
-        RotateToFaceDirection(new Vector3(normalizedMove.x, 0, normalizedMove.z));
+        if (m_cameraController.m_selectedTarget == null)
+        {
+            RotateToFaceDirection(new Vector3(normalizedMove.x, 0, normalizedMove.z));
+        }
+        else
+        {
+            Vector3 direction = m_cameraController.m_selectedTarget.transform.position - transform.position;
+            RotateToFaceDirection(new Vector3(direction.x, 0, direction.z));
+        }
     }
 
     private void RotateToFaceDirection(Vector3 _direction)

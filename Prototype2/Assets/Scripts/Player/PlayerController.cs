@@ -42,6 +42,10 @@ public class PlayerController : MonoBehaviour
                 m_playerResources.ChangeStamina(-30.0f);
             }
         }
+        if (InputManager.instance.IsGamepadButtonDown(ButtonType.LB, gamepadID))
+        {
+            m_cameraController.ToggleLockOn();
+        }
 
         // Debug inputs
         if (InputManager.instance.IsKeyDown(KeyType.H))
