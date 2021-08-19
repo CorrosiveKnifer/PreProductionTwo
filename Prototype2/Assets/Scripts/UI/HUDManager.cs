@@ -31,7 +31,7 @@ public class HUDManager : MonoBehaviour
     #endregion
 
     [Header("UI Objects")]
-    public GameObject[] m_UIElements;
+    public UI_Element[] m_UIElements;
 
     private void Start()
     {
@@ -76,13 +76,36 @@ public class HUDManager : MonoBehaviour
         return null;
     }
 
-    public UI_Element GetElementByType(System.Type type)
+    /*
+     * GetElement by Michael Jordan
+     * Description:
+     *  A Generic function used to find a UI_Element within this container.
+     *
+     * Generic: 
+     *   T - "typeof the UI_Element you are trying to find". Must me a child of the UI_Element class.
+     * Param:
+     *  name - "name of the UI_Element within the heirarchy". By default it is blank.
+     *
+     * Return: 
+     *  T - the element or null if it can not be found.
+     */
+    public T GetElement<T>(string name = "") where T : UI_Element
     {
-        foreach (var item in m_UIElements)
+        foreach (var element in m_UIElements)
         {
-            if(item.GetComponent<UI_Element>().GetType() == type)
+            T item = element as T;
+            if (item != null && (item.name == name || name == ""))
             {
-                return item.GetComponent<UI_Element>();
+                return item;
+            }
+
+            //Check inside panel
+            UI_Panel panel = element as UI_Panel;
+            if (panel != null)
+            {
+                T subItem = panel.GetElement<T>(name);
+                if (subItem != null)
+                    return subItem;
             }
         }
         return null;

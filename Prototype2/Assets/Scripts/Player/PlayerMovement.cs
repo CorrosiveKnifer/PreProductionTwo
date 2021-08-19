@@ -25,6 +25,9 @@ public class PlayerMovement : MonoBehaviour
     private bool m_isRolling = false;
     private Vector3 m_lastMoveDirection;
 
+    //External Link to adrenaline giver
+    private PlayerAdrenalineProvider o_adrenalineProvider;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -100,6 +103,13 @@ public class PlayerMovement : MonoBehaviour
         {
             m_playerResources.ChangeStamina(-30.0f);
             m_isRolling = true;
+
+            if(o_adrenalineProvider != null)
+            {
+                GetComponent<PlayerResources>().ChangeAdrenaline(100 * o_adrenalineProvider.m_value);
+                o_adrenalineProvider = null;
+            }
+
             m_lastMoveDirection = normalizedMove;
             // Play animation
             m_playerController.m_animator.SetTrigger("Roll");
@@ -135,5 +145,23 @@ public class PlayerMovement : MonoBehaviour
     public void StopRoll()
     {
         m_isRolling = false;
+    }
+
+    public void SetPotentialAdrenaline(PlayerAdrenalineProvider _provider)
+    {
+        if(o_adrenalineProvider == _provider)
+        {
+            return;
+        }
+
+        //if either is null, then they will represent the maximum value of a float
+        float currentDist = (o_adrenalineProvider != null) ? Vector3.Distance(transform.position, o_adrenalineProvider.transform.position) : float.MaxValue; 
+        float newDist = (_provider != null) ? Vector3.Distance(transform.position, _provider.transform.position) : float.MaxValue;
+
+        if(newDist < currentDist) 
+        {
+            //New provider! (Used to determine who has priority when the player is dodging).
+            o_adrenalineProvider = _provider;
+        }
     }
 }

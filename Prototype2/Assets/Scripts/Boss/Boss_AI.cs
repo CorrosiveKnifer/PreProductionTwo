@@ -31,13 +31,18 @@ public class Boss_AI : MonoBehaviour
     private GameObject m_player;
     private Boss_Movement m_myMovement;
 
+    private UI_Bar m_myHealthBar;
+
     // Start is called before the first frame update
     void Start()
     {
-        m_currentHealth = m_myData.health;
+        m_currentHealth = m_myData.health * 0.5f;
         m_currentPatiences = m_myData.patience;
         m_player = GameObject.FindGameObjectWithTag("Player");
         m_myMovement = GetComponentInChildren<Boss_Movement>();
+
+        m_myHealthBar = HUDManager.instance.GetElement<UI_Bar>("BossHealthBar");
+
         if (m_roarOnAwake)
         {
             m_behavour = "Waiting";
@@ -51,7 +56,7 @@ public class Boss_AI : MonoBehaviour
     void Update()
     {
         BehavourUpdate();
-        
+        m_myHealthBar.SetValue(m_currentHealth/m_myData.health);
     }
 
     public void BehavourUpdate()
@@ -96,15 +101,23 @@ public class Boss_AI : MonoBehaviour
                 }
                 break;
             case AI_BEHAVOUR_STATE.RANGE_ATTACK:
-                Vector3 forward = m_player.transform.position - transform.position;
-                Rigidbody proj = GameObject.Instantiate(m_projPrefab, m_projSpawn.position, Quaternion.LookRotation(forward, Vector3.up)).GetComponent<Rigidbody>();
-                proj.AddForce(forward * 10.0f, ForceMode.Impulse);
-                Physics.IgnoreCollision(proj.GetComponent<Collider>(), GetComponent<Collider>());
+                CreateProjectile((m_player.transform.position - m_projSpawn.position).normalized);
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+
                 break;
             default:
                 break;
         }
+    }
+    private void CreateProjectile(Vector3 forward)
+    {
+        Rigidbody proj = GameObject.Instantiate(m_projPrefab, m_projSpawn.position, Quaternion.LookRotation(forward, Vector3.up)).GetComponent<Rigidbody>();
+        proj.AddForce(forward * 50.0f, ForceMode.Impulse);
+        Physics.IgnoreCollision(proj.GetComponent<Collider>(), GetComponent<Collider>());
+        Boss_Projectile boss_proj = proj.GetComponent<Boss_Projectile>();
+        boss_proj.m_sender = transform;
+        boss_proj.m_target = m_player;
+        proj.gameObject.SetActive(true);
     }
 
     private void TransitionBehavourTo(AI_BEHAVOUR_STATE nextState)
@@ -138,6 +151,7 @@ public class Boss_AI : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, m_myData.meleeAttackRange);
     }
 }
