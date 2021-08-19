@@ -149,6 +149,17 @@ public class Boss_AI : MonoBehaviour
 
         m_myCurrentState = nextState;
     }
+
+    public void DealDamage(float damage)
+    {
+        float damageMod = 1.0f - Mathf.Log(m_myData.resistance)/2 * m_myData.resistance/100.0f;
+        damageMod = Mathf.Clamp(damageMod, 0.0f, 1.0f);
+        m_currentHealth -= damage * damageMod;
+
+        //Deal with death
+
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
