@@ -31,13 +31,18 @@ public class Boss_AI : MonoBehaviour
     private GameObject m_player;
     private Boss_Movement m_myMovement;
 
+    private UI_Bar m_myHealthBar;
+
     // Start is called before the first frame update
     void Start()
     {
-        m_currentHealth = m_myData.health;
+        m_currentHealth = m_myData.health * 0.5f;
         m_currentPatiences = m_myData.patience;
         m_player = GameObject.FindGameObjectWithTag("Player");
         m_myMovement = GetComponentInChildren<Boss_Movement>();
+
+        m_myHealthBar = HUDManager.instance.GetElement<UI_Bar>("BossHealthBar");
+
         if (m_roarOnAwake)
         {
             m_behavour = "Waiting";
@@ -51,7 +56,7 @@ public class Boss_AI : MonoBehaviour
     void Update()
     {
         BehavourUpdate();
-        
+        m_myHealthBar.SetValue(m_currentHealth/m_myData.health);
     }
 
     public void BehavourUpdate()
@@ -107,7 +112,7 @@ public class Boss_AI : MonoBehaviour
     private void CreateProjectile(Vector3 forward)
     {
         Rigidbody proj = GameObject.Instantiate(m_projPrefab, m_projSpawn.position, Quaternion.LookRotation(forward, Vector3.up)).GetComponent<Rigidbody>();
-        proj.AddForce(forward * 10.0f, ForceMode.Impulse);
+        proj.AddForce(forward * 50.0f, ForceMode.Impulse);
         Physics.IgnoreCollision(proj.GetComponent<Collider>(), GetComponent<Collider>());
         Boss_Projectile boss_proj = proj.GetComponent<Boss_Projectile>();
         boss_proj.m_sender = transform;

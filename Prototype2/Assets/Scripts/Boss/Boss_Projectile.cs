@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Boss_Projectile : MonoBehaviour
@@ -11,17 +12,24 @@ public class Boss_Projectile : MonoBehaviour
     public float m_distWindow = 20.0f;
     private Vector3 forward;
 
-    private float dodgeVal;
     private Vector3 projPoint;
+    private PlayerAdrenalineProvider m_providerInfo;
+
     public void Start()
     {
         forward = transform.forward;
+        m_providerInfo = GetComponent<PlayerAdrenalineProvider>();
     }
 
     // Update is called once per frame
     void Update()
     {
         Calculate();
+
+        //Tell the player their dodge value.
+        if(!m_providerInfo.mutex)
+            m_target.GetComponent<PlayerMovement>()?.SetPotentialAdrenaline(m_providerInfo);
+
         if (Vector3.Distance(Vector3.zero, transform.position) > m_maxDistance)
         {
             Destroy(gameObject);
@@ -46,11 +54,11 @@ public class Boss_Projectile : MonoBehaviour
             if(theirDist < radius && t >= 0)
             {
                 //Danger!
-                dodgeVal = 1.0f - ((myDist - radius) / (m_distWindow - radius));
+                m_providerInfo.m_value = 1.0f - ((myDist - radius) / (m_distWindow - radius));
             }
             else
             {
-                dodgeVal = 0.0f;
+                m_providerInfo.m_value = 0.0f;
             }
         }
     }
@@ -65,7 +73,9 @@ public class Boss_Projectile : MonoBehaviour
     private void OnDrawGizmos()
     {
         float radius = transform.localScale.x;
-        Gizmos.color = (dodgeVal > 0) ? Color.green: Color.red; 
+        Gizmos.color = (m_providerInfo.m_value > 0) ? Color.green: Color.red; 
         Gizmos.DrawWireSphere(projPoint, radius);
+        Handles.color = (m_providerInfo.m_value > 0) ? Color.green : Color.red;
+        Handles.Label(projPoint, $"Dodge:{m_providerInfo.m_value }");
     }
 }
