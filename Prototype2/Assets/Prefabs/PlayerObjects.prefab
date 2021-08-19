@@ -1628,7 +1628,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8422007745588580937}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -2172,6 +2172,7 @@ GameObject:
   - component: {fileID: 8422007746411455709}
   - component: {fileID: 8422007746411455708}
   - component: {fileID: 8422007746411455707}
+  - component: {fileID: 5846868069642990467}
   - component: {fileID: 8422007746411455706}
   - component: {fileID: 58810071}
   - component: {fileID: 1854232040229638555}
@@ -2245,6 +2246,21 @@ MonoBehaviour:
   m_gravityMult: 9.81
   m_jumpSpeed: 5
   m_moveSpeed: 6
+  m_rollSpeed: 12
+--- !u!114 &5846868069642990467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8422007746411455705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdefc5fcd5e792b479d4bc205fd81d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_staminaRechargeDelay: 1
+  m_rechargeRate: 40
 --- !u!114 &8422007746411455706
 MonoBehaviour:
   m_ObjectHideFlags: 0

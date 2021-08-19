@@ -5,6 +5,9 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private CharacterController m_characterController;
+    private PlayerController m_playerController;
+    private PlayerResources m_playerResources;
+
     public Camera m_camera;
     public GameObject m_playerModel;
     public float m_gravityMult = 9.81f;
@@ -14,13 +17,19 @@ public class PlayerMovement : MonoBehaviour
     float m_turnSmoothVelocity;
 
     public float m_moveSpeed = 6.0f;
+    public float m_rollSpeed = 12.0f;
     private bool m_grounded = true;
     private float m_yVelocity = 0.0f;
+
+    private bool m_isRolling = false;
+    private Vector3 m_lastMoveDirection;
 
     // Start is called before the first frame update
     void Start()
     {
         m_characterController = GetComponent<CharacterController>();
+        m_playerController = GetComponent<PlayerController>();
+        m_playerResources = GetComponent<PlayerResources>();
     }
 
     // Update is called once per frame
@@ -49,10 +58,26 @@ public class PlayerMovement : MonoBehaviour
             // If not grounded apply gravity
             m_yVelocity -= m_gravityMult * Time.fixedDeltaTime;
         }
+
+        // Rolling process
+        RollUpdate();
     }
 
-    public void Move(Vector2 _move, bool _jump)
+    private void RollUpdate()
     {
+        if (m_isRolling)
+        {
+            m_characterController.Move(m_lastMoveDirection.normalized * m_rollSpeed * Time.fixedDeltaTime 
+                + transform.up * m_yVelocity * Time.fixedDeltaTime);
+            RotateToFaceDirection(new Vector3(m_lastMoveDirection.x, 0, m_lastMoveDirection.z));
+        }
+    }
+
+    public void Move(Vector2 _move, bool _jump, bool _roll)
+    {
+        if (m_isRolling)
+            return;
+
         if (_jump && m_grounded)
         {
             m_yVelocity = m_jumpSpeed;
@@ -69,27 +94,36 @@ public class PlayerMovement : MonoBehaviour
         normalizedMove += _move.x * cameraRight.normalized;
         normalizedMove += _move.y * cameraForward.normalized;
 
-        m_characterController.Move(normalizedMove * m_moveSpeed * Time.deltaTime // Movement
-            + transform.up * m_yVelocity * Time.deltaTime); // Jump
-
-        Vector3 direction;
-        direction.x = normalizedMove.x;
-        direction.y = 0;
-        direction.z = normalizedMove.z;
-
-        // Rotate player model
-        if (_move.magnitude >= 0.1f && m_playerModel != null)
+        if (!_jump && m_grounded && _roll && normalizedMove.magnitude >= 0.1f && m_playerResources.m_stamina > 0.0f)
         {
-            float targetAngle = Mathf.Atan2(direction.normalized.x, direction.normalized.z) * Mathf.Rad2Deg;
+            m_playerResources.ChangeStamina(-30.0f);
+            m_isRolling = true;
+            m_lastMoveDirection = normalizedMove;
+            // Play animation
+            m_playerController.m_animator.SetTrigger("Roll");
+        }
+        else
+        {
+            m_characterController.Move(normalizedMove * m_moveSpeed * Time.deltaTime // Movement
+                + transform.up * m_yVelocity * Time.deltaTime); // Jump
+        }
+
+        RotateToFaceDirection(new Vector3(normalizedMove.x, 0, normalizedMove.z));
+    }
+
+    private void RotateToFaceDirection(Vector3 _direction)
+    {
+        // Rotate player model
+        if (_direction.magnitude >= 0.1f && m_playerModel != null)
+        {
+            float targetAngle = Mathf.Atan2(_direction.normalized.x, _direction.normalized.z) * Mathf.Rad2Deg;
             float angle = Mathf.SmoothDampAngle(m_playerModel.transform.eulerAngles.y, targetAngle, ref m_turnSmoothVelocity, m_turnSmoothTime);
             m_playerModel.transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
-
-            //direction = direction.normalized;
-            //float angle = Vector3.SignedAngle(cameraForward, direction, transform.up);
-            ////angle *= Mathf.Sign(direction.x);
-            //m_playerModel.transform.rotation = Quaternion.Lerp(m_playerModel.transform.rotation,
-            //    Quaternion.Euler(0, angle, 0),
-            //    1 - Mathf.Pow(2.0f, -Time.deltaTime * 20.0f));
         }
+    }
+
+    public void StopRoll()
+    {
+        m_isRolling = false;
     }
 }
