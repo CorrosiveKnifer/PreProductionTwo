@@ -5,13 +5,14 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Collider m_weaponCollider;
-    private PlayerMovement m_playerMovement;
-    private PlayerResources m_playerResources;
-    private CameraController m_cameraController;
+    public PlayerMovement m_playerMovement { get; private set; }
+    public PlayerResources m_playerResources { get; private set; }
+    public CameraController m_cameraController { get; private set; }
     public Animator m_animator { get; private set; }
     private bool m_damageActive = false;
 
     public float m_adrenalineMult { get; private set; } = 1.0f;
+    public float m_effectsPercentage { get; private set; } = 0.0f;
 
     List<Collider> m_hitList = new List<Collider>();
 
@@ -27,13 +28,16 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Get movement inputs and apply
         int gamepadID = InputManager.instance.GetAnyGamePad();
         m_playerMovement.Move(GetPlayerMovementVector(), // Run
             InputManager.instance.IsGamepadButtonDown(ButtonType.SOUTH, gamepadID), // Jump
             InputManager.instance.IsGamepadButtonDown(ButtonType.EAST, gamepadID)); // Roll
 
+        // Get camera inputs and apply
         m_cameraController.MoveCamera(GetCameraMovementVector());
 
+        // Roll
         if (InputManager.instance.IsGamepadButtonDown(ButtonType.RB, gamepadID))
         {
             if (m_playerResources.m_stamina > 0.0f)
@@ -42,6 +46,8 @@ public class PlayerController : MonoBehaviour
                 m_playerResources.ChangeStamina(-30.0f);
             }
         }
+
+        // Lock on
         if (InputManager.instance.IsGamepadButtonDown(ButtonType.LB, gamepadID))
         {
             m_cameraController.ToggleLockOn();
@@ -66,20 +72,24 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (m_damageActive)
+        if (m_damageActive) // Check if swing is active
             DamageDetection();
     }
     
     private void CalculateAdrenalineBoost()
     {
-        if (m_playerResources.m_adrenaline > 0.0f)
+        if (m_playerResources.m_adrenaline > 0.0f) // Check if player has adrenaline
         {
             m_adrenalineMult = 1.0f + m_playerResources.m_adrenaline / 100.0f;
+            m_effectsPercentage = m_playerResources.m_adrenaline / 100.0f;
         }
         else
         {
+            // Defaults
             m_adrenalineMult = 1.0f;
+            m_effectsPercentage = 0.0f;
         }
+        m_animator.SetFloat("AttackSpeed", m_adrenalineMult); // Set animation speed
     }
 
     private Vector2 GetPlayerMovementVector()
@@ -100,19 +110,23 @@ public class PlayerController : MonoBehaviour
 
     private void DamageDetection()
     {
+        // Find all colliders
         Collider[] colliders = FindObjectsOfType<Collider>();
+
+        bool foundTarget = false;
 
         foreach (var collider in colliders)
         {
-            if (collider.gameObject.layer == 9 )
+            if (collider.gameObject.layer == 9) // Check that it is attackable
             {
-                if (m_weaponCollider.GetComponent<Collider>().bounds.Intersects(collider.bounds))
+                if (m_weaponCollider.GetComponent<Collider>().bounds.Intersects(collider.bounds)) // If intersects with sword
                 {
-                    if (!m_hitList.Contains(collider))
+                    if (!m_hitList.Contains(collider)) // If not already hit this attack
                     {
+                        // Action here
                         Debug.Log("Bonk");
                         m_hitList.Add(collider);
-
+                        foundTarget = true;
                         if (collider.GetComponent<Rigidbody>())
                         {
                             collider.GetComponent<Rigidbody>().AddForce(
@@ -123,6 +137,10 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+
+        // If any target was hit, apply screen shake 
+        if (foundTarget)
+            m_cameraController.ScreenShake(0.15f, 1.0f * m_effectsPercentage, 5.0f);
     }
 
     public void ActivateDamage(bool _active)
