@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    #region Singleton
+    #region Application_Singleton
 
     private static GameManager _instance = null;
     public static GameManager instance
@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+
+    public static Vector2 m_sensitivity = new Vector2(400.0f, 100.0f);
 
     // Start is called before the first frame update
     void Start()
