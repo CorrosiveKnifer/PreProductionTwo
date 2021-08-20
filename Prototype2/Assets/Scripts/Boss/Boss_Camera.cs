@@ -13,17 +13,17 @@ public class Boss_Camera : MonoBehaviour
         vCamera = GetComponent<CinemachineVirtualCamera>();
     }
 
-    public void Shake(float _intensity, float _time)
+    public void Shake(float _intensity)
     {
         if(m_shaker != null)
         {
             StopCoroutine(m_shaker);
         }
 
-        m_shaker = StartCoroutine(Shaker(_intensity, _time));
+        m_shaker = StartCoroutine(Shaker(_intensity));
     }
 
-    private IEnumerator Shaker(float _intensity, float _time)
+    private IEnumerator Shaker(float _intensity, float _time = 5.0f)
     {
         float time = _time;
 

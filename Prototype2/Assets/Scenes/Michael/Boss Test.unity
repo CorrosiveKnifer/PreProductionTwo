@@ -589,7 +589,6 @@ Transform:
   m_Children:
   - {fileID: 72297976}
   - {fileID: 341915404}
-  - {fileID: 1231216209}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -867,11 +866,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1231216208}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 432835796}
-  m_RootOrder: 2
+  m_Father: {fileID: 1715611758200529672}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1320013255
 GameObject:
@@ -1711,7 +1710,7 @@ Transform:
   m_Children:
   - {fileID: 7865337614842943249}
   m_Father: {fileID: 1715611758200529672}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1021284792392768387
 GameObject:
@@ -1855,6 +1854,7 @@ Transform:
   m_LocalPosition: {x: 0.00000015139567, y: 1.4338218, z: 0.0000009225673}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1231216209}
   - {fileID: 6882832981576678695}
   - {fileID: 863925313911470749}
   m_Father: {fileID: 3108670600865253426}
@@ -2376,23 +2376,45 @@ MonoBehaviour:
   eventOne:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 341915402}
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 341915405}
+        m_MethodName: Shake
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
+          m_FloatArgument: 1
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
   eventTwo:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 341915405}
+        m_MethodName: Shake
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   eventThree:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 432835795}
+        m_MethodName: CreateProjectile
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   eventFour:
     m_PersistentCalls:
       m_Calls: []
@@ -2747,7 +2769,7 @@ Transform:
   m_Children:
   - {fileID: 2852735629571152515}
   m_Father: {fileID: 1715611758200529672}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &7307918663353796304
 Transform:

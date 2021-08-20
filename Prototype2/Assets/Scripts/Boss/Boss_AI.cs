@@ -50,8 +50,6 @@ public class Boss_AI : MonoBehaviour
             m_behavour = "Waiting";
             m_myCurrentState = AI_BEHAVOUR_STATE.WAITING;
             CameraManager.instance.PlayDirector("BossRoar");
-            m_myCamera.Shake(0.5f, 5.0f);
-            //Play animation
         }
     }
 
@@ -129,7 +127,7 @@ public class Boss_AI : MonoBehaviour
                 break;
         }
     }
-    private void CreateProjectile()
+    public void CreateProjectile()
     {
         Vector3 forward = (m_player.transform.position - m_projSpawn.position).normalized;
         Rigidbody proj = GameObject.Instantiate(m_projPrefab, m_projSpawn.position, Quaternion.LookRotation(forward, Vector3.up)).GetComponent<Rigidbody>();

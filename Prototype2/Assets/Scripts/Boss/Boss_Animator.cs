@@ -21,7 +21,7 @@ public class Boss_Animator : MonoBehaviour
     {
         AnimMutex = m_animator.GetBool("Mutex");
         m_animator.SetFloat("VelocityVertical", direction.z);
-        m_animator.SetFloat("VelocityHorizontal", direction.x);
+        m_animator.SetFloat("VelocityHorizontal", -direction.x);
 
         if(IsMelee)
         {
