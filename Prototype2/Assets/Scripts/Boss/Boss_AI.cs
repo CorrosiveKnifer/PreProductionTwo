@@ -30,7 +30,8 @@ public class Boss_AI : MonoBehaviour
     private AI_BEHAVOUR_STATE m_myCurrentState;
     private GameObject m_player;
     private Boss_Movement m_myMovement;
-
+    private Boss_Camera m_myCamera;
+    private Boss_Animator m_myAnimator;
     private UI_Bar m_myHealthBar;
 
     // Start is called before the first frame update
@@ -40,7 +41,8 @@ public class Boss_AI : MonoBehaviour
         m_currentPatiences = m_myData.patience;
         m_player = GameObject.FindGameObjectWithTag("Player");
         m_myMovement = GetComponentInChildren<Boss_Movement>();
-
+        m_myCamera = GetComponentInChildren<Boss_Camera>();
+        m_myAnimator = GetComponentInChildren<Boss_Animator>();
         m_myHealthBar = HUDManager.instance.GetElement<UI_Bar>("BossHealthBar");
 
         if (m_roarOnAwake)
@@ -48,6 +50,7 @@ public class Boss_AI : MonoBehaviour
             m_behavour = "Waiting";
             m_myCurrentState = AI_BEHAVOUR_STATE.WAITING;
             CameraManager.instance.PlayDirector("BossRoar");
+            m_myCamera.Shake(0.5f, 5.0f);
             //Play animation
         }
     }
@@ -56,7 +59,16 @@ public class Boss_AI : MonoBehaviour
     void Update()
     {
         BehavourUpdate();
+
+        if(m_myAnimator != null)
+            AnimationUpdate();
+
         m_myHealthBar.SetValue(m_currentHealth/m_myData.health);
+    }
+    public void AnimationUpdate()
+    {
+        //transform.rotation = Quaternion.LookRotation(transform.position - m_player.transform.position, Vector3.up);
+        m_myAnimator.direction = m_myMovement.GetDirection();
     }
 
     public void BehavourUpdate()
@@ -70,6 +82,11 @@ public class Boss_AI : MonoBehaviour
                 }
                 break;
             case AI_BEHAVOUR_STATE.CLOSE_DISTANCE:
+                if (m_myAnimator.AnimMutex)
+                {
+                    m_myMovement.Stop();
+                    return;
+                }
 
                 m_myMovement.SetTargetLocation(m_player.transform.position);
 
@@ -95,22 +112,26 @@ public class Boss_AI : MonoBehaviour
                 }
                 break;
             case AI_BEHAVOUR_STATE.MELEE_ATTACK:
-                if (m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange))
+                if(!m_myAnimator.AnimMutex)
                 {
-                    TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+                    m_myAnimator.IsMelee = true;
                 }
+                TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
                 break;
             case AI_BEHAVOUR_STATE.RANGE_ATTACK:
-                CreateProjectile((m_player.transform.position - m_projSpawn.position).normalized);
+                if (!m_myAnimator.AnimMutex)
+                {
+                    m_myAnimator.IsRanged = true;
+                }
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
-
                 break;
             default:
                 break;
         }
     }
-    private void CreateProjectile(Vector3 forward)
+    private void CreateProjectile()
     {
+        Vector3 forward = (m_player.transform.position - m_projSpawn.position).normalized;
         Rigidbody proj = GameObject.Instantiate(m_projPrefab, m_projSpawn.position, Quaternion.LookRotation(forward, Vector3.up)).GetComponent<Rigidbody>();
         proj.AddForce(forward * 50.0f, ForceMode.Impulse);
         Physics.IgnoreCollision(proj.GetComponent<Collider>(), GetComponent<Collider>());
@@ -140,6 +161,7 @@ public class Boss_AI : MonoBehaviour
                 break;
             case AI_BEHAVOUR_STATE.MELEE_ATTACK:
                 m_behavour = "Attacking (Melee)";
+                m_myMovement.Stop();
                 m_currentPatiences = m_myData.patience;
                 break;
             default:

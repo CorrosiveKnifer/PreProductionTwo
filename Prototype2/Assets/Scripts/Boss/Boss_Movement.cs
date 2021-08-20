@@ -21,17 +21,23 @@ public class Boss_Movement : MonoBehaviour
 
     public void Stop()
     {
-        m_myAgent.isStopped = true;
+        m_myAgent.destination = transform.position;
     }
 
     public void SetTargetLocation(Vector3 _targetPos)
     {
-        m_myAgent.isStopped = false;
         m_myAgent.destination = _targetPos;  
     }
 
     public bool IsNearTargetLocation(float distOffset = 1.0f)
     {
         return (transform.position - m_myAgent.destination).magnitude < distOffset;
+    }
+    public Vector3 GetDirection()
+    {
+        if (m_myAgent.isStopped)
+            return Vector3.zero;
+
+        return (m_myAgent.destination - transform.position).normalized;
     }
 }
