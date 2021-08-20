@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private CharacterController m_characterController;
     private PlayerController m_playerController;
-    private CameraController m_cameraController;
-    private PlayerResources m_playerResources;
+    private CharacterController m_characterController;
 
     public Camera m_camera;
     public GameObject m_playerModel;
+
+    [Header("Movement")]
     public float m_gravityMult = 9.81f;
     public float m_jumpSpeed = 5.0f;
+    public float m_moveSpeed = 6.0f;
+    public float m_rollSpeed = 12.0f;
 
     float m_turnSmoothTime = 0.075f;
     float m_turnSmoothVelocity;
 
-    public float m_moveSpeed = 6.0f;
-    public float m_rollSpeed = 12.0f;
     private bool m_grounded = true;
     private float m_yVelocity = 0.0f;
 
@@ -33,8 +33,6 @@ public class PlayerMovement : MonoBehaviour
     {
         m_characterController = GetComponent<CharacterController>();
         m_playerController = GetComponent<PlayerController>();
-        m_cameraController = GetComponent<CameraController>();
-        m_playerResources = GetComponent<PlayerResources>();
     }
 
     // Update is called once per frame
@@ -72,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (m_isRolling)
         {
+            // Move player in stored direction while roll is active
             m_characterController.Move(m_lastMoveDirection.normalized * m_rollSpeed * Time.fixedDeltaTime 
                 + transform.up * m_yVelocity * Time.fixedDeltaTime);
             RotateToFaceDirection(new Vector3(m_lastMoveDirection.x, 0, m_lastMoveDirection.z));
@@ -83,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
         if (m_isRolling)
             return;
 
+        // Jump
         if (_jump && m_grounded)
         {
             m_yVelocity = m_jumpSpeed;
@@ -99,14 +99,17 @@ public class PlayerMovement : MonoBehaviour
         normalizedMove += _move.x * cameraRight.normalized;
         normalizedMove += _move.y * cameraForward.normalized;
 
-        if (!_jump && m_grounded && _roll && normalizedMove.magnitude >= 0.1f && m_playerResources.m_stamina > 0.0f)
+        // If player is trying to roll and can
+        if (!_jump && m_grounded && _roll && normalizedMove.magnitude >= 0.1f && m_playerController.m_playerResources.m_stamina > 0.0f)
         {
-            m_playerResources.ChangeStamina(-30.0f);
+            // Subtract stamina
+            m_playerController.m_playerResources.ChangeStamina(-30.0f);
             m_isRolling = true;
 
+            // Apply adrenaline if roll timed correctly
             if(o_adrenalineProvider != null)
             {
-                GetComponent<PlayerResources>().ChangeAdrenaline(100 * o_adrenalineProvider.m_value);
+                m_playerController.m_playerResources.ChangeAdrenaline(100 * o_adrenalineProvider.m_value);
                 o_adrenalineProvider = null;
             }
 
@@ -120,13 +123,13 @@ public class PlayerMovement : MonoBehaviour
                 + transform.up * m_yVelocity * Time.deltaTime); // Jump
         }
 
-        if (m_cameraController.m_selectedTarget == null)
+        if (m_playerController.m_cameraController.m_selectedTarget == null) // If no target, rotate in moving direction
         {
             RotateToFaceDirection(new Vector3(normalizedMove.x, 0, normalizedMove.z));
         }
-        else
+        else // If has target, rotate in direction of target.
         {
-            Vector3 direction = m_cameraController.m_selectedTarget.transform.position - transform.position;
+            Vector3 direction = m_playerController.m_cameraController.m_selectedTarget.transform.position - transform.position;
             RotateToFaceDirection(new Vector3(direction.x, 0, direction.z));
         }
     }

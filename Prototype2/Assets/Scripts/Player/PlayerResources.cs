@@ -22,11 +22,11 @@ public class PlayerResources : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m_staminaRechargeTimer > 0.0f)
+        if (m_staminaRechargeTimer > 0.0f) // Delay before stamina regens again
         {
             m_staminaRechargeTimer -= Time.deltaTime * m_playerController.m_adrenalineMult;
         }
-        else
+        else // Regenerate stamina
         {
             ChangeStamina(m_rechargeRate * Time.deltaTime * m_playerController.m_adrenalineMult);
         }
@@ -34,14 +34,19 @@ public class PlayerResources : MonoBehaviour
 
     public void ChangeHealth(float _amount)
     {
-        m_health += _amount;
         if (_amount > 0) // Gain
         {
+            // Remove adrenaline as price for healing
             m_adrenaline -= _amount;
+
+            if (m_adrenaline < 0)
+                m_health += _amount + m_adrenaline;
+
             m_adrenaline = Mathf.Clamp(m_adrenaline, 0.0f, 100.0f);
         }
         else // Drain
         {
+            m_health += _amount;
             if (m_health <= 0.0f)
             {
                 // Kill
@@ -59,6 +64,7 @@ public class PlayerResources : MonoBehaviour
         }
         else // Drain
         {
+            // If staina goes below 0 make longer delay before recharging.
             m_staminaRechargeTimer = m_staminaRechargeDelay * (m_stamina < 0.0f ? 2 : 1);
         }
         m_stamina = Mathf.Clamp(m_stamina, 0.0f, 100.0f);
@@ -73,6 +79,7 @@ public class PlayerResources : MonoBehaviour
         }
         else // Drain
         {
+
         }
         m_adrenaline = Mathf.Clamp(m_adrenaline, 0.0f, 100.0f);
     }
