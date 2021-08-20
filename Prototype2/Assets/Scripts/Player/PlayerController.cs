@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private bool m_damageActive = false;
 
     public float m_adrenalineMult { get; private set; } = 1.0f;
+    public float m_effectsPercentage { get; private set; } = 0.0f;
 
     List<Collider> m_hitList = new List<Collider>();
 
@@ -75,11 +76,14 @@ public class PlayerController : MonoBehaviour
         if (m_playerResources.m_adrenaline > 0.0f)
         {
             m_adrenalineMult = 1.0f + m_playerResources.m_adrenaline / 100.0f;
+            m_effectsPercentage = m_playerResources.m_adrenaline / 100.0f;
         }
         else
         {
             m_adrenalineMult = 1.0f;
+            m_effectsPercentage = 0.0f;
         }
+        m_animator.SetFloat("AttackSpeed", m_adrenalineMult);
     }
 
     private Vector2 GetPlayerMovementVector()
@@ -102,6 +106,8 @@ public class PlayerController : MonoBehaviour
     {
         Collider[] colliders = FindObjectsOfType<Collider>();
 
+        bool foundTarget = false;
+
         foreach (var collider in colliders)
         {
             if (collider.gameObject.layer == 9 )
@@ -112,7 +118,7 @@ public class PlayerController : MonoBehaviour
                     {
                         Debug.Log("Bonk");
                         m_hitList.Add(collider);
-
+                        foundTarget = true;
                         if (collider.GetComponent<Rigidbody>())
                         {
                             collider.GetComponent<Rigidbody>().AddForce(
@@ -123,6 +129,8 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        if (foundTarget)
+            m_cameraController.ScreenShake(0.15f, 1.0f * m_effectsPercentage, 5.0f);
     }
 
     public void ActivateDamage(bool _active)

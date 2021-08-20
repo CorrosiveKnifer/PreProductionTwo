@@ -8,6 +8,7 @@ public class PlayerResources : MonoBehaviour
     public float m_stamina { get; private set; } = 100.0f;
     public float m_adrenaline { get; private set; } = 0.0f;
 
+    private PlayerController m_playerController;
     float m_staminaRechargeTimer = 0.0f;
     public float m_staminaRechargeDelay = 1.0f;
     public float m_rechargeRate = 40.0f;
@@ -15,7 +16,7 @@ public class PlayerResources : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        m_playerController = GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -23,11 +24,11 @@ public class PlayerResources : MonoBehaviour
     {
         if (m_staminaRechargeTimer > 0.0f)
         {
-            m_staminaRechargeTimer -= Time.deltaTime;
+            m_staminaRechargeTimer -= Time.deltaTime * m_playerController.m_adrenalineMult;
         }
         else
         {
-            ChangeStamina(m_rechargeRate * Time.deltaTime);
+            ChangeStamina(m_rechargeRate * Time.deltaTime * m_playerController.m_adrenalineMult);
         }
     }
 
