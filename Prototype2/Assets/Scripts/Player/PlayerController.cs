@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
 
     List<Collider> m_hitList = new List<Collider>();
 
+    public Vector3 m_lastWeaponPosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +25,7 @@ public class PlayerController : MonoBehaviour
         m_playerMovement = GetComponent<PlayerMovement>();
         m_cameraController = GetComponent<CameraController>();
         m_animator = GetComponent<Animator>();
+        m_lastWeaponPosition = m_weaponCollider.transform.localPosition;
     }
 
     // Update is called once per frame
@@ -74,8 +77,9 @@ public class PlayerController : MonoBehaviour
     {
         if (m_damageActive) // Check if swing is active
             DamageDetection();
+
+        
     }
-    
     private void CalculateAdrenalineBoost()
     {
         if (m_playerResources.m_adrenaline > 0.0f) // Check if player has adrenaline
@@ -105,6 +109,8 @@ public class PlayerController : MonoBehaviour
 
     private void SwingSword()
     {
+        Vector3 localPos = m_weaponCollider.transform.position - m_playerMovement.m_playerModel.transform.position;
+        m_lastWeaponPosition = localPos;
         m_animator.SetTrigger("Swing");
     }
 
@@ -133,10 +139,34 @@ public class PlayerController : MonoBehaviour
                                 (collider.transform.position - m_weaponCollider.transform.position).normalized * 10.0f, 
                                 ForceMode.Impulse);
                         }
+                        if (collider.GetComponent<Destructible>())
+                        {
+                            collider.GetComponent<Destructible>().CrackObject();
+                        }
                     }
                 }
             }
         }
+
+        // Apply forces to nearby rigidbodies.
+        Vector3 localPos = m_weaponCollider.transform.position - m_playerMovement.m_playerModel.transform.position;
+        Vector3 direction = localPos - m_lastWeaponPosition;
+        if (m_effectsPercentage >= 0.5f)
+        {
+            // Find all rigid bodies
+            Rigidbody[] rigidbodies = FindObjectsOfType<Rigidbody>();
+
+            foreach (var item in rigidbodies)
+            {
+                float distance = Vector3.Distance(m_weaponCollider.transform.position, item.transform.position);
+                if (distance < 5.0f)
+                {
+                    float scale = 1.0f - (distance / 5.0f);
+                    item.AddForce((direction + Vector3.up * 0.2f).normalized * m_effectsPercentage * 40.0f * scale, ForceMode.Force);
+                }
+            }
+        }
+        m_lastWeaponPosition = localPos;
 
         // If any target was hit, apply screen shake 
         if (foundTarget)
