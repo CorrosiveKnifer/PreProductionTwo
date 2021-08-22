@@ -688,6 +688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_roarOnAwake: 1
   m_behavour: 
+  m_startingHealthPercentage: 50
   m_currentHealth: 0
   m_currentPatiences: 0
   m_myData: {fileID: 11400000, guid: 33e251728ada69444afdf1172e8dc992, type: 2}
@@ -707,7 +708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_maxStearingAngle: 90
-  m_stearDecay: 50
+  m_stearDecay: 5
   m_stearModifier: 1
 --- !u!195 &3139500413192414133
 NavMeshAgent:

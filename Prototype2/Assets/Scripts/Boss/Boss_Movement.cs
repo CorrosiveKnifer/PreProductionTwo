@@ -46,13 +46,38 @@ public class Boss_Movement : MonoBehaviour
         m_targetRotation = Quaternion.RotateTowards(transform.rotation, _rotation, m_maxStearingAngle);
     }
 
-    public Vector3 GetDirection()
+    /*
+     * GetDirection by Michael Jordan
+     * Description:
+     *  Returns the direction the boss is moving in relative to either the world or itself.
+     *  If the space is relative to the WORLD, it will return the actual direction it is moving in.
+     *  If the space is relative to itSELF, it will return the direction which ignores it's current rotation.
+     *  Will return a ZERO VECTOR if and only if the boss is NOT CURRENTLY MOVING.
+     *
+     * Param:
+     *  Space - "Which space is it relative to?"
+     *
+     * Return: 
+     *  Vector3 - "Direction the boss is moving in (normalized)."
+     */
+    public Vector3 GetDirection(Space _relativeTo)
     {
         if (m_myAgent.isStopped)
             return Vector3.zero;
 
-        return (m_myAgent.destination - transform.position).normalized;
+        switch (_relativeTo)
+        {
+            case Space.World:
+                return (m_myAgent.destination - transform.position).normalized;
+            case Space.Self: 
+                //Removes self rotation
+                Vector3 worldDirect =  (m_myAgent.destination - transform.position).normalized;
+                return Quaternion.AngleAxis(transform.rotation.eulerAngles.y, -Vector3.up) * worldDirect;
+            default:
+                return Vector3.zero;
+        }
     }
+
     public void SetStearModifier(float _val)
     {
         m_stearModifier = Mathf.Clamp(_val, 1.0f, 10.0f);

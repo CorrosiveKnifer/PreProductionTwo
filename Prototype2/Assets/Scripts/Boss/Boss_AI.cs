@@ -17,6 +17,9 @@ public class Boss_AI : MonoBehaviour
         MELEE_ATTACK, //Start a melee attack.
         RANGE_ATTACK, //Start a range attack.
     }
+    [Header("Load in Stats")]
+    [Range(0, 100, order = 0)]
+    public int m_startingHealthPercentage = 100;
 
     [Header("Current Stats")]
     public float m_currentHealth;
@@ -40,7 +43,7 @@ public class Boss_AI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_currentHealth = m_myData.health * 0.5f;
+        m_currentHealth = m_myData.health * (m_startingHealthPercentage * 0.01f);
         m_currentPatiences = m_myData.patience;
         m_player = GameObject.FindGameObjectWithTag("Player");
 
@@ -76,7 +79,7 @@ public class Boss_AI : MonoBehaviour
     public void AnimationUpdate()
     {
         //transform.rotation = Quaternion.LookRotation(transform.position - m_player.transform.position, Vector3.up);
-        m_myAnimator.direction = m_myMovement.GetDirection();
+        m_myAnimator.direction = m_myMovement.GetDirection(Space.Self);
         
     }
 
@@ -96,7 +99,7 @@ public class Boss_AI : MonoBehaviour
                     m_myMovement.Stop();
                     return;
                 }
-                m_myMovement.RotateTowards(Quaternion.LookRotation(m_myMovement.GetDirection()));
+                m_myMovement.RotateTowards(Quaternion.LookRotation(m_myMovement.GetDirection(Space.World)));
                 m_myMovement.SetTargetLocation(m_player.transform.position);
 
                 if (m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange))
