@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private bool m_grounded = true;
     private float m_yVelocity = 0.0f;
 
+    public bool m_stagger { get; private set; } = false;
     private bool m_knockedDown = false;
     private Vector3 m_knockVelocity = Vector3.zero;
 
@@ -86,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(Vector2 _move, bool _jump, bool _roll)
     {
-        if (m_isRolling || m_knockedDown)
+        if (m_isRolling || m_knockedDown || m_stagger)
             return;
 
         // Jump
@@ -171,6 +172,16 @@ public class PlayerMovement : MonoBehaviour
         m_isRolling = false;
         m_knockedDown = false;
         m_knockVelocity = Vector3.zero;
+    }
+    public void Stagger(float _duration)
+    {
+        m_playerController.m_animator.SetFloat("StaggerDuration", 1.0f/ _duration);
+        m_playerController.m_animator.SetTrigger("Stagger");
+        m_stagger = true;
+    }
+    public void StopStagger()
+    {
+        m_stagger = false;
     }
     public void SetPotentialAdrenaline(PlayerAdrenalineProvider _provider)
     {

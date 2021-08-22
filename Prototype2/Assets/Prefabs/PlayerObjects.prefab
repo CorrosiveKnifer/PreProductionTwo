@@ -1706,7 +1706,7 @@ Transform:
   - {fileID: 1075159676}
   m_Father: {fileID: 8422007746411455710}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 120, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8422007745588580940
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2363,6 +2363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_weaponCollider: {fileID: 920372252}
+  m_lastWeaponPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &8422007746411455707
 MonoBehaviour:
   m_ObjectHideFlags: 0

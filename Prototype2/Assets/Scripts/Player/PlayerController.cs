@@ -31,24 +31,27 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Get movement inputs and apply
         int gamepadID = InputManager.instance.GetAnyGamePad();
-        m_playerMovement.Move(GetPlayerMovementVector(), // Run
-            InputManager.instance.IsGamepadButtonDown(ButtonType.SOUTH, gamepadID), // Jump
-            InputManager.instance.IsGamepadButtonDown(ButtonType.EAST, gamepadID)); // Roll
+        if (!m_playerResources.m_dead)
+        {
+            // Get movement inputs and apply
+            m_playerMovement.Move(GetPlayerMovementVector(), // Run
+                InputManager.instance.IsGamepadButtonDown(ButtonType.SOUTH, gamepadID), // Jump
+                InputManager.instance.IsGamepadButtonDown(ButtonType.EAST, gamepadID)); // Roll
+
+            // Roll
+            if (InputManager.instance.IsGamepadButtonDown(ButtonType.RB, gamepadID))
+            {
+                if (m_playerResources.m_stamina > 0.0f)
+                {
+                    SwingSword();
+                    m_playerResources.ChangeStamina(-30.0f);
+                }
+            }
+        }
 
         // Get camera inputs and apply
         m_cameraController.MoveCamera(GetCameraMovementVector());
-
-        // Roll
-        if (InputManager.instance.IsGamepadButtonDown(ButtonType.RB, gamepadID))
-        {
-            if (m_playerResources.m_stamina > 0.0f)
-            {
-                SwingSword();
-                m_playerResources.ChangeStamina(-30.0f);
-            }
-        }
 
         // Lock on
         if (InputManager.instance.IsGamepadButtonDown(ButtonType.LB, gamepadID))
@@ -63,7 +66,7 @@ public class PlayerController : MonoBehaviour
         }
         if (InputManager.instance.IsKeyDown(KeyType.D))
         {
-            m_playerResources.ChangeHealth(-20.0f);
+            Damage(20.0f);
         }
         if (InputManager.instance.IsKeyDown(KeyType.A))
         {
@@ -79,13 +82,26 @@ public class PlayerController : MonoBehaviour
         CalculateAdrenalineBoost();
     }
 
+    public void Damage(float _damage)
+    {
+        if (!m_playerMovement.m_stagger)
+        {
+            m_playerResources.ChangeHealth(-_damage);
+            m_playerMovement.Stagger(0.5f);
+        }
+    }
+
     private void FixedUpdate()
     {
         if (m_damageActive) // Check if swing is active
             DamageDetection();
-
-        
     }
+
+    public void KillPlayer()
+    {
+        m_animator.SetTrigger("Die");
+    }
+
     private void CalculateAdrenalineBoost()
     {
         if (m_playerResources.m_adrenaline > 0.0f) // Check if player has adrenaline
