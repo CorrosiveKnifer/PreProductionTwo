@@ -69,6 +69,12 @@ public class PlayerController : MonoBehaviour
         {
             m_playerResources.ChangeAdrenaline(20.0f);
         }
+        if (InputManager.instance.IsKeyDown(KeyType.K))
+        {
+            Vector3 m_direction = transform.position;
+            m_direction.y = 0;
+            m_playerMovement.Knockdown(m_direction, 10.0f);
+        }
 
         CalculateAdrenalineBoost();
     }
@@ -151,6 +157,7 @@ public class PlayerController : MonoBehaviour
         // Apply forces to nearby rigidbodies.
         Vector3 localPos = m_weaponCollider.transform.position - m_playerMovement.m_playerModel.transform.position;
         Vector3 direction = localPos - m_lastWeaponPosition;
+        direction.y = 0.5f;
         if (m_effectsPercentage >= 0.5f)
         {
             // Find all rigid bodies
@@ -162,7 +169,7 @@ public class PlayerController : MonoBehaviour
                 if (distance < 5.0f)
                 {
                     float scale = 1.0f - (distance / 5.0f);
-                    item.AddForce((direction + Vector3.up * 0.2f).normalized * m_effectsPercentage * 40.0f * scale, ForceMode.Force);
+                    item.AddForce(direction.normalized * m_effectsPercentage * 40.0f * scale, ForceMode.Force);
                 }
             }
         }
