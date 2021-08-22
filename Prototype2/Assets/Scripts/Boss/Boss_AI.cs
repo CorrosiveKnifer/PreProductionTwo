@@ -29,9 +29,12 @@ public class Boss_AI : MonoBehaviour
 
     private AI_BEHAVOUR_STATE m_myCurrentState;
     private GameObject m_player;
+
+    //Boss Compoments
     private Boss_Movement m_myMovement;
     private Boss_Camera m_myCamera;
     private Boss_Animator m_myAnimator;
+    private Boss_Weapon m_myWeapon;
     private UI_Bar m_myHealthBar;
 
     // Start is called before the first frame update
@@ -40,9 +43,16 @@ public class Boss_AI : MonoBehaviour
         m_currentHealth = m_myData.health * 0.5f;
         m_currentPatiences = m_myData.patience;
         m_player = GameObject.FindGameObjectWithTag("Player");
+
         m_myMovement = GetComponentInChildren<Boss_Movement>();
+
         m_myCamera = GetComponentInChildren<Boss_Camera>();
+
         m_myAnimator = GetComponentInChildren<Boss_Animator>();
+
+        m_myWeapon = GetComponentInChildren<Boss_Weapon>();
+        m_myWeapon.m_weaponDamage = m_myData.weaponDamage;
+
         m_myHealthBar = HUDManager.instance.GetElement<UI_Bar>("BossHealthBar");
 
         if (m_roarOnAwake)
@@ -67,6 +77,7 @@ public class Boss_AI : MonoBehaviour
     {
         //transform.rotation = Quaternion.LookRotation(transform.position - m_player.transform.position, Vector3.up);
         m_myAnimator.direction = m_myMovement.GetDirection();
+        
     }
 
     public void BehavourUpdate()
@@ -85,7 +96,7 @@ public class Boss_AI : MonoBehaviour
                     m_myMovement.Stop();
                     return;
                 }
-
+                m_myMovement.RotateTowards(Quaternion.LookRotation(m_myMovement.GetDirection()));
                 m_myMovement.SetTargetLocation(m_player.transform.position);
 
                 if (m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange))
@@ -178,6 +189,8 @@ public class Boss_AI : MonoBehaviour
 
         //Deal with death
 
+
+        m_myMovement.SetStearModifier(5.0f);
     }
 
     private void OnDrawGizmos()

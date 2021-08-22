@@ -124,6 +124,7 @@ public class PlayerController : MonoBehaviour
                     if (!m_hitList.Contains(collider)) // If not already hit this attack
                     {
                         // Action here
+
                         Debug.Log("Bonk");
                         m_hitList.Add(collider);
                         foundTarget = true;
