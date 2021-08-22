@@ -22,6 +22,10 @@ public class PlayerMovement : MonoBehaviour
     private bool m_grounded = true;
     private float m_yVelocity = 0.0f;
 
+    public bool m_stagger { get; private set; } = false;
+    private bool m_knockedDown = false;
+    private Vector3 m_knockVelocity = Vector3.zero;
+
     private bool m_isRolling = false;
     private Vector3 m_lastMoveDirection;
 
@@ -38,7 +42,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (m_knockedDown)
+        {
+            m_characterController.Move(m_knockVelocity * Time.deltaTime);
+            m_knockVelocity = Vector3.Lerp(m_knockVelocity, Vector3.zero, 5 * Time.deltaTime);
+        }
     }
 
     private void FixedUpdate()
@@ -79,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(Vector2 _move, bool _jump, bool _roll)
     {
-        if (m_isRolling)
+        if (m_isRolling || m_knockedDown || m_stagger)
             return;
 
         // Jump
@@ -110,7 +118,10 @@ public class PlayerMovement : MonoBehaviour
             if(o_adrenalineProvider != null)
             {
                 m_playerController.m_playerResources.ChangeAdrenaline(100 * o_adrenalineProvider.m_value);
-                // Slow motion shit here
+
+                // Slow motion calculation (Pretty terrible honestly, would not recommend)
+                //GameManager.instance.SlowTime(0.75f * o_adrenalineProvider.m_value);
+
                 o_adrenalineProvider = null;
             }
 
@@ -150,7 +161,28 @@ public class PlayerMovement : MonoBehaviour
     {
         m_isRolling = false;
     }
-
+    public void Knockdown(Vector3 _direction, float _power)
+    {
+        m_playerController.m_animator.SetTrigger("Knockdown");
+        m_knockedDown = true;
+        m_knockVelocity = _direction.normalized * _power;
+    }
+    public void StopKnockdown()
+    {
+        m_isRolling = false;
+        m_knockedDown = false;
+        m_knockVelocity = Vector3.zero;
+    }
+    public void Stagger(float _duration)
+    {
+        m_playerController.m_animator.SetFloat("StaggerDuration", 1.0f/ _duration);
+        m_playerController.m_animator.SetTrigger("Stagger");
+        m_stagger = true;
+    }
+    public void StopStagger()
+    {
+        m_stagger = false;
+    }
     public void SetPotentialAdrenaline(PlayerAdrenalineProvider _provider)
     {
         if(o_adrenalineProvider == _provider)
