@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Prototype2/Assets/Animations/MainCharacter/Run.meta
 guid: 9e590fb70a15c8c459904bd5dadfe99f
+=======
+guid: b728b018d7ca8b44ebf4e15d649f7d43
+>>>>>>> origin/Petre:Prototype2/Assets/VFX/Shader Graph.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

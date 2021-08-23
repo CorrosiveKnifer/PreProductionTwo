@@ -174,6 +174,8 @@ public class Boss_AI : MonoBehaviour
     {
         if (Vector3.Distance(m_player.transform.position, transform.position) < m_myData.aoeRadius * 0.95f)
         {
+            m_myMovement.RotateTowards(Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World)));
+
             //If the player is infront of the boss? 
             if (m_myMovement.GetDirection(m_player.transform.position, Space.Self).z >= 0 && m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange))
             {
@@ -244,7 +246,7 @@ public class Boss_AI : MonoBehaviour
 
     public void CreateAOEPrefab()
     {
-        GameObject.Instantiate(m_aoePrefab, transform);
+        m_aoeVFX = GameObject.Instantiate(m_aoePrefab, transform);
     }
 
     private void TransitionBehavourTo(AI_BEHAVOUR_STATE nextState)
@@ -298,7 +300,7 @@ public class Boss_AI : MonoBehaviour
             //AOE damage
             m_player.GetComponent<PlayerController>().Damage(m_myData.aoeDamage);
             m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, 50.0f);
-            
+            m_aoeVFX.transform.parent = null;
         }
     }
     public void ApplyKickAction()
