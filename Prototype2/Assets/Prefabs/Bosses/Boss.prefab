@@ -651,7 +651,7 @@ GameObject:
   - component: {fileID: 3139500413192414134}
   - component: {fileID: 3139500413192414133}
   - component: {fileID: 3139500413192414129}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Boss
   m_TagString: Boss
   m_Icon: {fileID: 0}

@@ -28,7 +28,7 @@ public class Boss_Weapon : MonoBehaviour
             //Deal damage
             if(other.tag == "Player")
             {
-                other.GetComponent<PlayerResources>().ChangeHealth(-m_weaponDamage);
+                other.GetComponent<PlayerController>().Damage(m_weaponDamage);
             }
             m_damaged.Add(other.gameObject);
         }
