@@ -25,6 +25,7 @@ public class Boss_AI : MonoBehaviour
     public float m_currentHealth;
     public float m_currentPatiences;
     public float m_meleeRange;
+    public bool m_isDead;
     private float m_damageMemory = 0.0f;
 
     [Header("Externals")]
