@@ -1379,7 +1379,7 @@ MonoBehaviour:
   isGlobal: 1
   priority: 0
   blendDistance: 0
-  weight: 1
+  weight: 0
   sharedProfile: {fileID: 11400000, guid: e7bef5d4ec9e16149a611df2130da64b, type: 2}
 --- !u!1 &8422007744801848319
 GameObject:
@@ -1706,7 +1706,7 @@ Transform:
   - {fileID: 1075159676}
   m_Father: {fileID: 8422007746411455710}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 120, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8422007745588580940
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2312,7 +2312,7 @@ GameObject:
   - component: {fileID: 1854232040229638555}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2363,6 +2363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_weaponCollider: {fileID: 920372252}
+  m_lastWeaponPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &8422007746411455707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2478,3 +2479,4 @@ MonoBehaviour:
   eventFive:
     m_PersistentCalls:
       m_Calls: []
+  animEvents: []
