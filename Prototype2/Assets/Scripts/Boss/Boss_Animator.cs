@@ -6,6 +6,7 @@ public class Boss_Animator : MonoBehaviour
 {
     public Vector3 direction;
     public bool IsMelee;
+    public bool IsAOE;
     public bool IsRanged;
     public bool AnimMutex;
     private Animator m_animator;
@@ -27,6 +28,12 @@ public class Boss_Animator : MonoBehaviour
         {
             IsMelee = false;
             m_animator.SetTrigger("MeleeAttack");
+        }
+
+        if (IsAOE)
+        {
+            IsAOE = false;
+            m_animator.SetTrigger("AOEAttack");
         }
 
         if (IsRanged)

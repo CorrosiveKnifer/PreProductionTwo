@@ -20,15 +20,17 @@ public class Boss_AI : MonoBehaviour
     [Header("Load in Stats")]
     [Range(0, 100, order = 0)]
     public int m_startingHealthPercentage = 100;
-
+    
     [Header("Current Stats")]
     public float m_currentHealth;
     public float m_currentPatiences;
+    public float m_meleeRange;
 
     [Header("Externals")]
     [SerializeField] private BossData m_myData;
     [SerializeField] private Transform m_projSpawn;
     [SerializeField] private GameObject m_projPrefab;
+    [SerializeField] private GameObject m_aoePrefab;
 
     private AI_BEHAVOUR_STATE m_myCurrentState;
     private GameObject m_player;
@@ -43,6 +45,7 @@ public class Boss_AI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        m_meleeRange = Mathf.Max(m_myData.meleeAttackRange, m_myData.aoeRadius);
         m_currentHealth = m_myData.health * (m_startingHealthPercentage * 0.01f);
         m_currentPatiences = m_myData.patience;
         m_player = GameObject.FindGameObjectWithTag("Player");
@@ -76,6 +79,7 @@ public class Boss_AI : MonoBehaviour
 
         m_myHealthBar.SetValue(m_currentHealth/m_myData.health);
     }
+
     public void AnimationUpdate()
     {
         //transform.rotation = Quaternion.LookRotation(transform.position - m_player.transform.position, Vector3.up);
@@ -90,45 +94,38 @@ public class Boss_AI : MonoBehaviour
             case AI_BEHAVOUR_STATE.WAITING:
                 if (!CameraManager.instance.IsDirectorPlaying("BossRoar"))
                 {
+                    m_myMovement.Stop();
                     TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
                 }
                 break;
             case AI_BEHAVOUR_STATE.CLOSE_DISTANCE:
-                if (m_myAnimator.AnimMutex)
-                {
-                    m_myMovement.Stop();
-                    return;
-                }
-                m_myMovement.RotateTowards(Quaternion.LookRotation(m_myMovement.GetDirection(Space.World)));
-                m_myMovement.SetTargetLocation(m_player.transform.position);
+                MoveState();
 
-                if (m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange))
+                if (m_myMovement.IsNearTargetLocation(m_meleeRange))
                 {
                     TransitionBehavourTo(AI_BEHAVOUR_STATE.MELEE_ATTACK);
                 }
                 else
                 {
-                    if (m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange * 2.0f))
+                    if (m_myMovement.IsNearTargetLocation(m_meleeRange * 1.5f))
                     {
-                        m_currentPatiences -= Time.deltaTime * 0.5f;
+                        m_currentPatiences -= Time.deltaTime * 0.75f;
                     }
                     else
                     {
                         m_currentPatiences -= Time.deltaTime;
                     }
-
-                    if(m_currentPatiences <= 0)
-                    {
-                        TransitionBehavourTo(AI_BEHAVOUR_STATE.RANGE_ATTACK);
-                    }
+                }
+                if (m_currentPatiences <= 0)
+                {
+                    TransitionBehavourTo(AI_BEHAVOUR_STATE.RANGE_ATTACK);
                 }
                 break;
             case AI_BEHAVOUR_STATE.MELEE_ATTACK:
-                if(!m_myAnimator.AnimMutex)
+                if (!m_myAnimator.AnimMutex)
                 {
-                    m_myAnimator.IsMelee = true;
-                }
-                TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+                    MeleeState();
+                }   
                 break;
             case AI_BEHAVOUR_STATE.RANGE_ATTACK:
                 if (!m_myAnimator.AnimMutex)
@@ -141,6 +138,49 @@ public class Boss_AI : MonoBehaviour
                 break;
         }
     }
+
+    //Function to move the boss
+    public void MoveState()
+    {
+        if (m_myAnimator.AnimMutex)
+        {
+            m_myMovement.Stop();
+            return;
+        }
+
+        m_myMovement.RotateTowards(Quaternion.LookRotation(m_myMovement.GetDirection(Space.World)));
+        m_myMovement.SetTargetLocation(m_player.transform.position);
+    }
+
+    //Function to handle if there is melee action
+    public void MeleeState()
+    {
+        if (Vector3.Distance(m_player.transform.position, transform.position) < m_myData.aoeRadius * 0.95f)
+        {
+            if (m_myMovement.GetDirection(Space.Self).z >= 0 && m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange))
+            {
+                m_myMovement.Stop();
+                m_myAnimator.IsMelee = true;
+            }
+            else if(m_myMovement.GetDirection(Space.Self).x < 0)
+            {
+                m_myMovement.Stop();
+                m_myAnimator.IsAOE = true;
+            }
+            else
+            {
+                MoveState();
+            }
+        }
+        else if (m_myMovement.IsNearTargetLocation(m_meleeRange))
+        {
+            MoveState();
+        }
+        else
+        {
+            TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+        }
+    }
     public void CreateProjectile()
     {
         Vector3 forward = (m_player.transform.position - m_projSpawn.position).normalized;
@@ -151,6 +191,11 @@ public class Boss_AI : MonoBehaviour
         boss_proj.m_sender = transform;
         boss_proj.m_target = m_player;
         proj.gameObject.SetActive(true);
+    }
+
+    public void CreateAOEPrefab()
+    {
+        GameObject.Instantiate(m_aoePrefab, transform);
     }
 
     private void TransitionBehavourTo(AI_BEHAVOUR_STATE nextState)
@@ -173,7 +218,6 @@ public class Boss_AI : MonoBehaviour
                 break;
             case AI_BEHAVOUR_STATE.MELEE_ATTACK:
                 m_behavour = "Attacking (Melee)";
-                m_myMovement.Stop();
                 m_currentPatiences = m_myData.patience;
                 break;
             default:
@@ -196,9 +240,19 @@ public class Boss_AI : MonoBehaviour
         m_myMovement.SetStearModifier(5.0f);
     }
 
+    public void ApplyAOE()
+    {
+        if(Vector3.Distance(m_player.transform.position, transform.position) < m_myData.aoeRadius)
+        {
+            m_player.GetComponent<PlayerController>();
+        }
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, m_myData.meleeAttackRange);
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, m_myData.aoeRadius);
     }
 }
