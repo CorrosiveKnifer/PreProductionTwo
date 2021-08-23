@@ -152,6 +152,7 @@ public class PlayerController : MonoBehaviour
                     if (!m_hitList.Contains(collider)) // If not already hit this attack
                     {
                         // Action here
+
                         Debug.Log("Bonk");
                         m_hitList.Add(collider);
                         foundTarget = true;
@@ -160,6 +161,10 @@ public class PlayerController : MonoBehaviour
                             collider.GetComponent<Rigidbody>().AddForce(
                                 (collider.transform.position - m_weaponCollider.transform.position).normalized * 10.0f, 
                                 ForceMode.Impulse);
+                        }
+                        if (collider.GetComponent<Boss_AI>())
+                        {
+                            collider.GetComponent<Boss_AI>().DealDamage(100.0f * m_adrenalineMult);
                         }
                         if (collider.GetComponent<Destructible>())
                         {
