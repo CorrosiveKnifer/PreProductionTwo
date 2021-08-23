@@ -164,12 +164,13 @@ public class PlayerMovement : MonoBehaviour
     public void Knockdown(Vector3 _direction, float _power)
     {
         m_playerController.m_animator.SetTrigger("Knockdown");
-        m_knockedDown = true;
         m_knockVelocity = _direction.normalized * _power;
+        m_knockedDown = true;
+        m_stagger = false;
+        m_isRolling = false;
     }
     public void StopKnockdown()
     {
-        m_isRolling = false;
         m_knockedDown = false;
         m_knockVelocity = Vector3.zero;
     }
@@ -178,6 +179,8 @@ public class PlayerMovement : MonoBehaviour
         m_playerController.m_animator.SetFloat("StaggerDuration", 1.0f/ _duration);
         m_playerController.m_animator.SetTrigger("Stagger");
         m_stagger = true;
+        m_knockedDown = false;
+        m_isRolling = false;
     }
     public void StopStagger()
     {
