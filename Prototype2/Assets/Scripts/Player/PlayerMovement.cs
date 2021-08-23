@@ -172,6 +172,7 @@ public class PlayerMovement : MonoBehaviour
     public void StopKnockdown()
     {
         m_knockedDown = false;
+        m_stagger = false;
         m_knockVelocity = Vector3.zero;
     }
     public void Stagger(float _duration)
@@ -185,6 +186,7 @@ public class PlayerMovement : MonoBehaviour
     public void StopStagger()
     {
         m_stagger = false;
+        m_knockedDown = false;
     }
     public void SetPotentialAdrenaline(PlayerAdrenalineProvider _provider)
     {
