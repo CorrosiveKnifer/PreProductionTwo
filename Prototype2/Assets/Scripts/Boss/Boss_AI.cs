@@ -73,6 +73,7 @@ public class Boss_AI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(m_myMovement.GetDirection(m_player.transform.position, Space.Self));
         BehavourUpdate();
 
         if(m_myAnimator != null)
@@ -84,7 +85,7 @@ public class Boss_AI : MonoBehaviour
     public void AnimationUpdate()
     {
         //transform.rotation = Quaternion.LookRotation(transform.position - m_player.transform.position, Vector3.up);
-        m_myAnimator.direction = m_myMovement.GetDirection(Space.Self);
+        m_myAnimator.direction = m_myMovement.GetDirection(m_player.transform.position, Space.Self);
         
     }
 
@@ -105,7 +106,11 @@ public class Boss_AI : MonoBehaviour
                 break;
             case AI_BEHAVOUR_STATE.CLOSE_DISTANCE:
                 MoveState();
-
+                
+                if (m_myAnimator.AnimMutex)
+                {
+                    return;
+                }
                 if (m_myMovement.IsNearTargetLocation(m_meleeRange))
                 {
                     TransitionBehavourTo(AI_BEHAVOUR_STATE.MELEE_ATTACK);
@@ -153,7 +158,7 @@ public class Boss_AI : MonoBehaviour
             return;
         }
 
-        m_myMovement.RotateTowards(Quaternion.LookRotation(m_myMovement.GetDirection(Space.World)));
+        m_myMovement.RotateTowards(Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World)));
         m_myMovement.SetTargetLocation(m_player.transform.position);
     }
 
@@ -162,15 +167,17 @@ public class Boss_AI : MonoBehaviour
     {
         if (Vector3.Distance(m_player.transform.position, transform.position) < m_myData.aoeRadius * 0.95f)
         {
-            if (m_myMovement.GetDirection(Space.Self).z >= 0 && m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange))
+            if (m_myMovement.GetDirection(m_player.transform.position, Space.Self).z >= 0 && m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange))
             {
                 m_myMovement.Stop();
                 m_myAnimator.IsMelee = true;
+                TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
             }
-            else if(m_myMovement.GetDirection(Space.Self).x < 0)
+            else if(m_myMovement.GetDirection(m_player.transform.position, Space.Self).x < 0)
             {
                 m_myMovement.Stop();
                 m_myAnimator.IsAOE = true;
+                TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
             }
             else
             {
@@ -200,7 +207,7 @@ public class Boss_AI : MonoBehaviour
 
     public void CreateAOEPrefab()
     {
-        GameObject.Instantiate(m_aoePrefab, transform);
+        GameObject.Instantiate(m_aoePrefab, transform.position, Quaternion.identity);
     }
 
     private void TransitionBehavourTo(AI_BEHAVOUR_STATE nextState)
