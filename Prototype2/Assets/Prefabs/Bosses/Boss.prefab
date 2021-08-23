@@ -813,7 +813,7 @@ MonoBehaviour:
   m_projSpawn: {fileID: 3139500411844096309}
   m_projPrefab: {fileID: 6735515054316819899, guid: eb7f1422e36929d4fa5129805b0f5cd6,
     type: 3}
-  m_aoePrefab: {fileID: 5797228258194813575, guid: 4908f875435e21342a0d0c332de99679,
+  m_aoePrefab: {fileID: 8306558155217557506, guid: 878b773fd66473748a1c4a4b3f7060b9,
     type: 3}
   m_kickCollider: {fileID: 1918809667}
 --- !u!114 &3139500413192414134
