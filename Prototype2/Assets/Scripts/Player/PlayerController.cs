@@ -162,6 +162,10 @@ public class PlayerController : MonoBehaviour
                                 (collider.transform.position - m_weaponCollider.transform.position).normalized * 10.0f, 
                                 ForceMode.Impulse);
                         }
+                        if (collider.GetComponent<Boss_AI>())
+                        {
+                            collider.GetComponent<Boss_AI>().DealDamage(100.0f * m_adrenalineMult);
+                        }
                         if (collider.GetComponent<Destructible>())
                         {
                             collider.GetComponent<Destructible>().CrackObject();
