@@ -23,10 +23,10 @@ public class PlayerMovement : MonoBehaviour
     private float m_yVelocity = 0.0f;
 
     public bool m_stagger { get; private set; } = false;
-    private bool m_knockedDown = false;
+    public bool m_knockedDown { get; private set; } = false;
     private Vector3 m_knockVelocity = Vector3.zero;
 
-    private bool m_isRolling = false;
+    public bool m_isRolling { get; private set; } = false;
     private Vector3 m_lastMoveDirection;
 
     //External Link to adrenaline giver
@@ -161,16 +161,21 @@ public class PlayerMovement : MonoBehaviour
     {
         m_isRolling = false;
     }
-    public void Knockdown(Vector3 _direction, float _power)
+    public void Knockdown(Vector3 _direction, float _power, bool _ignoreInv = false)
     {
+        if (!_ignoreInv && m_isRolling)
+            return;
+
         m_playerController.m_animator.SetTrigger("Knockdown");
-        m_knockedDown = true;
         m_knockVelocity = _direction.normalized * _power;
+        m_knockedDown = true;
+        m_stagger = false;
+        m_isRolling = false;
     }
     public void StopKnockdown()
     {
-        m_isRolling = false;
         m_knockedDown = false;
+        m_stagger = false;
         m_knockVelocity = Vector3.zero;
     }
     public void Stagger(float _duration)
@@ -178,10 +183,19 @@ public class PlayerMovement : MonoBehaviour
         m_playerController.m_animator.SetFloat("StaggerDuration", 1.0f/ _duration);
         m_playerController.m_animator.SetTrigger("Stagger");
         m_stagger = true;
+        m_knockedDown = false;
+        m_isRolling = false;
     }
     public void StopStagger()
     {
         m_stagger = false;
+        m_knockedDown = false;
+    }
+    private void StopAllStuns()
+    {
+        m_isRolling = false;
+        m_stagger = false;
+        m_knockedDown = false;
     }
     public void SetPotentialAdrenaline(PlayerAdrenalineProvider _provider)
     {

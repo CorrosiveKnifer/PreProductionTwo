@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
         m_cameraController.MoveCamera(GetCameraMovementVector());
 
         // Lock on
-        if (InputManager.instance.IsGamepadButtonDown(ButtonType.LB, gamepadID))
+        if (InputManager.instance.IsGamepadButtonDown(ButtonType.RS, gamepadID))
         {
             m_cameraController.ToggleLockOn();
         }
@@ -82,8 +82,11 @@ public class PlayerController : MonoBehaviour
         CalculateAdrenalineBoost();
     }
 
-    public void Damage(float _damage)
+    public void Damage(float _damage, bool _ignoreInv = false)
     {
+        if (!_ignoreInv && m_playerMovement.m_isRolling)
+            return;
+
         if (!m_playerMovement.m_stagger)
         {
             m_playerResources.ChangeHealth(-_damage);
@@ -161,6 +164,10 @@ public class PlayerController : MonoBehaviour
                             collider.GetComponent<Rigidbody>().AddForce(
                                 (collider.transform.position - m_weaponCollider.transform.position).normalized * 10.0f, 
                                 ForceMode.Impulse);
+                        }
+                        if (collider.GetComponent<Boss_AI>())
+                        {
+                            collider.GetComponent<Boss_AI>().DealDamage(100.0f * m_adrenalineMult);
                         }
                         if (collider.GetComponent<Destructible>())
                         {

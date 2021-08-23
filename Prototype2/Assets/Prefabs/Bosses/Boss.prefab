@@ -1,5 +1,78 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1918809665
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1918809666}
+  - component: {fileID: 5667744037412146115}
+  - component: {fileID: 1918809667}
+  - component: {fileID: 1918809668}
+  m_Layer: 2
+  m_Name: KickHitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1918809666
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918809665}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.25, y: 1.014, z: 2.16}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7055012626422791748}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5667744037412146115
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918809665}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.3766868, y: 1, z: 2.2147853}
+  m_Center: {x: 0.0023548598, y: 1.2532161e-11, z: -0.60739756}
+--- !u!136 &1918809667
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918809665}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 1.35
+  m_Height: 3
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1918809668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918809665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f8e6b8fbadc5fc4da427121240ca90e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayerWithin: 0
 --- !u!1 &23253280238926863
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,6 +258,49 @@ Transform:
   m_Father: {fileID: 4606712785721829633}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1386185901012001227
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2412356706476573779}
+  - component: {fileID: 5160786156243803499}
+  m_Layer: 0
+  m_Name: TargetCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2412356706476573779
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386185901012001227}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.75, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3139500413192414128}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5160786156243803499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386185901012001227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cce4e9cb9922d6c4a8a7788d9b12c2c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1436914078675505468
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,7 +767,7 @@ GameObject:
   - component: {fileID: 3139500413192414134}
   - component: {fileID: 3139500413192414133}
   - component: {fileID: 3139500413192414129}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Boss
   m_TagString: Boss
   m_Icon: {fileID: 0}
@@ -671,6 +787,7 @@ Transform:
   m_Children:
   - {fileID: 3139500412999369372}
   - {fileID: 3139500413270300776}
+  - {fileID: 2412356706476573779}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -696,8 +813,9 @@ MonoBehaviour:
   m_projSpawn: {fileID: 3139500411844096309}
   m_projPrefab: {fileID: 6735515054316819899, guid: eb7f1422e36929d4fa5129805b0f5cd6,
     type: 3}
-  m_aoePrefab: {fileID: 5797228258194813575, guid: 4908f875435e21342a0d0c332de99679,
+  m_aoePrefab: {fileID: 8306558155217557506, guid: 878b773fd66473748a1c4a4b3f7060b9,
     type: 3}
+  m_kickCollider: {fileID: 1918809667}
 --- !u!114 &3139500413192414134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1722,6 +1840,7 @@ Transform:
   - {fileID: 3690000502140103354}
   - {fileID: 3294420882065006288}
   - {fileID: 2587713191167785848}
+  - {fileID: 1918809666}
   m_Father: {fileID: 3139500412999369372}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1741,6 +1860,7 @@ MonoBehaviour:
   IsMelee: 0
   IsAOE: 0
   IsRanged: 0
+  IsKick: 0
   AnimMutex: 0
 --- !u!95 &3965520963296994366
 Animator:
@@ -1855,6 +1975,36 @@ MonoBehaviour:
         - m_Target: {fileID: 6320767458574498990}
           m_MethodName: SetWeaponStatus
           m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - _name: AOE_Damage
+    _event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3139500413192414135}
+          m_MethodName: ApplyAOE
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - _name: Kick_Action
+    _event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3139500413192414135}
+          m_MethodName: ApplyKickAction
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

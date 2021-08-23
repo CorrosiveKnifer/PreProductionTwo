@@ -8,6 +8,7 @@ public class Boss_Animator : MonoBehaviour
     public bool IsMelee;
     public bool IsAOE;
     public bool IsRanged;
+    public bool IsKick;
     public bool AnimMutex;
     private Animator m_animator;
 
@@ -28,6 +29,12 @@ public class Boss_Animator : MonoBehaviour
         {
             IsMelee = false;
             m_animator.SetTrigger("MeleeAttack");
+        }
+
+        if (IsKick)
+        {
+            IsKick = false;
+            m_animator.SetTrigger("KickAttack");
         }
 
         if (IsAOE)
