@@ -35,12 +35,14 @@ public class Boss_AI : MonoBehaviour
     [SerializeField] private CapsuleCollider m_kickCollider;
     private AI_BEHAVOUR_STATE m_myCurrentState;
     private GameObject m_player;
+    private GameObject m_aoeVFX; 
 
     //Boss Compoments
     private Boss_Movement m_myMovement;
     private Boss_Camera m_myCamera;
     private Boss_Animator m_myAnimator;
     private Boss_Weapon m_myWeapon;
+    private Boss_Kick m_myKick;
     private UI_Bar m_myHealthBar;
 
     // Start is called before the first frame update
@@ -57,6 +59,8 @@ public class Boss_AI : MonoBehaviour
 
         m_myAnimator = GetComponentInChildren<Boss_Animator>();
 
+        m_myKick = GetComponentInChildren<Boss_Kick>();
+
         m_myWeapon = GetComponentInChildren<Boss_Weapon>();
         m_myWeapon.m_weaponDamage = m_myData.weaponDamage;
 
@@ -69,6 +73,7 @@ public class Boss_AI : MonoBehaviour
             if (CameraManager.instance != null)
                 CameraManager.instance.PlayDirector("BossRoar");
         }
+        Physics.IgnoreLayerCollision(2, 10);
     }
 
     // Update is called once per frame
@@ -169,18 +174,31 @@ public class Boss_AI : MonoBehaviour
     {
         if (Vector3.Distance(m_player.transform.position, transform.position) < m_myData.aoeRadius * 0.95f)
         {
+            m_myMovement.RotateTowards(Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World)));
+
             //If the player is infront of the boss? 
             if (m_myMovement.GetDirection(m_player.transform.position, Space.Self).z >= 0 && m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange))
             {
                 m_myMovement.Stop();
-                bool kickCheck = CheckKickCapsule();
-                if (m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange) || kickCheck)
+                if (m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange) || m_myKick.isPlayerWithin)
                 {
-                    if (kickCheck && !(Vector3.Distance(m_player.transform.position, transform.position) <= m_myData.meleeAttackRange))
+                    if (m_myKick.isPlayerWithin && !(Vector3.Distance(m_player.transform.position, transform.position) <= m_myData.meleeAttackRange))
                     {
                         //Perform kick
-                        m_myAnimator.IsKick = true;
-                        TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+                        if(Random.Range(0, 1000) <= 300)
+                        {
+                            m_myAnimator.IsKick = true;
+                            TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+                        }
+                        else if(Vector3.Distance(m_player.transform.position, transform.position) <= m_myData.meleeAttackRange)
+                        {
+                            m_myAnimator.IsMelee = true;
+                            TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+                        }
+                        else
+                        {
+                            MoveState();
+                        }
                     }
                     else if(m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange))
                     {
@@ -228,23 +246,9 @@ public class Boss_AI : MonoBehaviour
 
     public void CreateAOEPrefab()
     {
-        GameObject.Instantiate(m_aoePrefab, transform.position, Quaternion.identity);
+        m_aoeVFX = GameObject.Instantiate(m_aoePrefab, transform);
     }
-    private bool CheckKickCapsule()
-    {
-        Vector3 start = m_kickCollider.center - Vector3.up * (m_kickCollider.height / 2);
-        Vector3 end = m_kickCollider.center + Vector3.up * (m_kickCollider.height / 2);
-        Collider[] others = Physics.OverlapCapsule(start, end, m_kickCollider.radius);
 
-        foreach (var other in others)
-        {
-            if(other.tag == "Player")
-            {
-                return true;
-            }
-        }
-        return false;
-    }
     private void TransitionBehavourTo(AI_BEHAVOUR_STATE nextState)
     {
         if (m_myCurrentState == nextState)
@@ -257,15 +261,14 @@ public class Boss_AI : MonoBehaviour
                 break;
             case AI_BEHAVOUR_STATE.CLOSE_DISTANCE:
                 m_behavour = "Closing Distance";
+                m_currentPatiences = m_myData.patience;
                 break;
             case AI_BEHAVOUR_STATE.RANGE_ATTACK:
                 m_behavour = "Attacking (Range)";
                 m_myMovement.Stop();
-                m_currentPatiences = m_myData.patience;
                 break;
             case AI_BEHAVOUR_STATE.MELEE_ATTACK:
                 m_behavour = "Attacking (Melee)";
-                m_currentPatiences = m_myData.patience;
                 break;
             default:
                 Debug.LogError($"State is not supported {nextState}.");
@@ -294,19 +297,23 @@ public class Boss_AI : MonoBehaviour
             Vector3 direction = (m_player.transform.position - transform.position);
             direction.y = 0;
 
-            m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, 50.0f);
             //AOE damage
-            //m_player.GetComponent<PlayerController>().Damage(m_myData.aoeDamage);
+            m_player.GetComponent<PlayerController>().Damage(m_myData.aoeDamage);
+            m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, 50.0f);
+            m_aoeVFX.transform.parent = null;
         }
     }
     public void ApplyKickAction()
     {
         Vector3 direction = transform.forward;
-
         direction.y = 0;
-        m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, 60.0f);
+
         //Kick damage
-        //m_player.GetComponent<PlayerController>().Damage(m_myData.kickDamage);
+        if(m_myKick.isPlayerWithin)
+        {
+            m_player.GetComponent<PlayerController>().Damage(m_myData.kickDamage);
+            m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, 60.0f);
+        }
     }
 
     private void OnDrawGizmos()

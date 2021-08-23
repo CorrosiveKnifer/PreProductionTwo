@@ -33998,6 +33998,7 @@ GameObject:
   - component: {fileID: 8306558155217557533}
   - component: {fileID: 8306558155217557532}
   - component: {fileID: 8306558155217557507}
+  - component: {fileID: 6068632362569507701}
   m_Layer: 0
   m_Name: AOE
   m_TagString: Untagged
@@ -38748,6 +38749,19 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &6068632362569507701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8306558155217557506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 017cc8c452271914bb83239e8539b49f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_timer: 4.2
 --- !u!1 &8306558155895663388
 GameObject:
   m_ObjectHideFlags: 0

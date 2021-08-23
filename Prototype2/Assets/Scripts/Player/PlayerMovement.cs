@@ -23,10 +23,10 @@ public class PlayerMovement : MonoBehaviour
     private float m_yVelocity = 0.0f;
 
     public bool m_stagger { get; private set; } = false;
-    private bool m_knockedDown = false;
+    public bool m_knockedDown { get; private set; } = false;
     private Vector3 m_knockVelocity = Vector3.zero;
 
-    private bool m_isRolling = false;
+    public bool m_isRolling { get; private set; } = false;
     private Vector3 m_lastMoveDirection;
 
     //External Link to adrenaline giver
@@ -161,8 +161,11 @@ public class PlayerMovement : MonoBehaviour
     {
         m_isRolling = false;
     }
-    public void Knockdown(Vector3 _direction, float _power)
+    public void Knockdown(Vector3 _direction, float _power, bool _ignoreInv = false)
     {
+        if (!_ignoreInv && m_isRolling)
+            return;
+
         m_playerController.m_animator.SetTrigger("Knockdown");
         m_knockVelocity = _direction.normalized * _power;
         m_knockedDown = true;
@@ -185,6 +188,12 @@ public class PlayerMovement : MonoBehaviour
     }
     public void StopStagger()
     {
+        m_stagger = false;
+        m_knockedDown = false;
+    }
+    private void StopAllStuns()
+    {
+        m_isRolling = false;
         m_stagger = false;
         m_knockedDown = false;
     }
