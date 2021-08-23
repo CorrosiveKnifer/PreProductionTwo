@@ -62,13 +62,12 @@ public class Boss_Projectile : MonoBehaviour
             }
         }
     }
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.collider.tag != "Boss")
+        if (other.tag != "Boss")
         {
             Destroy(gameObject);
-        } 
+        }
     }
     private void OnDrawGizmos()
     {

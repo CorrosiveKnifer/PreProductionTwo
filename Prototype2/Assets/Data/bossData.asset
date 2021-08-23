@@ -16,4 +16,5 @@ MonoBehaviour:
   resistance: 50
   meleeAttackRange: 2.75
   weaponDamage: 20
+  aoeRadius: 4.9
   patience: 3.5

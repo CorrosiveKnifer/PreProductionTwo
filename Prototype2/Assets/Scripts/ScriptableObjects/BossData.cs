@@ -11,6 +11,7 @@ public class BossData : ScriptableObject
     public float resistance;
     public float meleeAttackRange;
     public float weaponDamage;
+    public float aoeRadius;
 
     [Header("AI Stats")]
     [Tooltip("How long it takes in seconds for the boss to stop closing the distance.")]
