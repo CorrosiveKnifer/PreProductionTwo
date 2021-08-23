@@ -25,13 +25,14 @@ public class Boss_AI : MonoBehaviour
     public float m_currentHealth;
     public float m_currentPatiences;
     public float m_meleeRange;
+    private float m_damageMemory = 0.0f;
 
     [Header("Externals")]
     [SerializeField] private BossData m_myData;
     [SerializeField] private Transform m_projSpawn;
     [SerializeField] private GameObject m_projPrefab;
     [SerializeField] private GameObject m_aoePrefab;
-
+    [SerializeField] private CapsuleCollider m_kickCollider;
     private AI_BEHAVOUR_STATE m_myCurrentState;
     private GameObject m_player;
 
@@ -80,6 +81,7 @@ public class Boss_AI : MonoBehaviour
             AnimationUpdate();
 
         m_myHealthBar.SetValue(m_currentHealth/m_myData.health);
+        m_damageMemory = Mathf.Clamp(m_damageMemory - Time.deltaTime, 0.0f, float.MaxValue);
     }
 
     public void AnimationUpdate()
@@ -167,13 +169,31 @@ public class Boss_AI : MonoBehaviour
     {
         if (Vector3.Distance(m_player.transform.position, transform.position) < m_myData.aoeRadius * 0.95f)
         {
+            //If the player is infront of the boss? 
             if (m_myMovement.GetDirection(m_player.transform.position, Space.Self).z >= 0 && m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange))
             {
                 m_myMovement.Stop();
-                m_myAnimator.IsMelee = true;
-                TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+                bool kickCheck = CheckKickCapsule();
+                if (m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange) || kickCheck)
+                {
+                    if (kickCheck && !(Vector3.Distance(m_player.transform.position, transform.position) <= m_myData.meleeAttackRange))
+                    {
+                        //Perform kick
+                        m_myAnimator.IsKick = true;
+                        TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+                    }
+                    else if(m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange))
+                    {
+                        m_myAnimator.IsMelee = true;
+                        TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+                    }
+                    else
+                    {
+                        MoveState();
+                    }
+                }
             }
-            else if(m_myMovement.GetDirection(m_player.transform.position, Space.Self).x < 0)
+            else if(m_myMovement.GetDirection(m_player.transform.position, Space.Self).z < 0)
             {
                 m_myMovement.Stop();
                 m_myAnimator.IsAOE = true;
@@ -193,6 +213,7 @@ public class Boss_AI : MonoBehaviour
             TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
         }
     }
+
     public void CreateProjectile()
     {
         Vector3 forward = (m_player.transform.position - m_projSpawn.position).normalized;
@@ -209,7 +230,21 @@ public class Boss_AI : MonoBehaviour
     {
         GameObject.Instantiate(m_aoePrefab, transform.position, Quaternion.identity);
     }
+    private bool CheckKickCapsule()
+    {
+        Vector3 start = m_kickCollider.center - Vector3.up * (m_kickCollider.height / 2);
+        Vector3 end = m_kickCollider.center + Vector3.up * (m_kickCollider.height / 2);
+        Collider[] others = Physics.OverlapCapsule(start, end, m_kickCollider.radius);
 
+        foreach (var other in others)
+        {
+            if(other.tag == "Player")
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     private void TransitionBehavourTo(AI_BEHAVOUR_STATE nextState)
     {
         if (m_myCurrentState == nextState)
@@ -248,7 +283,7 @@ public class Boss_AI : MonoBehaviour
 
         //Deal with death
 
-
+        m_damageMemory += 3.0f;
         m_myMovement.SetStearModifier(5.0f);
     }
 
@@ -256,8 +291,22 @@ public class Boss_AI : MonoBehaviour
     {
         if(Vector3.Distance(m_player.transform.position, transform.position) < m_myData.aoeRadius)
         {
-            m_player.GetComponent<PlayerMovement>().Knockdown((m_player.transform.position - transform.position).normalized, 50.0f);
+            Vector3 direction = (m_player.transform.position - transform.position);
+            direction.y = 0;
+
+            m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, 50.0f);
+            //AOE damage
+            //m_player.GetComponent<PlayerController>().Damage(m_myData.aoeDamage);
         }
+    }
+    public void ApplyKickAction()
+    {
+        Vector3 direction = transform.forward;
+
+        direction.y = 0;
+        m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, 60.0f);
+        //Kick damage
+        //m_player.GetComponent<PlayerController>().Damage(m_myData.kickDamage);
     }
 
     private void OnDrawGizmos()
