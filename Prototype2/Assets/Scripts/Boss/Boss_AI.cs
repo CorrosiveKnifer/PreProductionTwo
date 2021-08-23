@@ -65,7 +65,8 @@ public class Boss_AI : MonoBehaviour
         {
             m_behavour = "Waiting";
             m_myCurrentState = AI_BEHAVOUR_STATE.WAITING;
-            CameraManager.instance.PlayDirector("BossRoar");
+            if (CameraManager.instance != null)
+                CameraManager.instance.PlayDirector("BossRoar");
         }
     }
 
@@ -92,7 +93,11 @@ public class Boss_AI : MonoBehaviour
         switch (m_myCurrentState)
         {
             case AI_BEHAVOUR_STATE.WAITING:
-                if (!CameraManager.instance.IsDirectorPlaying("BossRoar"))
+                if(CameraManager.instance == null)
+                {
+                    TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+                }
+                else if (!CameraManager.instance.IsDirectorPlaying("BossRoar"))
                 {
                     m_myMovement.Stop();
                     TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
@@ -244,7 +249,7 @@ public class Boss_AI : MonoBehaviour
     {
         if(Vector3.Distance(m_player.transform.position, transform.position) < m_myData.aoeRadius)
         {
-            m_player.GetComponent<PlayerController>();
+            m_player.GetComponent<PlayerMovement>().Knockdown((m_player.transform.position - transform.position).normalized, 50.0f);
         }
     }
 
