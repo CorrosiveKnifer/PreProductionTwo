@@ -60,18 +60,15 @@ public class Boss_Movement : MonoBehaviour
      * Return: 
      *  Vector3 - "Direction the boss is moving in (normalized)."
      */
-    public Vector3 GetDirection(Space _relativeTo)
+    public Vector3 GetDirection(Vector3 m_targetPos, Space _relativeTo)
     {
-        if (m_myAgent.isStopped)
-            return Vector3.zero;
-
         switch (_relativeTo)
         {
             case Space.World:
-                return (m_myAgent.destination - transform.position).normalized;
+                return (m_targetPos - transform.position).normalized;
             case Space.Self: 
                 //Removes self rotation
-                Vector3 worldDirect =  (m_myAgent.destination - transform.position).normalized;
+                Vector3 worldDirect = (m_targetPos - transform.position).normalized;
                 return Quaternion.AngleAxis(transform.rotation.eulerAngles.y, -Vector3.up) * worldDirect;
             default:
                 return Vector3.zero;
