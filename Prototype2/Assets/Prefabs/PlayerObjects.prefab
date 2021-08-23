@@ -2312,7 +2312,7 @@ GameObject:
   - component: {fileID: 1854232040229638555}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2479,3 +2479,4 @@ MonoBehaviour:
   eventFive:
     m_PersistentCalls:
       m_Calls: []
+  animEvents: []
