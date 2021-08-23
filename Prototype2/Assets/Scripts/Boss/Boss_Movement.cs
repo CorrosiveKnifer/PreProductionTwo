@@ -41,9 +41,15 @@ public class Boss_Movement : MonoBehaviour
         return (transform.position - m_myAgent.destination).magnitude < distOffset;
     }
 
+    public float GetAngle(Quaternion _rotation)
+    {
+        return Quaternion.Angle(transform.rotation, _rotation);
+    }
+
     public void RotateTowards(Quaternion _rotation)
     {
         m_targetRotation = Quaternion.RotateTowards(transform.rotation, _rotation, m_maxStearingAngle);
+        
     }
 
     /*

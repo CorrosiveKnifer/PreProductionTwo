@@ -87,6 +87,8 @@ public class Boss_AI : MonoBehaviour
 
         m_myHealthBar.SetValue(m_currentHealth/m_myData.health);
         m_damageMemory = Mathf.Clamp(m_damageMemory - Time.deltaTime, 0.0f, float.MaxValue);
+
+        Debug.DrawRay(transform.position, transform.forward, Color.green);
     }
 
     public void AnimationUpdate()
@@ -159,14 +161,24 @@ public class Boss_AI : MonoBehaviour
     //Function to move the boss
     public void MoveState()
     {
-        if (m_myAnimator.AnimMutex)
+        if (m_myAnimator.AnimMutex || m_myAnimator.IsTurn)
         {
             m_myMovement.Stop();
             return;
         }
 
-        m_myMovement.RotateTowards(Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World)));
-        m_myMovement.SetTargetLocation(m_player.transform.position);
+        Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
+        float angle = m_myMovement.GetAngle(target);
+        if (angle > 130 || angle < -130)
+        {
+            m_myMovement.Stop();
+            m_myAnimator.IsTurn = true;
+        }
+        else
+        {
+            m_myMovement.RotateTowards(target);
+            m_myMovement.SetTargetLocation(m_player.transform.position);
+        }
     }
 
     //Function to handle if there is melee action
@@ -174,7 +186,7 @@ public class Boss_AI : MonoBehaviour
     {
         if (Vector3.Distance(m_player.transform.position, transform.position) < m_myData.aoeRadius * 0.95f)
         {
-            m_myMovement.RotateTowards(Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World)));
+            //m_myMovement.RotateTowards(Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World)));
 
             //If the player is infront of the boss? 
             if (m_myMovement.GetDirection(m_player.transform.position, Space.Self).z >= 0 && m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange))

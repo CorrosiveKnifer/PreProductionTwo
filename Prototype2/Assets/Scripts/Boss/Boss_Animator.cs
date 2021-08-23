@@ -9,8 +9,16 @@ public class Boss_Animator : MonoBehaviour
     public bool IsAOE;
     public bool IsRanged;
     public bool IsKick;
-    public bool AnimMutex;
+    public bool IsTurn { get { return m_animator.GetBool("TurnAround"); } set { m_animator.SetBool("TurnAround", value); } }
+    
     private Animator m_animator;
+    public bool AnimMutex
+    {
+        get
+        {
+            return m_animator.GetBool("Mutex");
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +29,10 @@ public class Boss_Animator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        AnimMutex = m_animator.GetBool("Mutex");
+        if(!IsTurn)
+        {
+            transform.localRotation = Quaternion.identity;
+        }
         m_animator.SetFloat("VelocityVertical", direction.z);
         m_animator.SetFloat("VelocityHorizontal", -direction.x);
 
@@ -36,6 +47,12 @@ public class Boss_Animator : MonoBehaviour
             IsKick = false;
             m_animator.SetTrigger("KickAttack");
         }
+
+        //if (IsTurn)
+        //{
+        //    IsTurn = false;
+        //    m_animator.SetTrigger("TurnAround");
+        //}
 
         if (IsAOE)
         {
