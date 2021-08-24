@@ -17,6 +17,7 @@ MonoBehaviour:
   meleeAttackRange: 2.75
   weaponDamage: 20
   weaponAdrenalineModifier: 1
+  tripleMaxCooldown: 15
   projectileDamage: 15
   projectileForce: 50
   projectileAdrenalineModifier: 1

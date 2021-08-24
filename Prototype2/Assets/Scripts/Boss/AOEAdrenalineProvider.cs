@@ -24,7 +24,7 @@ public class AOEAdrenalineProvider : PlayerAdrenalineProvider
         if (m_currentWindow >= 0.0f)
         {
             m_currentWindow -= Time.deltaTime;
-            m_value = (m_currentWindow / m_maxWindow) * m_modifier;
+            m_value = (1.0f - (m_currentWindow / m_maxWindow)) * m_modifier;
         }
         else
         {

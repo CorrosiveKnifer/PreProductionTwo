@@ -28,6 +28,7 @@ public class Boss_AI : MonoBehaviour
     public bool m_isDead = false;
     public float m_kickCD = 0;
     public float m_aoeCD = 0;
+    public float m_tripleCD = 0;
     private float m_damageMemory = 0.0f;
 
     [Header("Externals")]
@@ -69,6 +70,8 @@ public class Boss_AI : MonoBehaviour
         m_myWeapon.m_modifier = m_myData.weaponAdrenalineModifier;
         m_myHealthBar = HUDManager.instance.GetElement<UI_Bar>("BossHealthBar");
 
+        m_aoeCD = 10f;
+        m_tripleCD = 5f;
         if (m_roarOnAwake)
         {
             m_behavour = "Waiting";
@@ -96,6 +99,7 @@ public class Boss_AI : MonoBehaviour
 
             m_aoeCD = Mathf.Clamp(m_aoeCD - Time.deltaTime, 0.0f, m_myData.aoeMaxCooldown);
             m_kickCD = Mathf.Clamp(m_kickCD - Time.deltaTime, 0.0f, m_myData.kickMaxCooldown);
+            m_tripleCD = Mathf.Clamp(m_tripleCD - Time.deltaTime, 0.0f, m_myData.kickMaxCooldown);
         }
 
         Debug.DrawRay(transform.position, transform.forward, Color.green);
@@ -212,10 +216,19 @@ public class Boss_AI : MonoBehaviour
         bool isBehindTheBoss = angle > 90 || angle < -90;
         bool isAbleToKick = m_kickCD <= 0;
         bool isAbleToAOE = m_aoeCD <= 0;
+        bool isAbleToTriple = m_tripleCD <= 0;
 
         if(isWithinMeleeRange)
         {
-            if(isWithinKickCollider && isAbleToKick)
+            if(isWithinKickCollider && isAbleToTriple)
+            {
+                m_myMovement.Stop();
+                m_tripleCD += m_myData.tripleMaxCooldown;
+                m_myAnimator.IsMeleeTriple = true;
+                TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+                return;
+            }
+            else if(isWithinKickCollider && isAbleToKick)
             {
                 m_myMovement.Stop();
                 m_kickCD += m_myData.kickMaxCooldown;

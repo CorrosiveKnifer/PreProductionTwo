@@ -15,7 +15,8 @@ public class BossData : ScriptableObject
     public float weaponDamage;
     [Range(0.0f, 1.0f)]
     public float weaponAdrenalineModifier;
-
+    public float tripleMaxCooldown;
+    
     [Header("Projectile Stats")]
     public float projectileDamage;
     public float projectileForce;

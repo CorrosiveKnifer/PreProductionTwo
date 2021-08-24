@@ -6,6 +6,7 @@ public class Boss_Animator : MonoBehaviour
 {
     public Vector3 direction;
     public bool IsMelee;
+    public bool IsMeleeTriple;
     public bool IsAOE;
     public bool IsRanged;
     public bool IsKick;
@@ -30,7 +31,7 @@ public class Boss_Animator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!IsTurn)
+        if (m_animator.GetBool("CanRotate"))
         {
             transform.localRotation = Quaternion.identity;
         }
@@ -41,6 +42,11 @@ public class Boss_Animator : MonoBehaviour
         {
             IsMelee = false;
             m_animator.SetTrigger("MeleeAttack");
+        }
+        if (IsMeleeTriple)
+        {
+            IsMeleeTriple = false;
+            m_animator.SetTrigger("MeleeTripleAttack");
         }
 
         if (IsKick)

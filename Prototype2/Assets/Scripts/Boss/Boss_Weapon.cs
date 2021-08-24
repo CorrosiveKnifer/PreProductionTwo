@@ -31,7 +31,7 @@ public class Boss_Weapon : PlayerAdrenalineProvider
         if(m_currentWindow >= 0.0f)
         {
             m_currentWindow -= Time.deltaTime;
-            m_value = (m_currentWindow / m_maxWindow) * m_modifier;
+            m_value = (1.0f - (m_currentWindow / m_maxWindow)) * m_modifier;
         }
         else
         {
@@ -69,6 +69,6 @@ public class Boss_Weapon : PlayerAdrenalineProvider
     {
         m_maxWindow = window;
         m_currentWindow = window;
-        m_value = 1.0f * m_modifier;
+        m_value = 0.0f * m_modifier;
     }
 }
