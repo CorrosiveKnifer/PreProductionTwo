@@ -10,7 +10,8 @@ public class Boss_Animator : MonoBehaviour
     public bool IsRanged;
     public bool IsKick;
     public bool IsTurn { get { return m_animator.GetBool("TurnAround"); } set { m_animator.SetBool("TurnAround", value); } }
-    
+    public bool IsDead;
+
     private Animator m_animator;
     public bool AnimMutex
     {
@@ -48,11 +49,11 @@ public class Boss_Animator : MonoBehaviour
             m_animator.SetTrigger("KickAttack");
         }
 
-        //if (IsTurn)
-        //{
-        //    IsTurn = false;
-        //    m_animator.SetTrigger("TurnAround");
-        //}
+        if (IsDead)
+        {
+            IsDead = false;
+            m_animator.SetTrigger("IsDead");
+        }
 
         if (IsAOE)
         {

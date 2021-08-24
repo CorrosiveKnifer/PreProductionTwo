@@ -16,5 +16,17 @@ MonoBehaviour:
   resistance: 50
   meleeAttackRange: 2.75
   weaponDamage: 20
+  weaponAdrenalineModifier: 1
+  projectileDamage: 15
+  projectileForce: 50
+  projectileAdrenalineModifier: 1
+  aoeDamage: 30
   aoeRadius: 4.9
+  aoeForce: 50
+  aoeMaxCooldown: 20
+  aoeModifier: 1
+  kickDamage: 10
+  kickForce: 60
+  kickMaxCooldown: 4
+  kickModifier: 0
   patience: 3.5
