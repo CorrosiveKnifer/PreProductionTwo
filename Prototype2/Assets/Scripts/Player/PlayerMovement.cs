@@ -133,16 +133,38 @@ public class PlayerMovement : MonoBehaviour
         {
             m_characterController.Move(normalizedMove * m_moveSpeed * Time.deltaTime // Movement
                 + transform.up * m_yVelocity * Time.deltaTime); // Jump
+
+            //Vector3 rotationVector = new Vector3(Mathf.Cos(m_playerModel.transform.rotation.eulerAngles.y * Mathf.Deg2Rad), 0, Mathf.Sin(m_playerModel.transform.rotation.eulerAngles.y * Mathf.Deg2Rad));
+            //float angle = Vector3.SignedAngle(rotationVector, normalizedMove, Vector3.up);
+            //Vector2 aninInput = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad) * normalizedMove.magnitude, Mathf.Sin(angle * Mathf.Deg2Rad) * normalizedMove.magnitude);
+            //m_playerController.m_animator.SetFloat("VelocityHorizontal", aninInput.x);
+            //m_playerController.m_animator.SetFloat("VelocityVertical", aninInput.y);
+            //Debug.Log(angle);
+
+
+            // Movement
+            Vector3 rotationVector = new Vector3(0, 0, 0);
+
+            rotationVector += normalizedMove.z * m_playerModel.transform.right;
+            rotationVector += normalizedMove.x * m_playerModel.transform.forward;
+
+            m_playerController.m_animator.SetFloat("VelocityHorizontal", rotationVector.z);
+            m_playerController.m_animator.SetFloat("VelocityVertical", rotationVector.x);
+            Debug.Log(rotationVector);
         }
 
         if (m_playerController.m_cameraController.m_selectedTarget == null) // If no target, rotate in moving direction
         {
             RotateToFaceDirection(new Vector3(normalizedMove.x, 0, normalizedMove.z));
+            //m_playerController.m_animator.SetFloat("VelocityHorizontal", normalizedMove.x);
+            //m_playerController.m_animator.SetFloat("VelocityVertical", normalizedMove.z);
         }
         else // If has target, rotate in direction of target.
         {
             Vector3 direction = m_playerController.m_cameraController.m_selectedTarget.transform.position - transform.position;
             RotateToFaceDirection(new Vector3(direction.x, 0, direction.z));
+            //m_playerController.m_animator.SetFloat("VelocityHorizontal", _move.x);
+            //m_playerController.m_animator.SetFloat("VelocityVertical", _move.y);
         }
     }
 
