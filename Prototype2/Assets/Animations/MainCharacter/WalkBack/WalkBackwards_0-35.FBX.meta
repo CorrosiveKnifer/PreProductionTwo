@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: e5718d06798718842b65f9f4302b5ad0
+guid: 15f6e4961b1fa194ea5b3e9bd9cb6161
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: MainCharRun
+    second: MainCharWalkBack
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -35,11 +35,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: MainCharRun
+      name: MainCharWalkBack
       takeName: Take 001
       internalID: 0
       firstFrame: 0
-      lastFrame: 24
+      lastFrame: 35
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
