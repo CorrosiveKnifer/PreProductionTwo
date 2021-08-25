@@ -41,18 +41,11 @@ public class CameraManager : MonoBehaviour
 
     #endregion
 
-    private Dictionary<string, PlayableDirector> m_directors;
+    [SerializeField] private List<CameraDirector> m_directors;
 
     public void InitialiseFunc()
     {
         gameObject.name = $"Camera Manager ({gameObject.name})";
-
-        m_directors = new Dictionary<string, PlayableDirector>();
-
-        foreach (var item in GetComponents<PlayableDirector>())
-        {
-            m_directors.Add(item.playableAsset.name, item);
-        }
     }
 
     // Start is called before the first frame update
@@ -69,32 +62,52 @@ public class CameraManager : MonoBehaviour
 
     public bool PlayDirector(string directorName)
     {
-        PlayableDirector director = null;
-        if(m_directors.TryGetValue(directorName, out director) && !IsADirectorPlaying())
+        if(m_directors != null && m_directors.Count != 0)
         {
-            director.Play();
-            return true;
+            CameraDirector director = null;
+            if (TryGetDirector(directorName, out director) && !IsADirectorPlaying())
+            {
+                director.Play();
+                return true;
+            }
         }
+        return false;
+    }
+
+    private bool TryGetDirector(string directorName, out CameraDirector _director)
+    {
+        foreach (var director in m_directors)
+        {
+            if(director.m_name == directorName)
+            {
+                _director = director;
+                return true;
+            }
+        }
+        _director = null;
         return false;
     }
 
     public bool StopDirector(string directorName)
     {
-        PlayableDirector director = null;
-        if (m_directors.TryGetValue(directorName, out director))
+        if (m_directors != null && m_directors.Count != 0)
         {
-            director.Stop();
-            return true;
+            CameraDirector director = null;
+            if (TryGetDirector(directorName, out director))
+            {
+                director.Stop();
+                return true;
+            }
         }
         return false;
     }
 
     public bool IsDirectorPlaying(string directorName)
     {
-        PlayableDirector director = null;
-        if (m_directors.TryGetValue(directorName, out director))
+        CameraDirector director = null;
+        if (TryGetDirector(directorName, out director))
         {
-            return director.state == PlayState.Playing;
+            return director.IsPlaying();
         }
         return false;
     }
@@ -103,7 +116,7 @@ public class CameraManager : MonoBehaviour
     {
         foreach (var item in m_directors)
         {
-            if(item.Value.state == PlayState.Playing)
+            if(item.IsPlaying())
             {
                 return true;
             }
