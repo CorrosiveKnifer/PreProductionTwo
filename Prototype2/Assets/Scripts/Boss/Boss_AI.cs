@@ -25,6 +25,10 @@ public class Boss_AI : MonoBehaviour
     public float m_currentHealth;
     public float m_currentPatiences;
     public float m_meleeRange;
+    public bool m_isDead = false;
+    public float m_kickCD = 0;
+    public float m_aoeCD = 0;
+    public float m_tripleCD = 0;
     private float m_damageMemory = 0.0f;
 
     [Header("Externals")]
@@ -63,9 +67,11 @@ public class Boss_AI : MonoBehaviour
 
         m_myWeapon = GetComponentInChildren<Boss_Weapon>();
         m_myWeapon.m_weaponDamage = m_myData.weaponDamage;
-
+        m_myWeapon.m_modifier = m_myData.weaponAdrenalineModifier;
         m_myHealthBar = HUDManager.instance.GetElement<UI_Bar>("BossHealthBar");
 
+        m_aoeCD = 10f;
+        m_tripleCD = 5f;
         if (m_roarOnAwake)
         {
             m_behavour = "Waiting";
@@ -79,14 +85,24 @@ public class Boss_AI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(m_myMovement.GetDirection(m_player.transform.position, Space.Self));
-        BehavourUpdate();
+        Debug.Log(m_myMovement.GetDirection(m_player.transform.position, Space.Self));
 
-        if(m_myAnimator != null)
-            AnimationUpdate();
+        if(!m_isDead)
+        {
+            BehavourUpdate();
 
-        m_myHealthBar.SetValue(m_currentHealth/m_myData.health);
-        m_damageMemory = Mathf.Clamp(m_damageMemory - Time.deltaTime, 0.0f, float.MaxValue);
+            if (m_myAnimator != null)
+                AnimationUpdate();
+
+            m_myHealthBar.SetValue(m_currentHealth / m_myData.health);
+            m_damageMemory = Mathf.Clamp(m_damageMemory - Time.deltaTime, 0.0f, float.MaxValue);
+
+            m_aoeCD = Mathf.Clamp(m_aoeCD - Time.deltaTime, 0.0f, m_myData.aoeMaxCooldown);
+            m_kickCD = Mathf.Clamp(m_kickCD - Time.deltaTime, 0.0f, m_myData.kickMaxCooldown);
+            m_tripleCD = Mathf.Clamp(m_tripleCD - Time.deltaTime, 0.0f, m_myData.kickMaxCooldown);
+        }
+
+        Debug.DrawRay(transform.position, transform.forward, Color.green);
     }
 
     public void AnimationUpdate()
@@ -147,7 +163,16 @@ public class Boss_AI : MonoBehaviour
             case AI_BEHAVOUR_STATE.RANGE_ATTACK:
                 if (!m_myAnimator.AnimMutex)
                 {
-                    m_myAnimator.IsRanged = true;
+                    Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
+                    float angle = m_myMovement.GetAngle(target);
+                    if (angle <= 65 || angle >= -65)
+                    {
+                        m_myAnimator.IsRanged = true;
+                    }
+                    else
+                    {
+                        m_myMovement.SetStearModifier(2.5f);
+                    }
                 }
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
                 break;
@@ -159,84 +184,84 @@ public class Boss_AI : MonoBehaviour
     //Function to move the boss
     public void MoveState()
     {
-        if (m_myAnimator.AnimMutex)
+        if (m_myAnimator.AnimMutex || m_myAnimator.IsTurn)
         {
             m_myMovement.Stop();
             return;
         }
 
-        m_myMovement.RotateTowards(Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World)));
-        m_myMovement.SetTargetLocation(m_player.transform.position);
+        Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
+        float angle = m_myMovement.GetAngle(target);
+        if (angle > 130 || angle < -130)
+        {
+            m_myMovement.Stop();
+            m_myAnimator.IsTurn = true;
+        }
+        else
+        {
+            m_myMovement.RotateTowards(target);
+            m_myMovement.SetTargetLocation(m_player.transform.position);
+        }
     }
 
     //Function to handle if there is melee action
     public void MeleeState()
     {
-        if (Vector3.Distance(m_player.transform.position, transform.position) < m_myData.aoeRadius * 0.95f)
-        {
-            m_myMovement.RotateTowards(Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World)));
+        Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
+        float angle = m_myMovement.GetAngle(target);
+        float distance = Vector3.Distance(m_player.transform.position, transform.position);
+        bool isWithinMeleeRange = distance < m_meleeRange; //With AOE
+        bool isWithinSlashRange = distance < m_myData.meleeAttackRange; //Also within melee slash range.
+        bool isWithinKickCollider = m_myKick.isPlayerWithin;
+        bool isBehindTheBoss = angle > 90 || angle < -90;
+        bool isAbleToKick = m_kickCD <= 0;
+        bool isAbleToAOE = m_aoeCD <= 0;
+        bool isAbleToTriple = m_tripleCD <= 0;
 
-            //If the player is infront of the boss? 
-            if (m_myMovement.GetDirection(m_player.transform.position, Space.Self).z >= 0 && m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange))
+        if(isWithinMeleeRange)
+        {
+            if(isWithinKickCollider && isAbleToTriple)
             {
                 m_myMovement.Stop();
-                if (m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange) || m_myKick.isPlayerWithin)
-                {
-                    if (m_myKick.isPlayerWithin && !(Vector3.Distance(m_player.transform.position, transform.position) <= m_myData.meleeAttackRange))
-                    {
-                        //Perform kick
-                        if(Random.Range(0, 1000) <= 300)
-                        {
-                            m_myAnimator.IsKick = true;
-                            TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
-                        }
-                        else if(Vector3.Distance(m_player.transform.position, transform.position) <= m_myData.meleeAttackRange)
-                        {
-                            m_myAnimator.IsMelee = true;
-                            TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
-                        }
-                        else
-                        {
-                            MoveState();
-                        }
-                    }
-                    else if(m_myMovement.IsNearTargetLocation(m_myData.meleeAttackRange))
-                    {
-                        m_myAnimator.IsMelee = true;
-                        TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
-                    }
-                    else
-                    {
-                        MoveState();
-                    }
-                }
+                m_tripleCD += m_myData.tripleMaxCooldown;
+                m_myAnimator.IsMeleeTriple = true;
+                TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+                return;
             }
-            else if(m_myMovement.GetDirection(m_player.transform.position, Space.Self).z < 0)
+            else if(isWithinKickCollider && isAbleToKick)
             {
                 m_myMovement.Stop();
+                m_kickCD += m_myData.kickMaxCooldown;
+                m_myAnimator.IsKick = true;
+                TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+                return;
+            }
+            else if(isWithinSlashRange && !isBehindTheBoss)
+            {
+                m_myMovement.Stop();
+                m_myAnimator.IsMelee = true;
+                m_player.GetComponent<PlayerMovement>().SetPotentialAdrenaline(m_myWeapon);
+                TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+                return;
+            }
+            else if(isAbleToAOE)
+            {
+                m_myMovement.Stop();
+                m_aoeCD += m_myData.aoeMaxCooldown;
                 m_myAnimator.IsAOE = true;
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
-            }
-            else
-            {
-                MoveState();
+                return;
             }
         }
-        else if (m_myMovement.IsNearTargetLocation(m_meleeRange))
-        {
-            MoveState();
-        }
-        else
-        {
-            TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
-        }
+        //Else just move
+        MoveState();
     }
 
     public void CreateProjectile()
     {
         Vector3 forward = (m_player.transform.position - m_projSpawn.position).normalized;
         Rigidbody proj = GameObject.Instantiate(m_projPrefab, m_projSpawn.position, Quaternion.LookRotation(forward, Vector3.up)).GetComponent<Rigidbody>();
-        proj.AddForce(forward * 50.0f, ForceMode.Impulse);
+        proj.AddForce(forward * m_myData.projectileForce, ForceMode.Impulse);
         Physics.IgnoreCollision(proj.GetComponent<Collider>(), GetComponent<Collider>());
         Boss_Projectile boss_proj = proj.GetComponent<Boss_Projectile>();
         boss_proj.m_sender = transform;
@@ -247,6 +272,9 @@ public class Boss_AI : MonoBehaviour
     public void CreateAOEPrefab()
     {
         m_aoeVFX = GameObject.Instantiate(m_aoePrefab, transform);
+        AOEAdrenalineProvider provider = m_aoeVFX.GetComponent<AOEAdrenalineProvider>();
+        provider.m_player = m_player;
+        provider.m_modifier = m_myData.aoeModifier;
     }
 
     private void TransitionBehavourTo(AI_BEHAVOUR_STATE nextState)
@@ -280,16 +308,27 @@ public class Boss_AI : MonoBehaviour
 
     public void DealDamage(float damage)
     {
+        if (m_isDead)
+            return;
+
         float damageMod = 1.0f - Mathf.Log(m_myData.resistance)/2 * m_myData.resistance/100.0f;
         damageMod = Mathf.Clamp(damageMod, 0.0f, 1.0f);
         m_currentHealth -= damage * damageMod;
 
         //Deal with death
-
+        if(m_currentHealth <= 0)
+        {
+            m_isDead = true;
+            m_myAnimator.IsDead = true;
+            GetComponent<Collider>().enabled = false;
+        }
         m_damageMemory += 3.0f;
         m_myMovement.SetStearModifier(5.0f);
     }
-
+    public void StartAOEWindow(float window)
+    {
+        m_aoeVFX.GetComponent<AOEAdrenalineProvider>().StartAdrenalineWindow(window);
+    }
     public void ApplyAOE()
     {
         if(Vector3.Distance(m_player.transform.position, transform.position) < m_myData.aoeRadius)
@@ -299,7 +338,7 @@ public class Boss_AI : MonoBehaviour
 
             //AOE damage
             m_player.GetComponent<PlayerController>().Damage(m_myData.aoeDamage);
-            m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, 50.0f);
+            m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, m_myData.aoeForce);
             m_aoeVFX.transform.parent = null;
         }
     }
@@ -312,8 +351,13 @@ public class Boss_AI : MonoBehaviour
         if(m_myKick.isPlayerWithin)
         {
             m_player.GetComponent<PlayerController>().Damage(m_myData.kickDamage);
-            m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, 60.0f);
+            m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, m_myData.kickForce);
         }
+    }
+
+    public void ShakePlayerCam(float _intensity)
+    {
+        m_player.GetComponent<PlayerController>().m_cameraController.ScreenShake(0.5f, _intensity, 1.0f);
     }
 
     private void OnDrawGizmos()
@@ -323,4 +367,6 @@ public class Boss_AI : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, m_myData.aoeRadius);
     }
+
+
 }

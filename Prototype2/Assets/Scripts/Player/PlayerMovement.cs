@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     float m_turnSmoothTime = 0.075f;
     float m_turnSmoothVelocity;
 
-    private bool m_grounded = true;
+    public bool m_grounded = true;
     private float m_yVelocity = 0.0f;
 
     public bool m_stagger { get; private set; } = false;
