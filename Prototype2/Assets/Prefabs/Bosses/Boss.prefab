@@ -809,6 +809,10 @@ MonoBehaviour:
   m_currentHealth: 0
   m_currentPatiences: 0
   m_meleeRange: 0
+  m_isDead: 0
+  m_kickCD: 0
+  m_aoeCD: 0
+  m_tripleCD: 0
   m_myData: {fileID: 11400000, guid: 33e251728ada69444afdf1172e8dc992, type: 2}
   m_projSpawn: {fileID: 3139500411844096309}
   m_projPrefab: {fileID: 6735515054316819899, guid: eb7f1422e36929d4fa5129805b0f5cd6,
@@ -1406,9 +1410,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e96ef50714a0248a4b89e8ee9269e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mutex: 0
+  m_value: 0
+  m_inactive: {fileID: 2100000, guid: 088851bd8cdcbbc468b244d753d9f64c, type: 2}
+  m_active: {fileID: 2100000, guid: 7f31f71e11c26be4d8e64161480e12cc, type: 2}
+  m_weaponMesh: {fileID: 7022330506278610237}
   m_isLive: 0
   m_weaponDamage: 0
   m_damaged: []
+  m_currentWindow: 0
+  m_maxWindow: 0
+  m_modifier: 1
 --- !u!1 &6342063137655918691
 GameObject:
   m_ObjectHideFlags: 0
@@ -1858,10 +1870,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0, z: 0}
   IsMelee: 0
+  IsMeleeTriple: 0
   IsAOE: 0
   IsRanged: 0
   IsKick: 0
-  AnimMutex: 0
+  IsDead: 0
 --- !u!95 &3965520963296994366
 Animator:
   serializedVersion: 3
@@ -1951,7 +1964,18 @@ MonoBehaviour:
         m_CallState: 2
   eventFive:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3139500413192414135}
+        m_MethodName: ShakePlayerCam
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0.5
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   animEvents:
   - _name: Weapon_active
     _event:
@@ -1959,6 +1983,28 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 6320767458574498990}
           m_MethodName: SetWeaponStatus
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 6320767458574498990}
+          m_MethodName: StartAdrenalineWindow
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.21666667
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 6320767458574498990}
+          m_MethodName: SetWeaponDisplay
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1983,6 +2029,17 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 6320767458574498990}
+          m_MethodName: SetWeaponDisplay
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - _name: AOE_Damage
     _event:
       m_PersistentCalls:
@@ -1990,6 +2047,17 @@ MonoBehaviour:
         - m_Target: {fileID: 3139500413192414135}
           m_MethodName: ApplyAOE
           m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 6320767458574498990}
+          m_MethodName: SetWeaponDisplay
+          m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2012,6 +2080,143 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
+          m_CallState: 2
+  - _name: AOE_Window
+    _event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3139500413192414135}
+          m_MethodName: StartAOEWindow
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.11666667
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 6320767458574498990}
+          m_MethodName: SetWeaponDisplay
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - _name: TripleAttack_One
+    _event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6320767458574498990}
+          m_MethodName: StartAdrenalineWindow
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.17500006
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 6320767458574498990}
+          m_MethodName: SetWeaponStatus
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 6320767458574498990}
+          m_MethodName: SetWeaponDisplay
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - _name: TripleAttack_Two
+    _event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6320767458574498990}
+          m_MethodName: StartAdrenalineWindow
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.15
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 6320767458574498990}
+          m_MethodName: SetWeaponStatus
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 6320767458574498990}
+          m_MethodName: SetWeaponDisplay
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - _name: TripleAttack_Three
+    _event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6320767458574498990}
+          m_MethodName: StartAdrenalineWindow
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.12500001
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 6320767458574498990}
+          m_MethodName: SetWeaponStatus
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 6320767458574498990}
+          m_MethodName: SetWeaponDisplay
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
           m_CallState: 2
 --- !u!1 &8348448893314200852
 GameObject:
@@ -2155,7 +2360,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5148916782777182653, guid: 64fec991c238dbc4587f086443a0f347, type: 3}
+  - {fileID: 2100000, guid: 088851bd8cdcbbc468b244d753d9f64c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
