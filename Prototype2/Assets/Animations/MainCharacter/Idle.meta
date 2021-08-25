@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Prototype2/Assets/Prefabs/Bosses.meta
-guid: 1b90bb5acefea2943971dcbfd38cb6c4
-=======
-guid: 86b452a84616f8a4e94855bb2739848f
->>>>>>> origin/Will_L:Prototype2/Assets/Animations/MainCharacter/Idle.meta
+guid: d958f9b55287ef24486f5f6a7b226ba2
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
