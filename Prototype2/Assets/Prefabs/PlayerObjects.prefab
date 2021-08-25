@@ -3154,7 +3154,7 @@ MonoBehaviour:
   m_gravityMult: 9.81
   m_jumpSpeed: 5
   m_moveSpeed: 6
-  m_rollSpeed: 12
+  m_rollSpeed: 8
 --- !u!114 &5846868069642990467
 MonoBehaviour:
   m_ObjectHideFlags: 0
