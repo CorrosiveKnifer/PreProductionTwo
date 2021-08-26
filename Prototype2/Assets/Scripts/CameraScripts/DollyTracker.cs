@@ -8,6 +8,9 @@ public class DollyTracker : MonoBehaviour
     public CinemachineVirtualCamera m_myCamera;
     public CinemachineSmoothPath m_myTrack;
     private GameObject m_player = null;
+
+    public float x;
+    public float y;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +22,9 @@ public class DollyTracker : MonoBehaviour
     {
         if(m_player != null)
         {
+            m_player.GetComponent<PlayerController>().m_cameraController.m_camera.m_XAxis.Value = x;
+            m_player.GetComponent<PlayerController>().m_cameraController.m_camera.m_YAxis.Value = y;
+
             Quaternion rotation = m_myTrack.transform.rotation;
             Vector3 A = rotation * (m_myTrack.m_Waypoints[0].position) + m_myTrack.transform.position;
             Vector3 B = rotation * (m_myTrack.m_Waypoints[1].position) + m_myTrack.transform.position;
@@ -37,7 +43,8 @@ public class DollyTracker : MonoBehaviour
         if(other.tag == "Player")
         {
             m_player = other.gameObject;
-            m_myCamera.Priority *= 10;
+
+            m_myCamera.Priority = m_player.GetComponent<PlayerController>().m_cameraController.m_camera.Priority + 1;
         }
     }
     private void OnTriggerExit(Collider other)

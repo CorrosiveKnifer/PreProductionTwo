@@ -21,6 +21,8 @@ public class Boss_Cinematic : MonoBehaviour
         if(other.tag == "Player")
         {
             CameraManager.instance.PlayDirector("BossRoar");
+            other.GetComponent<PlayerController>().m_cameraController.m_camera.m_XAxis.Value = 270f;
+            other.GetComponent<PlayerController>().m_cameraController.m_camera.m_YAxis.Value = 0.5f;
             m_isShowTime = true;
         }
     }
