@@ -73,4 +73,9 @@ public class Boss_Animator : MonoBehaviour
             m_animator.SetTrigger("RangeAttack");
         }
     }
+
+    public void CancelAnimation()
+    {
+        m_animator.SetTrigger("Cancel");
+    }
 }

@@ -70,6 +70,8 @@ public class Boss_AI : MonoBehaviour
         m_myWeapon.m_modifier = m_myData.weaponAdrenalineModifier;
         m_myHealthBar = HUDManager.instance.GetElement<UI_Bar>("BossHealthBar");
 
+        m_myHealthBar.gameObject.SetActive(true);
+
         m_aoeCD = 10f;
         m_tripleCD = 5f;
         if (m_roarOnAwake)
@@ -184,14 +186,20 @@ public class Boss_AI : MonoBehaviour
     //Function to move the boss
     public void MoveState()
     {
+        Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
+        float angle = m_myMovement.GetAngle(target);
+
         if (m_myAnimator.AnimMutex || m_myAnimator.IsTurn)
         {
             m_myMovement.Stop();
+            if (angle > 130 || angle < -130)
+            { 
+                
+            }
             return;
         }
 
-        Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
-        float angle = m_myMovement.GetAngle(target);
+        
         if (angle > 130 || angle < -130)
         {
             m_myMovement.Stop();
