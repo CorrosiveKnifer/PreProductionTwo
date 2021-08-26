@@ -73,7 +73,10 @@ public class Boss_Animator : MonoBehaviour
             m_animator.SetTrigger("RangeAttack");
         }
     }
-
+    public bool CanIRotateTheCharacter()
+    {
+        return m_animator.GetBool("CanRotate");
+    }
     public void CancelAnimation()
     {
         m_animator.SetTrigger("Cancel");
