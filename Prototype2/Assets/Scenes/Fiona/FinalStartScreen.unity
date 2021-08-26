@@ -750,8 +750,20 @@ PrefabInstance:
     - target: {fileID: 7607167447496783928, guid: fb30c9d1de9e1cd43bc13f4258ed38bf,
         type: 3}
       propertyPath: m_text
-      value: Gallant
+      value: GALLANT
       objectReference: {fileID: 0}
+    - target: {fileID: 7607167447496783928, guid: fb30c9d1de9e1cd43bc13f4258ed38bf,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 1fb86a07fed81524ebf9460a1f042e71,
+        type: 2}
+    - target: {fileID: 7607167447496783928, guid: fb30c9d1de9e1cd43bc13f4258ed38bf,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -955543181940919240, guid: 1fb86a07fed81524ebf9460a1f042e71,
+        type: 2}
     - target: {fileID: 7607167447496783928, guid: fb30c9d1de9e1cd43bc13f4258ed38bf,
         type: 3}
       propertyPath: m_VerticalAlignment
