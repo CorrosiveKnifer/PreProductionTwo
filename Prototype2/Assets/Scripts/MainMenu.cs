@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Cinemachine;
 
 public class MainMenu : MonoBehaviour
 {
     public string m_sceneName = "MainGameScene";
-    public GameObject camera;
+    public CinemachineVirtualCamera vCamera;
     public Animator doors;
 
     [Header("Settings")]
@@ -48,7 +49,7 @@ public class MainMenu : MonoBehaviour
     {
         HUDManager.instance.gameObject.SetActive(true);
         doors.SetBool("IsOpen", true);
-        Destroy(camera);
+        vCamera.Priority = 0;
         Destroy(gameObject);
         //LevelLoader.instance.LoadNewLevel(m_sceneName);
     }
