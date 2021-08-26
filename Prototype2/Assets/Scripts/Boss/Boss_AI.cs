@@ -254,7 +254,7 @@ public class Boss_AI : MonoBehaviour
 
         if(isWithinMeleeRange)
         {
-            if(isWithinKickCollider && isAbleToTriple)
+            if(isWithinKickCollider && isAbleToTriple && !CheckForwardForEnvironment())
             {
                 m_myMovement.Stop();
                 m_canCancel = true;
@@ -404,6 +404,22 @@ public class Boss_AI : MonoBehaviour
         m_player.GetComponent<PlayerController>().m_cameraController.ScreenShake(0.5f, _intensity, 1.0f);
     }
 
+    public bool CheckForwardForEnvironment()
+    {
+        Vector3 start = transform.position + Vector3.up * 1.6f;
+        Debug.DrawRay(start, transform.forward * 5.0f, Color.red);
+        RaycastHit[] hits = Physics.SphereCastAll(start, 1.25f, transform.forward, 6.0f);
+
+        foreach (var hit in hits)
+        {
+            if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Environment"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
@@ -411,6 +427,4 @@ public class Boss_AI : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, m_myData.aoeRadius);
     }
-
-
 }

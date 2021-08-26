@@ -25,7 +25,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: -3254049626820690670}
-    m_Duration: 2.9833333333333334
+    m_Duration: 1.3166666666666667
     m_TimeScale: 1
     m_ParentTrack: {fileID: -9129621831800508921}
     m_EaseInDuration: 0
@@ -73,7 +73,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: Player Camera
   - m_Version: 1
-    m_Start: 1.6666666666666667
+    m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: -3008742974452833748}
     m_Duration: 4.916666666666665
@@ -82,7 +82,7 @@ MonoBehaviour:
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: 1.3166666666666667
-    m_BlendOutDuration: 0.5999999999999988
+    m_BlendOutDuration: 0.5999999999999943
     m_MixInCurve:
       serializedVersion: 2
       m_Curve:
@@ -142,7 +142,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: Boss Camera
   - m_Version: 1
-    m_Start: 6.966666666666667
+    m_Start: 5.300000000000003
     m_ClipIn: 0
     m_Asset: {fileID: -1520743154842011601}
     m_Duration: 0.7833333333333323
@@ -150,7 +150,7 @@ MonoBehaviour:
     m_ParentTrack: {fileID: -9129621831800508921}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: 0.41666666666666696
+    m_BlendInDuration: 0.41666666666666785
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
@@ -193,7 +193,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: Player Camera
   - m_Version: 1
-    m_Start: 5.983333333333333
+    m_Start: 4.316666666666671
     m_ClipIn: 0
     m_Asset: {fileID: -4514333074852109071}
     m_Duration: 1.4000000000000004
@@ -201,8 +201,8 @@ MonoBehaviour:
     m_ParentTrack: {fileID: -9129621831800508921}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: 0.5999999999999988
-    m_BlendOutDuration: 0.41666666666666696
+    m_BlendInDuration: 0.5999999999999943
+    m_BlendOutDuration: 0.41666666666666785
     m_MixInCurve:
       serializedVersion: 2
       m_Curve:
@@ -377,7 +377,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 6.583333333333332
+    m_Start: 4.916666666666669
     m_ClipIn: 0
     m_Asset: {fileID: 6590046951535246394}
     m_Duration: 0.2
@@ -443,7 +443,7 @@ MonoBehaviour:
     m_PostExtrapolationMode: 1
     m_PreExtrapolationMode: 1
     m_PostExtrapolationTime: Infinity
-    m_PreExtrapolationTime: 6.583333333333332
+    m_PreExtrapolationTime: 4.916666666666669
     m_DisplayName: Close
   m_Markers:
     m_Objects: []
@@ -487,7 +487,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 6.766666666666667
+    m_Start: 5.100000000000002
     m_ClipIn: 0
     m_Asset: {fileID: 4448886096879140057}
     m_Duration: 0.728875
@@ -556,7 +556,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: DoorSlam
   - m_Version: 1
-    m_Start: 2.9833333333333334
+    m_Start: 1.3166666666666673
     m_ClipIn: 0
     m_Asset: {fileID: 7216419304820296002}
     m_Duration: 2.772403628117914
@@ -668,7 +668,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 2.1666666666666665
+    m_Start: 0.5000000000000004
     m_ClipIn: 0
     m_Asset: {fileID: -7989343872068843297}
     m_Duration: 4.416666666666666
@@ -677,7 +677,7 @@ MonoBehaviour:
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: -1
-    m_BlendOutDuration: 0.34999999999999876
+    m_BlendOutDuration: 0.349999999999997
     m_MixInCurve:
       serializedVersion: 2
       m_Curve:
@@ -734,10 +734,10 @@ MonoBehaviour:
     m_PostExtrapolationMode: 1
     m_PreExtrapolationMode: 1
     m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 2.1666666666666665
+    m_PreExtrapolationTime: 0.5000000000000004
     m_DisplayName: BossPowerUp
   - m_Version: 1
-    m_Start: 6.233333333333333
+    m_Start: 4.566666666666669
     m_ClipIn: 0
     m_Asset: {fileID: 8995071007593047933}
     m_Duration: 1.1500000000000004
@@ -745,7 +745,7 @@ MonoBehaviour:
     m_ParentTrack: {fileID: -885695012119304322}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: 0.34999999999999876
+    m_BlendInDuration: 0.349999999999997
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
@@ -933,7 +933,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 3.1
+    m_Start: 1.4333333333333336
     m_ClipIn: 0
     m_Asset: {fileID: -6460852192018315850}
     m_Duration: 2.4999999999999996
@@ -999,7 +999,7 @@ MonoBehaviour:
     m_PostExtrapolationMode: 1
     m_PreExtrapolationMode: 1
     m_PostExtrapolationTime: Infinity
-    m_PreExtrapolationTime: 3.1
+    m_PreExtrapolationTime: 1.4333333333333336
     m_DisplayName: BossHPReveal
   m_Markers:
     m_Objects: []

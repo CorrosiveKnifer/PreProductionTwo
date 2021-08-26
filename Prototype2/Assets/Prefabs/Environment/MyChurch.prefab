@@ -216,6 +216,7 @@ GameObject:
   - component: {fileID: 4769595477374034016}
   - component: {fileID: 3075506679532853750}
   - component: {fileID: 2915382133539834944}
+  - component: {fileID: 2147777546758177115}
   m_Layer: 0
   m_Name: WillsEdit:Walls
   m_TagString: Untagged
@@ -284,6 +285,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &2147777546758177115
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698986721782694623}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5923528367357433245, guid: c8b873dcb276e1444af5b1d3fd833091, type: 3}
 --- !u!1 &1139170021588892796
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,7 +369,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1229229387090137330}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.4, y: -11.8, z: -26.8}
   m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children:
@@ -605,8 +620,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2147777546709647009}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 365, y: 0, z: -12.54}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 365, y: 0, z: -13.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8013847944366167439}
@@ -688,8 +703,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2147777548172692893}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 365, y: 0, z: 12.54}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 365, y: 0, z: 13.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8698577362624791454}
@@ -1302,6 +1317,7 @@ GameObject:
   - component: {fileID: 3024781816774086262}
   - component: {fileID: 2851351159754460921}
   - component: {fileID: 4987427312969930310}
+  - component: {fileID: 2147777546758177117}
   m_Layer: 0
   m_Name: WillsEdit:polySurface4
   m_TagString: Untagged
@@ -1370,6 +1386,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &2147777546758177117
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3209853799061639654}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2062601662660517320, guid: c8b873dcb276e1444af5b1d3fd833091, type: 3}
 --- !u!1 &3255490247325703946
 GameObject:
   m_ObjectHideFlags: 0
@@ -1864,7 +1894,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 95a81898703ae204c814558df0d4f5c4, type: 2}
+  - {fileID: 2100000, guid: e03fc2cd4a8832749b934c86061db2cf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2290,6 +2320,8 @@ GameObject:
   - component: {fileID: 8667430985908216323}
   - component: {fileID: 6949930705901479235}
   - component: {fileID: 5713624005667357453}
+  - component: {fileID: 1037698611}
+  - component: {fileID: 1037698612}
   m_Layer: 0
   m_Name: WillsEdit:ChurchFrontMain
   m_TagString: Untagged
@@ -2372,6 +2404,32 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5404044131327306957, guid: c8b873dcb276e1444af5b1d3fd833091, type: 3}
+--- !u!65 &1037698611
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5713624005667357450}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 41.6894, y: 62.020313, z: 70.61803}
+  m_Center: {x: 324.54776, y: 31.010143, z: -55}
+--- !u!65 &1037698612
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5713624005667357450}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 41.6894, y: 62.020313, z: 70.61803}
+  m_Center: {x: 324.54776, y: 31.010143, z: 55}
 --- !u!1 &6026655559650332704
 GameObject:
   m_ObjectHideFlags: 0
