@@ -131,8 +131,10 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            m_characterController.Move(normalizedMove * m_moveSpeed * Time.deltaTime // Movement
-                + transform.up * m_yVelocity * Time.deltaTime); // Jump
+            Vector3 movementVector = normalizedMove * m_moveSpeed * Time.deltaTime // Movement
+                + transform.up * m_yVelocity * Time.deltaTime; // Jump
+            if (movementVector.magnitude != 0.0f)
+                m_characterController.Move(movementVector); 
 
             // Movement
             Vector3 rotationVector = new Vector3(0, 0, 0);
