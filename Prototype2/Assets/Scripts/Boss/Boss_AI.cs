@@ -381,8 +381,8 @@ public class Boss_AI : MonoBehaviour
             direction.y = 0;
 
             //AOE damage
-            m_player.GetComponent<PlayerController>().Damage(m_myData.aoeDamage);
             m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, m_myData.aoeForce);
+            m_player.GetComponent<PlayerController>().Damage(m_myData.aoeDamage);
             m_aoeVFX.transform.parent = null;
         }
     }
@@ -394,8 +394,8 @@ public class Boss_AI : MonoBehaviour
         //Kick damage
         if(m_myKick.isPlayerWithin)
         {
-            m_player.GetComponent<PlayerController>().Damage(m_myData.kickDamage);
             m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, m_myData.kickForce);
+            m_player.GetComponent<PlayerController>().Damage(m_myData.kickDamage);
         }
     }
 

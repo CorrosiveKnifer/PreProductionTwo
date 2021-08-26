@@ -15,8 +15,10 @@ public class PlayerController : MonoBehaviour
     public float m_effectsPercentage { get; private set; } = 0.0f;
 
     List<Collider> m_hitList = new List<Collider>();
-
+    
     public Vector3 m_lastWeaponPosition;
+
+    public bool m_functionalityEnabled = false;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +34,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         int gamepadID = InputManager.instance.GetAnyGamePad();
-        if (!m_playerResources.m_dead)
+        if (!m_playerResources.m_dead || m_functionalityEnabled)
         {
             // Get movement inputs and apply
             m_playerMovement.Move(GetPlayerMovementVector(), // Run
@@ -110,6 +112,7 @@ public class PlayerController : MonoBehaviour
     public void KillPlayer()
     {
         m_animator.SetTrigger("Die");
+        LevelLoader.instance.LoadNewLevel("MainMenu", LevelLoader.Transition.YOUDIED);
     }
 
     private void CalculateAdrenalineBoost()
@@ -162,7 +165,6 @@ public class PlayerController : MonoBehaviour
                     if (!m_hitList.Contains(collider)) // If not already hit this attack
                     {
                         // Action here
-
                         Debug.Log("Bonk");
                         m_hitList.Add(collider);
                         foundTarget = true;
@@ -194,7 +196,7 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 direction = localPos - m_lastWeaponPosition;
             direction.y = 0.5f;
-            if (m_effectsPercentage >= 0.5f)
+            if (m_effectsPercentage >= 0.3f)
             {
                 // Find all rigid bodies
                 Rigidbody[] rigidbodies = FindObjectsOfType<Rigidbody>();
@@ -205,7 +207,7 @@ public class PlayerController : MonoBehaviour
                     if (distance < 5.0f)
                     {
                         float scale = 1.0f - (distance / 5.0f);
-                        item.AddForce(direction.normalized * m_effectsPercentage * 40.0f * scale, ForceMode.Force);
+                        item.AddForce(direction.normalized * m_effectsPercentage * 6.0f * scale, ForceMode.Impulse);
                     }
                 }
             }

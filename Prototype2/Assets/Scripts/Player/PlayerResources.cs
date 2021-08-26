@@ -12,6 +12,7 @@ public class PlayerResources : MonoBehaviour
     float m_staminaRechargeTimer = 0.0f;
     public float m_staminaRechargeDelay = 1.0f;
     public float m_rechargeRate = 40.0f;
+    public float m_adrenalineDecayRate = 3.0f;
     public bool m_dead { get; private set; } = false;
 
     // Start is called before the first frame update
@@ -34,6 +35,7 @@ public class PlayerResources : MonoBehaviour
                 ChangeStamina(m_rechargeRate * Time.deltaTime * m_playerController.m_adrenalineMult);
             }
         }
+        ChangeAdrenaline(-Time.deltaTime * m_adrenalineDecayRate);
     }
 
     public void ChangeHealth(float _amount)
@@ -45,6 +47,9 @@ public class PlayerResources : MonoBehaviour
 
             if (m_adrenaline < 0)
                 m_health += _amount + m_adrenaline;
+            else
+                m_health += _amount;
+
 
             m_adrenaline = Mathf.Clamp(m_adrenaline, 0.0f, 100.0f);
         }

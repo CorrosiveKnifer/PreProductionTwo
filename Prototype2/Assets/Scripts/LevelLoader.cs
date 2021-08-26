@@ -11,6 +11,12 @@ public class LevelLoader : MonoBehaviour
 {
     #region Singleton
 
+    public enum Transition
+    {
+        CROSSFADE,
+        YOUDIED
+    }
+
     private static LevelLoader _instance = null;
     public static LevelLoader instance
     {
@@ -29,6 +35,7 @@ public class LevelLoader : MonoBehaviour
     private void Awake()
     {
         transitionPrefab = Resources.Load<GameObject>("Prefabs/Transitions/TransitionCanvas");
+        youdiedPrefab = Resources.Load<GameObject>("Prefabs/Transitions/YouDiedCanvas");
 
         if (_instance == null)
         {
@@ -61,6 +68,7 @@ public class LevelLoader : MonoBehaviour
     public GameObject CompleteLoadUI;
 
     public static GameObject transitionPrefab;
+    public static GameObject youdiedPrefab;
     public static Animator transition;
 
     public bool isTransitioning = false;
@@ -108,10 +116,10 @@ public class LevelLoader : MonoBehaviour
             StartCoroutine(LoadLevel(SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1).name)); // Loade next scene
         }
     }
-    public void LoadNewLevel(string _name)
+    public void LoadNewLevel(string _name, Transition _transition = Transition.CROSSFADE)
     {
         if (!isTransitioning)
-            StartCoroutine(LoadLevel(_name));
+            StartCoroutine(LoadLevel(_name, _transition));
     }
     public void ResetScene()
     {
@@ -125,20 +133,32 @@ public class LevelLoader : MonoBehaviour
     }
 
 
-    IEnumerator LoadLevel(string _name)
+    IEnumerator LoadLevel(string _name, Transition _transition = Transition.CROSSFADE)
     {
+        float timeMult = 1.0f;
         isTransitioning = true;
 
-        transition = Instantiate(transitionPrefab, transform).GetComponent<Animator>();
+        switch (_transition)
+        {
+            case Transition.CROSSFADE:
+                transition = Instantiate(transitionPrefab, transform).GetComponent<Animator>();
+                break;
+            case Transition.YOUDIED:
+                transition = Instantiate(youdiedPrefab, transform).GetComponent<Animator>();
+                timeMult = 3.5f;
+                break;
+        }
+
+        transition.speed = 1.0f / timeMult;
 
         if (transition != null)
         {
             // Wait to let animation finish playing
-            yield return new WaitForSeconds(transitionTime);
+            yield return new WaitForSeconds(transitionTime * timeMult);
         }
         // Load Scene
         SceneManager.LoadScene(_name);
-        yield return new WaitForSeconds(transitionTime);
+        yield return new WaitForSeconds(transitionTime * timeMult);
 
         if (transition != null)
         {
