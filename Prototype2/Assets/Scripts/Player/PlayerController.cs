@@ -110,6 +110,7 @@ public class PlayerController : MonoBehaviour
     public void KillPlayer()
     {
         m_animator.SetTrigger("Die");
+        LevelLoader.instance.LoadNewLevel("MainMenu", LevelLoader.Transition.YOUDIED);
     }
 
     private void CalculateAdrenalineBoost()
