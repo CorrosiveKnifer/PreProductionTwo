@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
         m_playerResources = GetComponent<PlayerResources>();
         m_playerMovement = GetComponent<PlayerMovement>();
         m_cameraController = GetComponent<CameraController>();
-        m_animator = GetComponent<Animator>();
+        m_animator = GetComponentInChildren<Animator>();
         m_lastWeaponPosition = m_weaponCollider.transform.localPosition;
     }
 
