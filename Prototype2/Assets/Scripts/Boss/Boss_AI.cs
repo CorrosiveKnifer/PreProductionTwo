@@ -26,6 +26,7 @@ public class Boss_AI : MonoBehaviour
     public float m_currentPatiences;
     public float m_meleeRange;
     public bool m_isDead = false;
+    public float m_cancelAngle = 90.0f;
     public float m_kickCD = 0;
     public float m_aoeCD = 0;
     public float m_tripleCD = 0;
@@ -39,7 +40,8 @@ public class Boss_AI : MonoBehaviour
     [SerializeField] private CapsuleCollider m_kickCollider;
     private AI_BEHAVOUR_STATE m_myCurrentState;
     private GameObject m_player;
-    private GameObject m_aoeVFX; 
+    private GameObject m_aoeVFX;
+    private bool m_canCancel = false;
 
     //Boss Compoments
     private Boss_Movement m_myMovement;
@@ -69,6 +71,8 @@ public class Boss_AI : MonoBehaviour
         m_myWeapon.m_weaponDamage = m_myData.weaponDamage;
         m_myWeapon.m_modifier = m_myData.weaponAdrenalineModifier;
         m_myHealthBar = HUDManager.instance.GetElement<UI_Bar>("BossHealthBar");
+
+        m_myHealthBar.gameObject.SetActive(true);
 
         m_aoeCD = 10f;
         m_tripleCD = 5f;
@@ -158,7 +162,16 @@ public class Boss_AI : MonoBehaviour
                 if (!m_myAnimator.AnimMutex)
                 {
                     MeleeState();
-                }   
+                }
+                else
+                {
+                    Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
+                    float angle = m_myMovement.GetAngle(target);
+                    if (m_canCancel && Mathf.Abs(angle) > Mathf.Abs(m_cancelAngle))
+                    {
+                        m_myAnimator.CancelAnimation();
+                    }
+                }
                 break;
             case AI_BEHAVOUR_STATE.RANGE_ATTACK:
                 if (!m_myAnimator.AnimMutex)
@@ -168,10 +181,20 @@ public class Boss_AI : MonoBehaviour
                     if (angle <= 65 || angle >= -65)
                     {
                         m_myAnimator.IsRanged = true;
+                        m_canCancel = true;
                     }
                     else
                     {
-                        m_myMovement.SetStearModifier(2.5f);
+                        m_myMovement.SetStearModifier(5.0f);
+                    }
+                }
+                else
+                {
+                    Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
+                    float angle = m_myMovement.GetAngle(target);
+                    if (m_myAnimator.CanIRotateTheCharacter() && m_canCancel && (angle > m_cancelAngle || angle < -m_cancelAngle))
+                    {
+                        m_myAnimator.CancelAnimation();
                     }
                 }
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
@@ -184,14 +207,19 @@ public class Boss_AI : MonoBehaviour
     //Function to move the boss
     public void MoveState()
     {
+        Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
+        float angle = m_myMovement.GetAngle(target);
+
         if (m_myAnimator.AnimMutex || m_myAnimator.IsTurn)
         {
             m_myMovement.Stop();
+            if (m_myAnimator.CanIRotateTheCharacter() && m_canCancel && (angle > m_cancelAngle || angle < -m_cancelAngle))
+            {
+                m_myAnimator.CancelAnimation();
+            }
             return;
         }
-
-        Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
-        float angle = m_myMovement.GetAngle(target);
+        
         if (angle > 130 || angle < -130)
         {
             m_myMovement.Stop();
@@ -223,6 +251,7 @@ public class Boss_AI : MonoBehaviour
             if(isWithinKickCollider && isAbleToTriple)
             {
                 m_myMovement.Stop();
+                m_canCancel = true;
                 m_tripleCD += m_myData.tripleMaxCooldown;
                 m_myAnimator.IsMeleeTriple = true;
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
@@ -231,6 +260,7 @@ public class Boss_AI : MonoBehaviour
             else if(isWithinKickCollider && isAbleToKick)
             {
                 m_myMovement.Stop();
+                m_canCancel = true;
                 m_kickCD += m_myData.kickMaxCooldown;
                 m_myAnimator.IsKick = true;
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
@@ -239,6 +269,7 @@ public class Boss_AI : MonoBehaviour
             else if(isWithinSlashRange && !isBehindTheBoss)
             {
                 m_myMovement.Stop();
+                m_canCancel = true;
                 m_myAnimator.IsMelee = true;
                 m_player.GetComponent<PlayerMovement>().SetPotentialAdrenaline(m_myWeapon);
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
@@ -248,13 +279,20 @@ public class Boss_AI : MonoBehaviour
             {
                 m_myMovement.Stop();
                 m_aoeCD += m_myData.aoeMaxCooldown;
+                m_canCancel = false;
                 m_myAnimator.IsAOE = true;
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
                 return;
             }
+            else
+            {
+                m_myMovement.SetStearModifier(1.5f);
+                MoveState();
+                return;
+            }
         }
         //Else just move
-        MoveState();
+        TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
     }
 
     public void CreateProjectile()
@@ -331,7 +369,7 @@ public class Boss_AI : MonoBehaviour
     }
     public void ApplyAOE()
     {
-        if(Vector3.Distance(m_player.transform.position, transform.position) < m_myData.aoeRadius)
+        if(Vector3.Distance(m_player.transform.position, transform.position) < m_myData.aoeRadius * 1.5f)
         {
             Vector3 direction = (m_player.transform.position - transform.position);
             direction.y = 0;
