@@ -29,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
     public bool m_isRolling { get; private set; } = false;
     private Vector3 m_lastMoveDirection;
 
+    private Vector3 m_knockbackSourceDir;
+
     //External Link to adrenaline giver
     private PlayerAdrenalineProvider o_adrenalineProvider;
 
@@ -87,6 +89,9 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(Vector2 _move, bool _jump, bool _roll)
     {
+        if (m_knockedDown)
+            RotateToFaceDirection(new Vector3(m_knockbackSourceDir.x, 0, m_knockbackSourceDir.z));
+
         if (m_isRolling || m_knockedDown || m_stagger)
             return;
 
@@ -179,6 +184,7 @@ public class PlayerMovement : MonoBehaviour
 
         m_playerController.m_animator.SetTrigger("Knockdown");
         m_knockVelocity = _direction.normalized * _power;
+        m_knockbackSourceDir = -_direction.normalized;
         m_knockedDown = true;
         m_stagger = false;
         m_isRolling = false;
@@ -191,6 +197,9 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Stagger(float _duration)
     {
+        if (m_knockedDown)
+            return;
+
         m_playerController.m_animator.SetFloat("StaggerDuration", 1.0f/ _duration);
         m_playerController.m_animator.SetTrigger("Stagger");
         m_stagger = true;
