@@ -1894,7 +1894,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 95a81898703ae204c814558df0d4f5c4, type: 2}
+  - {fileID: 2100000, guid: e03fc2cd4a8832749b934c86061db2cf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2320,6 +2320,8 @@ GameObject:
   - component: {fileID: 8667430985908216323}
   - component: {fileID: 6949930705901479235}
   - component: {fileID: 5713624005667357453}
+  - component: {fileID: 1037698611}
+  - component: {fileID: 1037698612}
   m_Layer: 0
   m_Name: WillsEdit:ChurchFrontMain
   m_TagString: Untagged
@@ -2402,6 +2404,32 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5404044131327306957, guid: c8b873dcb276e1444af5b1d3fd833091, type: 3}
+--- !u!65 &1037698611
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5713624005667357450}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 41.6894, y: 62.020313, z: 70.61803}
+  m_Center: {x: 324.54776, y: 31.010143, z: -55}
+--- !u!65 &1037698612
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5713624005667357450}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 41.6894, y: 62.020313, z: 70.61803}
+  m_Center: {x: 324.54776, y: 31.010143, z: 55}
 --- !u!1 &6026655559650332704
 GameObject:
   m_ObjectHideFlags: 0
