@@ -869,8 +869,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: GALLANT
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0fadfac1205e02149bdcfb5e63fe64ff, type: 2}
-  m_sharedMaterial: {fileID: -892388438303906621, guid: 0fadfac1205e02149bdcfb5e63fe64ff,
+  m_fontAsset: {fileID: 11400000, guid: 1fb86a07fed81524ebf9460a1f042e71, type: 2}
+  m_sharedMaterial: {fileID: -955543181940919240, guid: 1fb86a07fed81524ebf9460a1f042e71,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
