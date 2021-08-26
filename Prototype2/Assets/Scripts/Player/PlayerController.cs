@@ -15,8 +15,10 @@ public class PlayerController : MonoBehaviour
     public float m_effectsPercentage { get; private set; } = 0.0f;
 
     List<Collider> m_hitList = new List<Collider>();
-
+    
     public Vector3 m_lastWeaponPosition;
+
+    public bool m_functionalityEnabled = false;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +34,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         int gamepadID = InputManager.instance.GetAnyGamePad();
-        if (!m_playerResources.m_dead)
+        if (!m_playerResources.m_dead || m_functionalityEnabled)
         {
             // Get movement inputs and apply
             m_playerMovement.Move(GetPlayerMovementVector(), // Run
