@@ -16,7 +16,7 @@ public class Boss_Movement : MonoBehaviour
     void Start()
     {
         m_myAgent = GetComponent<NavMeshAgent>();
-        m_targetRotation = Quaternion.identity;
+        m_targetRotation = transform.rotation;
     }
 
     // Update is called once per frame
@@ -24,6 +24,7 @@ public class Boss_Movement : MonoBehaviour
     {
         m_stearModifier = Mathf.Clamp(m_stearModifier - m_stearDecay * Time.deltaTime, 1.0f, 10.0f);
         transform.rotation = Quaternion.Slerp(transform.rotation, m_targetRotation, Time.deltaTime * m_stearModifier);
+        m_myAgent.destination = transform.position;
     }
 
     public void Stop()
