@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     float m_turnSmoothTime = 0.075f;
     float m_turnSmoothVelocity;
 
-    private bool m_grounded = true;
+    public bool m_grounded = true;
     private float m_yVelocity = 0.0f;
 
     public bool m_stagger { get; private set; } = false;
@@ -133,6 +133,15 @@ public class PlayerMovement : MonoBehaviour
         {
             m_characterController.Move(normalizedMove * m_moveSpeed * Time.deltaTime // Movement
                 + transform.up * m_yVelocity * Time.deltaTime); // Jump
+
+            // Movement
+            Vector3 rotationVector = new Vector3(0, 0, 0);
+
+            rotationVector += normalizedMove.z * m_playerModel.transform.right;
+            rotationVector += normalizedMove.x * m_playerModel.transform.forward;
+
+            m_playerController.m_animator.SetFloat("VelocityHorizontal", rotationVector.z);
+            m_playerController.m_animator.SetFloat("VelocityVertical", rotationVector.x);
         }
 
         if (m_playerController.m_cameraController.m_selectedTarget == null) // If no target, rotate in moving direction
