@@ -10,6 +10,7 @@ public class MainMenu : MonoBehaviour
     public string m_sceneName = "MainGameScene";
     public CinemachineVirtualCamera vCamera;
     public Animator doors;
+    public GameObject player;
 
     [Header("Settings")]
     public GameObject m_settings;
@@ -25,12 +26,18 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         HUDManager.instance.gameObject.SetActive(false);
+        player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<PlayerController>().m_functionalityEnabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(InputManager.instance.IsGamepadButtonDown(ButtonType.SOUTH, 0))
+        if (InputManager.instance.IsKeyDown(KeyType.ESC))
+        {
+            QuitGame();
+        }
+        if (InputManager.instance.IsGamepadButtonDown(ButtonType.SOUTH, 0))
         {
             StartGame();
         }
@@ -50,7 +57,9 @@ public class MainMenu : MonoBehaviour
         HUDManager.instance.gameObject.SetActive(true);
         doors.SetBool("IsOpen", true);
         vCamera.Priority = 0;
+        player.GetComponent<PlayerController>().m_functionalityEnabled = true;
         Destroy(gameObject);
+        
         //LevelLoader.instance.LoadNewLevel(m_sceneName);
     }
 
@@ -69,6 +78,7 @@ public class MainMenu : MonoBehaviour
 
     public void QuitGame()
     {
-        LevelLoader.instance.QuitGame();
+        Application.Quit();
+        //LevelLoader.instance.QuitGame();
     }
 }
