@@ -18,7 +18,9 @@ public class PlayerController : MonoBehaviour
     
     public Vector3 m_lastWeaponPosition;
 
-    public bool m_functionalityEnabled = false;
+    public bool m_functionalityEnabled = true;
+
+    public bool m_nextSwing = false;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +36,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         int gamepadID = InputManager.instance.GetAnyGamePad();
-        if (!m_playerResources.m_dead || m_functionalityEnabled)
+        if (!m_playerResources.m_dead && m_functionalityEnabled)
         {
             // Get movement inputs and apply
             m_playerMovement.Move(GetPlayerMovementVector(), // Run
@@ -84,6 +86,10 @@ public class PlayerController : MonoBehaviour
         CalculateAdrenalineBoost();
     }
 
+    public void ActivateNextSwing(bool _active)
+    {
+        m_nextSwing = _active;
+    }
     public void Damage(float _damage, bool _ignoreInv = false)
     {
         if (!_ignoreInv && m_playerMovement.m_isRolling)
