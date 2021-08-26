@@ -302,6 +302,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2864735599387491970, guid: 547a5a3fec6640b4a8738231e67bc17e,
         type: 3}
+      propertyPath: m_text
+      value: Hunter of the Abyss
+      objectReference: {fileID: 0}
+    - target: {fileID: 2864735599387491970, guid: 547a5a3fec6640b4a8738231e67bc17e,
+        type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
@@ -941,7 +946,7 @@ PrefabInstance:
     - target: {fileID: 5519596425744812592, guid: b95c9b921dabda84a876463c11517fe8,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.05246598
+      value: 0.052465983
       objectReference: {fileID: 0}
     - target: {fileID: 5519596425744812593, guid: b95c9b921dabda84a876463c11517fe8,
         type: 3}
@@ -2970,6 +2975,11 @@ PrefabInstance:
       propertyPath: camera
       value: 
       objectReference: {fileID: 1938688188}
+    - target: {fileID: 7607167446977478564, guid: fb30c9d1de9e1cd43bc13f4258ed38bf,
+        type: 3}
+      propertyPath: vCamera
+      value: 
+      objectReference: {fileID: 1938688189}
     - target: {fileID: 7607167446977478564, guid: fb30c9d1de9e1cd43bc13f4258ed38bf,
         type: 3}
       propertyPath: m_Enabled
