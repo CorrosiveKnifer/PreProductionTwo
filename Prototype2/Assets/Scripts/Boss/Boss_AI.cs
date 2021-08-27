@@ -89,7 +89,7 @@ public class Boss_AI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(m_myMovement.GetDirection(m_player.transform.position, Space.Self));
+        //Debug.Log(m_myMovement.GetDirection(m_player.transform.position, Space.Self));
 
         if(!m_isDead)
         {

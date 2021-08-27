@@ -84,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
             m_characterController.Move(m_lastMoveDirection.normalized * m_rollSpeed * Time.fixedDeltaTime 
                 + transform.up * m_yVelocity * Time.fixedDeltaTime);
             RotateToFaceDirection(new Vector3(m_lastMoveDirection.x, 0, m_lastMoveDirection.z));
+            m_playerController.CeaseSwing();
         }
     }
 
@@ -133,6 +134,7 @@ public class PlayerMovement : MonoBehaviour
             m_lastMoveDirection = normalizedMove;
             // Play animation
             m_playerController.m_animator.SetTrigger("Roll");
+            m_playerController.CeaseSwing();
         }
         else
         {
@@ -182,6 +184,7 @@ public class PlayerMovement : MonoBehaviour
         if (!_ignoreInv && m_isRolling)
             return;
 
+        m_playerController.CeaseSwing();
         m_playerController.m_animator.SetTrigger("Knockdown");
         m_knockVelocity = _direction.normalized * _power;
         m_knockbackSourceDir = -_direction.normalized;
@@ -200,6 +203,7 @@ public class PlayerMovement : MonoBehaviour
         if (m_knockedDown)
             return;
 
+        m_playerController.CeaseSwing();
         m_playerController.m_animator.SetFloat("StaggerDuration", 1.0f/ _duration);
         m_playerController.m_animator.SetTrigger("Stagger");
         m_stagger = true;

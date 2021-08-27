@@ -20,7 +20,13 @@ public class PlayerController : MonoBehaviour
 
     public bool m_functionalityEnabled = true;
 
-    public bool m_nextSwing = false;
+    public bool m_swinging = false;
+    public int m_nextSwing = 0;
+    private float m_resetSwingDelay = 0.1f;
+    private float m_resetSwingTimer = 0.0f;
+    private float m_damage = 100.0f;
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -44,7 +50,10 @@ public class PlayerController : MonoBehaviour
                 InputManager.instance.IsGamepadButtonDown(ButtonType.EAST, gamepadID)); // Roll
 
             // Roll
-            if (InputManager.instance.IsGamepadButtonDown(ButtonType.RB, gamepadID))
+            if (InputManager.instance.IsGamepadButtonDown(ButtonType.RB, gamepadID) 
+                && !m_playerMovement.m_knockedDown 
+                && !m_playerMovement.m_stagger 
+                && !m_playerMovement.m_isRolling)
             {
                 if (m_playerResources.m_stamina > 0.0f)
                 {
@@ -84,11 +93,44 @@ public class PlayerController : MonoBehaviour
         }
 
         CalculateAdrenalineBoost();
+
+    }
+    public void SetDamageByAttackID(int _id)
+    {
+        switch (_id)
+        {
+            case 1:
+                m_damage = 100.0f;
+                break;
+            case 2:
+                m_damage = 110.0f;
+                break;
+            case 3:
+                m_damage = 150.0f;
+                break;
+            default:
+                m_damage = 100.0f;
+                break;
+        }
+    }
+    private void NextSwing()
+    {
+        m_animator.SetInteger("NextSwing", m_animator.GetInteger("NextSwing") + 1);
+    }
+    public void ResetSwings()
+    {
+        m_animator.SetInteger("NextSwing", m_nextSwing);
+    }
+    public void SetSwinging(bool _active)
+    {
+        m_swinging = _active;
     }
 
-    public void ActivateNextSwing(bool _active)
+    public void CeaseSwing()
     {
-        m_nextSwing = _active;
+        m_swinging = false;
+        m_nextSwing = 0;
+        m_resetSwingTimer = 0;
     }
     public void Damage(float _damage, bool _ignoreInv = false)
     {
@@ -153,6 +195,7 @@ public class PlayerController : MonoBehaviour
         Vector3 localPos = m_weaponCollider.transform.position - m_playerMovement.m_playerModel.transform.position;
         m_lastWeaponPosition = localPos;
         m_animator.SetTrigger("Swing");
+        NextSwing();
     }
 
     private void DamageDetection()
@@ -182,7 +225,7 @@ public class PlayerController : MonoBehaviour
                         }
                         if (collider.GetComponent<Boss_AI>())
                         {
-                            collider.GetComponent<Boss_AI>().DealDamage(100.0f * m_adrenalineMult);
+                            collider.GetComponent<Boss_AI>().DealDamage(m_damage * m_adrenalineMult);
                             Heal(20.0f);
                         }
                         if (collider.GetComponent<Destructible>())
