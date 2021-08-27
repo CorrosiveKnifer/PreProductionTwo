@@ -62,6 +62,11 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            m_animator.SetFloat("VelocityHorizontal", 0.0f);
+            m_animator.SetFloat("VelocityVertical", 0.0f);
+        }
 
         // Get camera inputs and apply
         m_cameraController.MoveCamera(GetCameraMovementVector());
