@@ -3453,7 +3453,7 @@ MonoBehaviour:
   m_playerModel: {fileID: 1087143074233176863}
   m_gravityMult: 9.81
   m_jumpSpeed: 5
-  m_moveSpeed: 6
+  m_moveSpeed: 4
   m_rollSpeed: 8
   m_grounded: 1
 --- !u!114 &5846868069642990467
@@ -3611,7 +3611,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 9196286681401712861, guid: 1716b9a68da4b1240992bbc8bb6cdb8c, type: 3}
+  m_Mesh: {fileID: -4916403122390082215, guid: 65bcdcdafdce5a04d8f3aabd270302e8, type: 3}
   m_Bones: []
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
