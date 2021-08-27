@@ -44,11 +44,13 @@ public class PlayerController : MonoBehaviour
         int gamepadID = InputManager.instance.GetAnyGamePad();
         if (!m_playerResources.m_dead && m_functionalityEnabled)
         {
-            // Get movement inputs and apply
-            m_playerMovement.Move(GetPlayerMovementVector(), // Run
-                InputManager.instance.IsGamepadButtonDown(ButtonType.SOUTH, gamepadID), // Jump
-                InputManager.instance.IsGamepadButtonDown(ButtonType.EAST, gamepadID)); // Roll
-
+            if (m_animator.GetInteger("NextSwing") == 0)
+            { 
+                // Get movement inputs and apply
+                m_playerMovement.Move(GetPlayerMovementVector(), // Run
+                    InputManager.instance.IsGamepadButtonDown(ButtonType.SOUTH, gamepadID), // Jump
+                    InputManager.instance.IsGamepadButtonDown(ButtonType.EAST, gamepadID)); // Roll
+            }
             // Roll
             if (InputManager.instance.IsGamepadButtonDown(ButtonType.RB, gamepadID) 
                 && !m_playerMovement.m_knockedDown 
