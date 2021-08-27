@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 7d4e417a97cf8a546b4aacd182c99337
+<<<<<<< HEAD:Prototype2/Assets/Animations/Lights.meta
+guid: 89accd68960a51a4891b3991912a6733
+=======
+guid: 6243c3bf2c073524486525f82efd2db3
+>>>>>>> origin/DeBeer:Prototype2/Assets/Animations/MainCharacter/Death.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

@@ -7,7 +7,7 @@ using UnityEngine;
 //Michael Jordan
 public class Boss_AI : MonoBehaviour
 {
-    public bool m_roarOnAwake = true;
+    public bool m_waitOnAwake = true;
     public string m_behavour;
 
     enum AI_BEHAVOUR_STATE
@@ -26,6 +26,7 @@ public class Boss_AI : MonoBehaviour
     public float m_currentPatiences;
     public float m_meleeRange;
     public bool m_isDead = false;
+    public float m_cancelAngle = 90.0f;
     public float m_kickCD = 0;
     public float m_aoeCD = 0;
     public float m_tripleCD = 0;
@@ -39,7 +40,8 @@ public class Boss_AI : MonoBehaviour
     [SerializeField] private CapsuleCollider m_kickCollider;
     private AI_BEHAVOUR_STATE m_myCurrentState;
     private GameObject m_player;
-    private GameObject m_aoeVFX; 
+    private GameObject m_aoeVFX;
+    private bool m_canCancel = false;
 
     //Boss Compoments
     private Boss_Movement m_myMovement;
@@ -72,12 +74,10 @@ public class Boss_AI : MonoBehaviour
 
         m_aoeCD = 10f;
         m_tripleCD = 5f;
-        if (m_roarOnAwake)
+        if (m_waitOnAwake)
         {
             m_behavour = "Waiting";
-            m_myCurrentState = AI_BEHAVOUR_STATE.WAITING;
-            if (CameraManager.instance != null)
-                CameraManager.instance.PlayDirector("BossRoar");
+            TransitionBehavourTo(AI_BEHAVOUR_STATE.WAITING);
         }
         Physics.IgnoreLayerCollision(2, 10);
     }
@@ -104,10 +104,25 @@ public class Boss_AI : MonoBehaviour
 
         Debug.DrawRay(transform.position, transform.forward, Color.green);
     }
+    public void WakeUp()
+    {
+        if(m_waitOnAwake)
+        {
+            TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+            m_waitOnAwake = false;
+            m_aoeCD = 10f;
+            m_tripleCD = 5f;
+        }
+    }
 
     public void AnimationUpdate()
     {
         //transform.rotation = Quaternion.LookRotation(transform.position - m_player.transform.position, Vector3.up);
+        if(m_myCurrentState == AI_BEHAVOUR_STATE.WAITING)
+        {
+            m_myAnimator.direction = Vector3.zero;
+            return;
+        }
         m_myAnimator.direction = m_myMovement.GetDirection(m_player.transform.position, Space.Self);
         
     }
@@ -121,11 +136,6 @@ public class Boss_AI : MonoBehaviour
                 {
                     TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
                 }
-                else if (!CameraManager.instance.IsDirectorPlaying("BossRoar"))
-                {
-                    m_myMovement.Stop();
-                    TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
-                }
                 break;
             case AI_BEHAVOUR_STATE.CLOSE_DISTANCE:
                 MoveState();
@@ -134,13 +144,13 @@ public class Boss_AI : MonoBehaviour
                 {
                     return;
                 }
-                if (m_myMovement.IsNearTargetLocation(m_meleeRange))
+                if (Vector3.Distance(m_player.transform.position, transform.position) < m_meleeRange)
                 {
                     TransitionBehavourTo(AI_BEHAVOUR_STATE.MELEE_ATTACK);
                 }
                 else
                 {
-                    if (m_myMovement.IsNearTargetLocation(m_meleeRange * 1.5f))
+                    if (Vector3.Distance(m_player.transform.position, transform.position) < m_meleeRange * 1.5f)
                     {
                         m_currentPatiences -= Time.deltaTime * 0.75f;
                     }
@@ -158,7 +168,16 @@ public class Boss_AI : MonoBehaviour
                 if (!m_myAnimator.AnimMutex)
                 {
                     MeleeState();
-                }   
+                }
+                else
+                {
+                    //Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
+                    //float angle = m_myMovement.GetAngle(target);
+                    //if (m_canCancel && Mathf.Abs(angle) > Mathf.Abs(m_cancelAngle))
+                    //{
+                    //    m_myAnimator.CancelAnimation();
+                    //}
+                }
                 break;
             case AI_BEHAVOUR_STATE.RANGE_ATTACK:
                 if (!m_myAnimator.AnimMutex)
@@ -168,11 +187,21 @@ public class Boss_AI : MonoBehaviour
                     if (angle <= 65 || angle >= -65)
                     {
                         m_myAnimator.IsRanged = true;
+                        m_canCancel = true;
                     }
                     else
                     {
-                        m_myMovement.SetStearModifier(2.5f);
+                        m_myMovement.SetStearModifier(5.0f);
                     }
+                }
+                else
+                {
+                    //Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
+                    //float angle = m_myMovement.GetAngle(target);
+                    //if (m_myAnimator.CanIRotateTheCharacter() && m_canCancel && (angle > m_cancelAngle || angle < -m_cancelAngle))
+                    //{
+                    //    m_myAnimator.CancelAnimation();
+                    //}
                 }
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
                 break;
@@ -184,14 +213,19 @@ public class Boss_AI : MonoBehaviour
     //Function to move the boss
     public void MoveState()
     {
+        Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
+        float angle = m_myMovement.GetAngle(target);
+
         if (m_myAnimator.AnimMutex || m_myAnimator.IsTurn)
         {
             m_myMovement.Stop();
+            //if (m_myAnimator.CanIRotateTheCharacter() && m_canCancel && (angle > m_cancelAngle || angle < -m_cancelAngle))
+            //{
+            //    m_myAnimator.CancelAnimation();
+            //}
             return;
         }
-
-        Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
-        float angle = m_myMovement.GetAngle(target);
+        
         if (angle > 130 || angle < -130)
         {
             m_myMovement.Stop();
@@ -220,9 +254,10 @@ public class Boss_AI : MonoBehaviour
 
         if(isWithinMeleeRange)
         {
-            if(isWithinKickCollider && isAbleToTriple)
+            if(isWithinKickCollider && isAbleToTriple && !CheckForwardForEnvironment())
             {
                 m_myMovement.Stop();
+                m_canCancel = true;
                 m_tripleCD += m_myData.tripleMaxCooldown;
                 m_myAnimator.IsMeleeTriple = true;
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
@@ -231,6 +266,7 @@ public class Boss_AI : MonoBehaviour
             else if(isWithinKickCollider && isAbleToKick)
             {
                 m_myMovement.Stop();
+                m_canCancel = true;
                 m_kickCD += m_myData.kickMaxCooldown;
                 m_myAnimator.IsKick = true;
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
@@ -239,6 +275,7 @@ public class Boss_AI : MonoBehaviour
             else if(isWithinSlashRange && !isBehindTheBoss)
             {
                 m_myMovement.Stop();
+                m_canCancel = true;
                 m_myAnimator.IsMelee = true;
                 m_player.GetComponent<PlayerMovement>().SetPotentialAdrenaline(m_myWeapon);
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
@@ -248,13 +285,20 @@ public class Boss_AI : MonoBehaviour
             {
                 m_myMovement.Stop();
                 m_aoeCD += m_myData.aoeMaxCooldown;
+                m_canCancel = false;
                 m_myAnimator.IsAOE = true;
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
                 return;
             }
+            else
+            {
+                m_myMovement.SetStearModifier(1.5f);
+                MoveState();
+                return;
+            }
         }
         //Else just move
-        MoveState();
+        TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
     }
 
     public void CreateProjectile()
@@ -331,14 +375,14 @@ public class Boss_AI : MonoBehaviour
     }
     public void ApplyAOE()
     {
-        if(Vector3.Distance(m_player.transform.position, transform.position) < m_myData.aoeRadius)
+        if(Vector3.Distance(m_player.transform.position, transform.position) < m_myData.aoeRadius * 1.5f)
         {
             Vector3 direction = (m_player.transform.position - transform.position);
             direction.y = 0;
 
             //AOE damage
-            m_player.GetComponent<PlayerController>().Damage(m_myData.aoeDamage);
             m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, m_myData.aoeForce);
+            m_player.GetComponent<PlayerController>().Damage(m_myData.aoeDamage);
             m_aoeVFX.transform.parent = null;
         }
     }
@@ -350,14 +394,30 @@ public class Boss_AI : MonoBehaviour
         //Kick damage
         if(m_myKick.isPlayerWithin)
         {
-            m_player.GetComponent<PlayerController>().Damage(m_myData.kickDamage);
             m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, m_myData.kickForce);
+            m_player.GetComponent<PlayerController>().Damage(m_myData.kickDamage);
         }
     }
 
     public void ShakePlayerCam(float _intensity)
     {
         m_player.GetComponent<PlayerController>().m_cameraController.ScreenShake(0.5f, _intensity, 1.0f);
+    }
+
+    public bool CheckForwardForEnvironment()
+    {
+        Vector3 start = transform.position + Vector3.up * 1.6f;
+        Debug.DrawRay(start, transform.forward * 5.0f, Color.red);
+        RaycastHit[] hits = Physics.SphereCastAll(start, 1.25f, transform.forward, 6.0f);
+
+        foreach (var hit in hits)
+        {
+            if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Environment"))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void OnDrawGizmos()
@@ -367,6 +427,4 @@ public class Boss_AI : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, m_myData.aoeRadius);
     }
-
-
 }
