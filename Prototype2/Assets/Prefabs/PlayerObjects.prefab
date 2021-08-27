@@ -2565,8 +2565,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8422007745426862788}
-  m_LocalRotation: {x: -0.039334167, y: 0.000000026815483, z: 0.0000000010555815,
-    w: 0.99922615}
+  m_LocalRotation: {x: -0.039334167, y: 0.00000002681548, z: 0.0000000010555814, w: 0.99922615}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3266,6 +3265,7 @@ GameObject:
   - component: {fileID: 5846868069642990467}
   - component: {fileID: 8422007746411455706}
   - component: {fileID: 1854232040229638555}
+  - component: {fileID: 168558777860428280}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3321,6 +3321,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_weaponCollider: {fileID: 5381568617413793522}
   m_lastWeaponPosition: {x: 0, y: 0, z: 0}
+  m_functionalityEnabled: 1
+  m_nextSwing: 0
 --- !u!114 &8422007746411455707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3354,6 +3356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_staminaRechargeDelay: 1
   m_rechargeRate: 40
+  m_adrenalineDecayRate: 3
 --- !u!114 &8422007746411455706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3411,7 +3414,18 @@ MonoBehaviour:
         m_CallState: 2
   eventThree:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 168558777860428280}
+        m_MethodName: PlayWithRandomPitch
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   eventFour:
     m_PersistentCalls:
       m_Calls: []
@@ -3419,6 +3433,24 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   animEvents: []
+--- !u!114 &168558777860428280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8422007746411455705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0deb60f02ddb847b5da99b1d5286a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localVolume: 1
+  isMuted: 0
+  mainClip: {fileID: 8300000, guid: 173c6b8ca48f3fc41af2d8638554bf54, type: 3}
+  channel: 1
+  isPlayOnAwake: 0
+  isLooping: 0
 --- !u!1 &8515695832216353673
 GameObject:
   m_ObjectHideFlags: 0
