@@ -90,6 +90,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(Vector2 _move, bool _jump, bool _roll)
     {
+        _jump = false;
+
         if (m_knockedDown)
             RotateToFaceDirection(new Vector3(m_knockbackSourceDir.x, 0, m_knockbackSourceDir.z));
 
