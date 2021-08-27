@@ -144,7 +144,7 @@ public class PlayerController : MonoBehaviour
         if (!_ignoreInv && m_playerMovement.m_isRolling)
             return;
 
-        if (!m_playerMovement.m_stagger)
+        //if (!m_playerMovement.m_stagger)
         {
             m_playerResources.ChangeHealth(-_damage);
             m_playerMovement.Stagger(0.5f);

@@ -3468,7 +3468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdefc5fcd5e792b479d4bc205fd81d31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_staminaRechargeDelay: 1
+  m_staminaRechargeDelay: 2
   m_rechargeRate: 40
   m_adrenalineDecayRate: 3
 --- !u!114 &8422007746411455706
