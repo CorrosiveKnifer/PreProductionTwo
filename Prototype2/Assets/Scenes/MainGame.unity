@@ -199,6 +199,30 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4999915}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &9862143 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7607167448291832594, guid: fb30c9d1de9e1cd43bc13f4258ed38bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1245829756}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9862144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9862143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0deb60f02ddb847b5da99b1d5286a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localVolume: 1
+  isMuted: 0
+  mainClip: {fileID: 8300000, guid: 0b8adf6534c8b0c45921dfb7716a50e8, type: 3}
+  channel: 2
+  isPlayOnAwake: 1
+  isLooping: 1
 --- !u!1 &11124091
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,8 +864,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_boss: {fileID: 2114307642}
-  m_mainGameMusic: {fileID: 0}
-  m_bossMusic: {fileID: 0}
+  m_mainGameMusic: {fileID: 9862144}
+  m_bossMusic: {fileID: 791079807}
   m_door: {fileID: 25086331}
 --- !u!1 &225135422
 GameObject:
@@ -1090,7 +1114,7 @@ PrefabInstance:
     - target: {fileID: 5519596425744812592, guid: b95c9b921dabda84a876463c11517fe8,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.052465983
+      value: 0.05246598
       objectReference: {fileID: 0}
     - target: {fileID: 5519596425744812593, guid: b95c9b921dabda84a876463c11517fe8,
         type: 3}
@@ -2578,6 +2602,30 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 775755563}
   m_Mesh: {fileID: 6749360728901542443, guid: dde0ce2694cc2a540948a515b3b76481, type: 3}
+--- !u!1 &791079806 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1229229387090137330, guid: c7ed42e08783e944c93a9e849ba702bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2147777546758177113}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &791079807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 791079806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0deb60f02ddb847b5da99b1d5286a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localVolume: 1
+  isMuted: 0
+  mainClip: {fileID: 8300000, guid: 1620fe5d5c48ef0449f43fad4449d205, type: 3}
+  channel: 2
+  isPlayOnAwake: 0
+  isLooping: 1
 --- !u!1001 &814148192
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -375,15 +375,27 @@ public class Boss_AI : MonoBehaviour
     }
     public void ApplyAOE()
     {
-        if(Vector3.Distance(m_player.transform.position, transform.position) < m_myData.aoeRadius * 1.5f)
-        {
-            Vector3 direction = (m_player.transform.position - transform.position);
-            direction.y = 0;
+        Collider[] hits = Physics.OverlapSphere(transform.position, m_myData.aoeRadius * 1.5f);
 
-            //AOE damage
-            m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, m_myData.aoeForce);
-            m_player.GetComponent<PlayerController>().Damage(m_myData.aoeDamage);
-            m_aoeVFX.transform.parent = null;
+        foreach (var hit in hits)
+        {
+            if(hit.tag == "Player")
+            {
+                Vector3 direction = (hit.transform.position - transform.position);
+                direction.y = 0;
+
+                //AOE damage
+                m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, m_myData.aoeForce);
+                m_player.GetComponent<PlayerController>().Damage(m_myData.aoeDamage);
+                m_aoeVFX.transform.parent = null;
+            }
+            if(hit.gameObject.layer == LayerMask.NameToLayer("Attackable"))
+            {
+                Vector3 direction = (hit.transform.position - transform.position);
+                direction.y = 0;
+
+                hit.GetComponent<Destructible>()?.ExplodeObject(m_aoeVFX.transform.position, m_myData.aoeForce, m_myData.aoeRadius * 1.5f);
+            }
         }
     }
     public void ApplyKickAction()
