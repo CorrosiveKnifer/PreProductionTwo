@@ -10,6 +10,8 @@ public class Boss_Projectile : MonoBehaviour
     public float m_maxDistance = 100.0f;
     public GameObject m_target;
     public float m_distWindow = 20.0f;
+
+    public GameObject m_impactPrefab;
     private Vector3 forward;
 
     private Vector3 projPoint;
@@ -69,6 +71,7 @@ public class Boss_Projectile : MonoBehaviour
         }
         if(other.tag != "Boss")
         {
+            Instantiate(m_impactPrefab, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }

@@ -8,6 +8,14 @@ public class Boss_AudioAgent : MultiAudioAgent
     {
         base.PlayOnce("BossFootStep", false, Random.Range(0.85f, 1.25f));
     }
+    public void PlayCastFireBall()
+    {
+        base.Play("FireballCast", false, Random.Range(0.90f, 1.1f));
+    }
+    public void PlaySlam()
+    {
+        base.Play("BossSlam", false, Random.Range(0.90f, 1.1f));
+    }
     public void PlaySlash()
     {
         base.Play("HeavySlash", false, Random.Range(0.90f, 1.1f));

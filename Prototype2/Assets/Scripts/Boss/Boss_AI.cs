@@ -310,6 +310,7 @@ public class Boss_AI : MonoBehaviour
         Boss_Projectile boss_proj = proj.GetComponent<Boss_Projectile>();
         boss_proj.m_sender = transform;
         boss_proj.m_target = m_player;
+        boss_proj.m_damage = m_myData.projectileDamage;
         proj.gameObject.SetActive(true);
     }
 
