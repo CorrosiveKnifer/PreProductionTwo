@@ -625,8 +625,7 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 1827226128182048838, guid: e5718d06798718842b65f9f4302b5ad0,
-      type: 3}
+    m_Motion: {fileID: 7400000, guid: 307bdc74a301146499f12218bab2d6ed, type: 2}
     m_Threshold: 0.2
     m_Position: {x: 0, y: 1}
     m_TimeScale: 1
@@ -634,8 +633,7 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 1827226128182048838, guid: 9333559fc7ab42843ba7c8488aa16d5c,
-      type: 3}
+    m_Motion: {fileID: 7400000, guid: 3220ffbc1dcefed49bc61321eff968cf, type: 2}
     m_Threshold: 0.4
     m_Position: {x: 0, y: 0.5}
     m_TimeScale: 1
@@ -643,8 +641,7 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 1827226128182048838, guid: 15f6e4961b1fa194ea5b3e9bd9cb6161,
-      type: 3}
+    m_Motion: {fileID: 7400000, guid: dc7f45d7898a9d84eb119ccc2b3cc87d, type: 2}
     m_Threshold: 0.6
     m_Position: {x: 0, y: -1}
     m_TimeScale: 1
@@ -652,8 +649,7 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 1827226128182048838, guid: 8c0a8c07c4b6bd44b9e4070cfcef332e,
-      type: 3}
+    m_Motion: {fileID: 7400000, guid: 2a64da24eaf2bb3478b6227a0ebef0d5, type: 2}
     m_Threshold: 0.8
     m_Position: {x: 1, y: 0}
     m_TimeScale: 1
@@ -661,8 +657,7 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 1827226128182048838, guid: e0aa2456ed47006469b56ca18300c030,
-      type: 3}
+    m_Motion: {fileID: 7400000, guid: 59311f88b250c8245b98e2fc9c25ae1d, type: 2}
     m_Threshold: 1
     m_Position: {x: -1, y: 0}
     m_TimeScale: 1
@@ -1021,6 +1016,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 016fad7fb95a36e4684e0d835dbfc316, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  willSetMutexOnEnter: 1
+  willSetMutexOnExit: 1
 --- !u!1102 &7832567655851053046
 AnimatorState:
   serializedVersion: 5

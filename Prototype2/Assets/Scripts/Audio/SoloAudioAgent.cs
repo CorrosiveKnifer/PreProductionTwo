@@ -79,8 +79,11 @@ public class SoloAudioAgent : AudioAgent
     /// </summary>
     public void PlayWithRandomPitch()
     {
-        player.SetPitch(UnityEngine.Random.Range(0.75f, 1.25f));
-        player.Play();
+        if(!player.IsPlaying())
+        {
+            player.SetPitch(UnityEngine.Random.Range(0.75f, 1.25f));
+            player.Play();
+        }
     }
 
     /// <summary>

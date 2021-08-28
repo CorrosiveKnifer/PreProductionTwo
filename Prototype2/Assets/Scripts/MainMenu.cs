@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Cinemachine;
 
 public class MainMenu : MonoBehaviour
 {
     public string m_sceneName = "MainGameScene";
+    public CinemachineVirtualCamera vCamera;
+    public Animator doors;
+    public GameObject player;
+    public GameObject m_tutorialText;
 
     [Header("Settings")]
     public GameObject m_settings;
@@ -21,50 +26,64 @@ public class MainMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_settings.SetActive(false);
-        m_sliders.Add(m_masterVolume, AudioManager.VolumeChannel.MASTER);
-        m_sliders.Add(m_soundEffectVolume, AudioManager.VolumeChannel.SOUND_EFFECT);
-        m_sliders.Add(m_musicVolume, AudioManager.VolumeChannel.MUSIC);
-
-        foreach (var slider in m_sliders)
-        {
-            slider.Key.value = AudioManager.instance.volumes[(int)slider.Value];
-        }
+        HUDManager.instance.gameObject.SetActive(false);
+        player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<PlayerController>().m_functionalityEnabled = false;
+        m_tutorialText.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (InputManager.instance.IsKeyDown(KeyType.ESC))
+        {
+            QuitGame();
+        }
+        if (InputManager.instance.IsGamepadButtonDown(ButtonType.SOUTH, 0))
+        {
+            StartGame();
+        }
     }
 
     public void ChangeSliderNumber(Slider _slider)
     {
-        float newValue = _slider.value;
-        _slider.GetComponentInChildren<Text>().text = ((int)(newValue * 100.0f)).ToString();
-        AudioManager.instance.volumes[(int)m_sliders[_slider]] = newValue;
-
-        Debug.Log(m_sliders[_slider].ToString() + ": " + AudioManager.instance.volumes[(int)m_sliders[_slider]]);
+        //float newValue = _slider.value;
+        //_slider.GetComponentInChildren<Text>().text = ((int)(newValue * 100.0f)).ToString();
+        //AudioManager.instance.volumes[(int)m_sliders[_slider]] = newValue;
+        //
+        //Debug.Log(m_sliders[_slider].ToString() + ": " + AudioManager.instance.volumes[(int)m_sliders[_slider]]);
     }
 
     public void StartGame()
     {
-        LevelLoader.instance.LoadNewLevel(m_sceneName);
+        HUDManager.instance.gameObject.SetActive(true);
+        m_tutorialText.SetActive(true);
+        doors.SetBool("IsOpen", true);
+        vCamera.Priority = 0;
+        player.GetComponent<PlayerController>().m_functionalityEnabled = true;
+        Destroy(gameObject);
+
+        //LevelLoader.instance.LoadNewLevel(m_sceneName);
     }
-    public void Settings()
-    {
-        m_settings.SetActive(!m_settings.activeInHierarchy);
-        if (m_settings.activeInHierarchy)
-        {
-            EventSystem.current.SetSelectedGameObject(m_masterVolume.gameObject);
-        }
-        else
-        {
-            EventSystem.current.SetSelectedGameObject(m_settingsButton);
-        }
-    }
+    //public void Settings()
+    //{
+    //    m_settings.SetActive(!m_settings.activeInHierarchy);
+    //    if (m_settings.activeInHierarchy)
+    //    {
+    //        EventSystem.current.SetSelectedGameObject(m_masterVolume.gameObject);
+    //    }
+    //    else
+    //    {
+    //        EventSystem.current.SetSelectedGameObject(m_settingsButton);
+    //    }
+    //}
+
     public void QuitGame()
     {
-        LevelLoader.instance.QuitGame();
+        Application.Quit();
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+        //LevelLoader.instance.QuitGame();
     }
 }

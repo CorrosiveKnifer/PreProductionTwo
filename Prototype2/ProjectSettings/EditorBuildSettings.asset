@@ -5,13 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 3cc3b5b26267d4b4a9638570fb8de63c
-  - enabled: 1
-    path: Assets/Scenes/William De Beer/DeBeerScene.unity
-    guid: 49823b39860e9654d9bca43e5bb50085
+    path: Assets/Scenes/MainGame.unity
+    guid: bd30a1ec35dfd4e4b9ce12d9239103d5
   m_configObjects: {}

@@ -9,12 +9,9 @@ public class UI_Bar : UI_Element
     [SerializeField] private float m_value;
     [SerializeField] private Image m_barImage;
 
-    public bool m_isHidden;
-
     // Update is called once per frame
     void Update()
     {
-        m_barImage.gameObject.SetActive(m_isHidden);
         m_barImage.fillAmount = m_value;
     }
 

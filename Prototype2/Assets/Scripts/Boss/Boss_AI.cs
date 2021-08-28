@@ -7,7 +7,7 @@ using UnityEngine;
 //Michael Jordan
 public class Boss_AI : MonoBehaviour
 {
-    public bool m_roarOnAwake = true;
+    public bool m_waitOnAwake = true;
     public string m_behavour;
 
     enum AI_BEHAVOUR_STATE
@@ -72,16 +72,12 @@ public class Boss_AI : MonoBehaviour
         m_myWeapon.m_modifier = m_myData.weaponAdrenalineModifier;
         m_myHealthBar = HUDManager.instance.GetElement<UI_Bar>("BossHealthBar");
 
-        m_myHealthBar.gameObject.SetActive(true);
-
         m_aoeCD = 10f;
         m_tripleCD = 5f;
-        if (m_roarOnAwake)
+        if (m_waitOnAwake)
         {
             m_behavour = "Waiting";
-            m_myCurrentState = AI_BEHAVOUR_STATE.WAITING;
-            if (CameraManager.instance != null)
-                CameraManager.instance.PlayDirector("BossRoar");
+            TransitionBehavourTo(AI_BEHAVOUR_STATE.WAITING);
         }
         Physics.IgnoreLayerCollision(2, 10);
     }
@@ -108,10 +104,25 @@ public class Boss_AI : MonoBehaviour
 
         Debug.DrawRay(transform.position, transform.forward, Color.green);
     }
+    public void WakeUp()
+    {
+        if(m_waitOnAwake)
+        {
+            TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
+            m_waitOnAwake = false;
+            m_aoeCD = 10f;
+            m_tripleCD = 5f;
+        }
+    }
 
     public void AnimationUpdate()
     {
         //transform.rotation = Quaternion.LookRotation(transform.position - m_player.transform.position, Vector3.up);
+        if(m_myCurrentState == AI_BEHAVOUR_STATE.WAITING)
+        {
+            m_myAnimator.direction = Vector3.zero;
+            return;
+        }
         m_myAnimator.direction = m_myMovement.GetDirection(m_player.transform.position, Space.Self);
         
     }
@@ -125,11 +136,6 @@ public class Boss_AI : MonoBehaviour
                 {
                     TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
                 }
-                else if (!CameraManager.instance.IsDirectorPlaying("BossRoar"))
-                {
-                    m_myMovement.Stop();
-                    TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
-                }
                 break;
             case AI_BEHAVOUR_STATE.CLOSE_DISTANCE:
                 MoveState();
@@ -138,13 +144,13 @@ public class Boss_AI : MonoBehaviour
                 {
                     return;
                 }
-                if (m_myMovement.IsNearTargetLocation(m_meleeRange))
+                if (Vector3.Distance(m_player.transform.position, transform.position) < m_meleeRange)
                 {
                     TransitionBehavourTo(AI_BEHAVOUR_STATE.MELEE_ATTACK);
                 }
                 else
                 {
-                    if (m_myMovement.IsNearTargetLocation(m_meleeRange * 1.5f))
+                    if (Vector3.Distance(m_player.transform.position, transform.position) < m_meleeRange * 1.5f)
                     {
                         m_currentPatiences -= Time.deltaTime * 0.75f;
                     }
@@ -165,12 +171,12 @@ public class Boss_AI : MonoBehaviour
                 }
                 else
                 {
-                    Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
-                    float angle = m_myMovement.GetAngle(target);
-                    if (m_canCancel && Mathf.Abs(angle) > Mathf.Abs(m_cancelAngle))
-                    {
-                        m_myAnimator.CancelAnimation();
-                    }
+                    //Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
+                    //float angle = m_myMovement.GetAngle(target);
+                    //if (m_canCancel && Mathf.Abs(angle) > Mathf.Abs(m_cancelAngle))
+                    //{
+                    //    m_myAnimator.CancelAnimation();
+                    //}
                 }
                 break;
             case AI_BEHAVOUR_STATE.RANGE_ATTACK:
@@ -190,12 +196,12 @@ public class Boss_AI : MonoBehaviour
                 }
                 else
                 {
-                    Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
-                    float angle = m_myMovement.GetAngle(target);
-                    if (m_myAnimator.CanIRotateTheCharacter() && m_canCancel && (angle > m_cancelAngle || angle < -m_cancelAngle))
-                    {
-                        m_myAnimator.CancelAnimation();
-                    }
+                    //Quaternion target = Quaternion.LookRotation(m_myMovement.GetDirection(m_player.transform.position, Space.World));
+                    //float angle = m_myMovement.GetAngle(target);
+                    //if (m_myAnimator.CanIRotateTheCharacter() && m_canCancel && (angle > m_cancelAngle || angle < -m_cancelAngle))
+                    //{
+                    //    m_myAnimator.CancelAnimation();
+                    //}
                 }
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
                 break;
@@ -213,10 +219,10 @@ public class Boss_AI : MonoBehaviour
         if (m_myAnimator.AnimMutex || m_myAnimator.IsTurn)
         {
             m_myMovement.Stop();
-            if (m_myAnimator.CanIRotateTheCharacter() && m_canCancel && (angle > m_cancelAngle || angle < -m_cancelAngle))
-            {
-                m_myAnimator.CancelAnimation();
-            }
+            //if (m_myAnimator.CanIRotateTheCharacter() && m_canCancel && (angle > m_cancelAngle || angle < -m_cancelAngle))
+            //{
+            //    m_myAnimator.CancelAnimation();
+            //}
             return;
         }
         
@@ -248,7 +254,7 @@ public class Boss_AI : MonoBehaviour
 
         if(isWithinMeleeRange)
         {
-            if(isWithinKickCollider && isAbleToTriple)
+            if(isWithinKickCollider && isAbleToTriple && !CheckForwardForEnvironment())
             {
                 m_myMovement.Stop();
                 m_canCancel = true;
@@ -398,6 +404,22 @@ public class Boss_AI : MonoBehaviour
         m_player.GetComponent<PlayerController>().m_cameraController.ScreenShake(0.5f, _intensity, 1.0f);
     }
 
+    public bool CheckForwardForEnvironment()
+    {
+        Vector3 start = transform.position + Vector3.up * 1.6f;
+        Debug.DrawRay(start, transform.forward * 5.0f, Color.red);
+        RaycastHit[] hits = Physics.SphereCastAll(start, 1.25f, transform.forward, 6.0f);
+
+        foreach (var hit in hits)
+        {
+            if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Environment"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
@@ -405,6 +427,4 @@ public class Boss_AI : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, m_myData.aoeRadius);
     }
-
-
 }
