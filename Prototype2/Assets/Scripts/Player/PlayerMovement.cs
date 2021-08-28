@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     //External Link to adrenaline giver
     private PlayerAdrenalineProvider o_adrenalineProvider;
 
+
     // Start is called before the first frame update
     void Start()
     {

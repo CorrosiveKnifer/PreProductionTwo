@@ -34,6 +34,11 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem m_runningDust;
     public GameObject sparkPrefab;
 
+    private void Awake()
+    {
+        Physics.IgnoreLayerCollision(8, 13);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -101,10 +106,10 @@ public class PlayerController : MonoBehaviour
         //{
         //    Damage(20.0f);
         //}
-        //if (InputManager.instance.IsKeyDown(KeyType.A))
-        //{
-        //    m_playerResources.ChangeAdrenaline(20.0f);
-        //}
+        if (InputManager.instance.IsKeyDown(KeyType.L))
+        {
+            m_playerResources.ChangeAdrenaline(20.0f);
+        }
         //if (InputManager.instance.IsKeyDown(KeyType.K))
         //{
         //    Vector3 m_direction = transform.position;
