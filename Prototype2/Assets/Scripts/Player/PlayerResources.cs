@@ -12,6 +12,8 @@ public class PlayerResources : MonoBehaviour
     float m_staminaRechargeTimer = 0.0f;
     public float m_staminaRechargeDelay = 1.0f;
     public float m_rechargeRate = 40.0f;
+    public float m_adrenalineDecayRate = 3.0f;
+    public bool m_dead { get; private set; } = false;
 
     // Start is called before the first frame update
     void Start()
@@ -22,14 +24,18 @@ public class PlayerResources : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m_staminaRechargeTimer > 0.0f) // Delay before stamina regens again
+        if (!m_dead)
         {
-            m_staminaRechargeTimer -= Time.deltaTime * m_playerController.m_adrenalineMult;
+            if (m_staminaRechargeTimer > 0.0f) // Delay before stamina regens again
+            {
+                m_staminaRechargeTimer -= Time.deltaTime * m_playerController.m_adrenalineMult;
+            }
+            else // Regenerate stamina
+            {
+                ChangeStamina(m_rechargeRate * Time.deltaTime * m_playerController.m_adrenalineMult);
+            }
         }
-        else // Regenerate stamina
-        {
-            ChangeStamina(m_rechargeRate * Time.deltaTime * m_playerController.m_adrenalineMult);
-        }
+        ChangeAdrenaline(-Time.deltaTime * m_adrenalineDecayRate);
     }
 
     public void ChangeHealth(float _amount)
@@ -41,15 +47,20 @@ public class PlayerResources : MonoBehaviour
 
             if (m_adrenaline < 0)
                 m_health += _amount + m_adrenaline;
+            else
+                m_health += _amount;
+
 
             m_adrenaline = Mathf.Clamp(m_adrenaline, 0.0f, 100.0f);
         }
         else // Drain
         {
             m_health += _amount;
-            if (m_health <= 0.0f)
+            if (m_health <= 0.0f && !m_dead)
             {
                 // Kill
+                m_dead = true;
+                m_playerController.KillPlayer();
             }
         }
         m_health = Mathf.Clamp(m_health, 0.0f, 100.0f);

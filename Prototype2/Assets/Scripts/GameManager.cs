@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    public static Vector2 m_sensitivity = new Vector2(400.0f, 100.0f);
+    public static Vector2 m_sensitivity = new Vector2(-400.0f, -100.0f);
 
     // Start is called before the first frame update
     void Start()
@@ -66,11 +66,22 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        float currentTime = Time.timeScale;
+        currentTime += Time.deltaTime;
+        currentTime = Mathf.Clamp(currentTime, 0.0f, 1.0f);
+        Time.timeScale = currentTime;
     }
 
     private void InitialiseFunc()
     {
         gameObject.name = "Game Manager";
+    }
+    private void TimeUpdate()
+    {
+
+    }
+    public void SlowTime(float _percentage)
+    {
+        Time.timeScale = 1 - _percentage;
     }
 }

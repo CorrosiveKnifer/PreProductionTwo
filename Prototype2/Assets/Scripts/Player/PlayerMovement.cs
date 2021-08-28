@@ -19,11 +19,17 @@ public class PlayerMovement : MonoBehaviour
     float m_turnSmoothTime = 0.075f;
     float m_turnSmoothVelocity;
 
-    private bool m_grounded = true;
+    public bool m_grounded = true;
     private float m_yVelocity = 0.0f;
 
-    private bool m_isRolling = false;
+    public bool m_stagger { get; private set; } = false;
+    public bool m_knockedDown { get; private set; } = false;
+    private Vector3 m_knockVelocity = Vector3.zero;
+
+    public bool m_isRolling { get; private set; } = false;
     private Vector3 m_lastMoveDirection;
+
+    private Vector3 m_knockbackSourceDir;
 
     //External Link to adrenaline giver
     private PlayerAdrenalineProvider o_adrenalineProvider;
@@ -38,7 +44,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (m_knockedDown)
+        {
+            m_characterController.Move(m_knockVelocity * Time.deltaTime);
+            m_knockVelocity = Vector3.Lerp(m_knockVelocity, Vector3.zero, 5 * Time.deltaTime);
+        }
     }
 
     private void FixedUpdate()
@@ -79,7 +89,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(Vector2 _move, bool _jump, bool _roll)
     {
-        if (m_isRolling)
+        if (m_knockedDown)
+            RotateToFaceDirection(new Vector3(m_knockbackSourceDir.x, 0, m_knockbackSourceDir.z));
+
+        if (m_isRolling || m_knockedDown || m_stagger)
             return;
 
         // Jump
@@ -110,7 +123,10 @@ public class PlayerMovement : MonoBehaviour
             if(o_adrenalineProvider != null)
             {
                 m_playerController.m_playerResources.ChangeAdrenaline(100 * o_adrenalineProvider.m_value);
-                // Slow motion shit here
+
+                // Slow motion calculation (Pretty terrible honestly, would not recommend)
+                //GameManager.instance.SlowTime(0.75f * o_adrenalineProvider.m_value);
+
                 o_adrenalineProvider = null;
             }
 
@@ -120,8 +136,19 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            m_characterController.Move(normalizedMove * m_moveSpeed * Time.deltaTime // Movement
-                + transform.up * m_yVelocity * Time.deltaTime); // Jump
+            Vector3 movementVector = normalizedMove * m_moveSpeed * Time.deltaTime // Movement
+                + transform.up * m_yVelocity * Time.deltaTime; // Jump
+            if (movementVector.magnitude != 0.0f)
+                m_characterController.Move(movementVector); 
+
+            // Movement
+            Vector3 rotationVector = new Vector3(0, 0, 0);
+
+            rotationVector += normalizedMove.z * m_playerModel.transform.right;
+            rotationVector += normalizedMove.x * m_playerModel.transform.forward;
+
+            m_playerController.m_animator.SetFloat("VelocityHorizontal", rotationVector.z);
+            m_playerController.m_animator.SetFloat("VelocityVertical", rotationVector.x);
         }
 
         if (m_playerController.m_cameraController.m_selectedTarget == null) // If no target, rotate in moving direction
@@ -150,7 +177,46 @@ public class PlayerMovement : MonoBehaviour
     {
         m_isRolling = false;
     }
+    public void Knockdown(Vector3 _direction, float _power, bool _ignoreInv = false)
+    {
+        if (!_ignoreInv && m_isRolling)
+            return;
 
+        m_playerController.m_animator.SetTrigger("Knockdown");
+        m_knockVelocity = _direction.normalized * _power;
+        m_knockbackSourceDir = -_direction.normalized;
+        m_knockedDown = true;
+        m_stagger = false;
+        m_isRolling = false;
+    }
+    public void StopKnockdown()
+    {
+        m_knockedDown = false;
+        m_stagger = false;
+        m_knockVelocity = Vector3.zero;
+    }
+    public void Stagger(float _duration)
+    {
+        if (m_knockedDown)
+            return;
+
+        m_playerController.m_animator.SetFloat("StaggerDuration", 1.0f/ _duration);
+        m_playerController.m_animator.SetTrigger("Stagger");
+        m_stagger = true;
+        m_knockedDown = false;
+        m_isRolling = false;
+    }
+    public void StopStagger()
+    {
+        m_stagger = false;
+        m_knockedDown = false;
+    }
+    private void StopAllStuns()
+    {
+        m_isRolling = false;
+        m_stagger = false;
+        m_knockedDown = false;
+    }
     public void SetPotentialAdrenaline(PlayerAdrenalineProvider _provider)
     {
         if(o_adrenalineProvider == _provider)

@@ -13,6 +13,21 @@ MonoBehaviour:
   m_Name: bossData
   m_EditorClassIdentifier: 
   health: 250
-  resistance: 0
-  meleeAttackRange: 3
-  patience: 2.5
+  resistance: 50
+  meleeAttackRange: 2.75
+  weaponDamage: 20
+  weaponAdrenalineModifier: 1
+  tripleMaxCooldown: 15
+  projectileDamage: 15
+  projectileForce: 50
+  projectileAdrenalineModifier: 1
+  aoeDamage: 30
+  aoeRadius: 4.9
+  aoeForce: 50
+  aoeMaxCooldown: 20
+  aoeModifier: 1
+  kickDamage: 10
+  kickForce: 60
+  kickMaxCooldown: 4
+  kickModifier: 0
+  patience: 3.5

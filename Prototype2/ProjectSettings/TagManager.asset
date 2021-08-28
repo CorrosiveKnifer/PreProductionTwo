@@ -16,6 +16,8 @@ TagManager:
   - 
   - Player
   - Attackable
+  - Projectile
+  - Environment
   - 
   - 
   - 
@@ -35,9 +37,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - Post
   m_SortingLayers:
   - name: Default
     uniqueID: 0
