@@ -13,7 +13,7 @@ using UnityEngine;
 /// A single instance of the AudioAgent mainly used for multible soundeffects e.g. A player character.
 /// </summary>
 /// 
-class MultiAudioAgent : AudioAgent
+public class MultiAudioAgent : AudioAgent
 {
     public AudioClip[] audioClips;
     public uint audioPlayersCount = 5;
@@ -51,6 +51,8 @@ class MultiAudioAgent : AudioAgent
                 player.SetVolume(AudioManager.instance.GetVolume(channel, this) * localVolume);
         }
     }
+
+    
 
     public bool Play(string clipName, bool isLooping = false, float pitch = 1.0f)
     {
