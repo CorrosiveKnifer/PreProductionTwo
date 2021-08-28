@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     [Header("VFX")]
     public ParticleSystem m_runningDust;
     public GameObject sparkPrefab;
+    public ParticleSystem m_swordTrail; 
 
     private void Awake()
     {
@@ -84,9 +85,13 @@ public class PlayerController : MonoBehaviour
         {
             m_animator.SetFloat("VelocityHorizontal", 0.0f);
             m_animator.SetFloat("VelocityVertical", 0.0f);
-            var em = m_runningDust.emission;
-            em.enabled = false;
+            var em1 = m_runningDust.emission;
+            em1.enabled = false;
         }
+
+
+        var em2 = m_swordTrail.emission;
+        em2.enabled = m_animator.GetBool("TrailActive");
 
         // Get camera inputs and apply
         m_cameraController.MoveCamera(GetCameraMovementVector());
