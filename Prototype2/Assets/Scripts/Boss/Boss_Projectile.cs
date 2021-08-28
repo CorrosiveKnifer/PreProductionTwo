@@ -29,11 +29,6 @@ public class Boss_Projectile : MonoBehaviour
         //Tell the player their dodge value.
         if(!m_providerInfo.mutex)
             m_target.GetComponent<PlayerMovement>()?.SetPotentialAdrenaline(m_providerInfo);
-
-        if (Vector3.Distance(Vector3.zero, transform.position) > m_maxDistance)
-        {
-            Destroy(gameObject);
-        }
     }
 
     private void Calculate()
@@ -64,7 +59,15 @@ public class Boss_Projectile : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag != "Boss")
+        if (other.tag == "Player")
+        {
+            other.GetComponent<PlayerController>().Damage(m_damage);
+        }
+        if (other.gameObject.layer == LayerMask.NameToLayer("Attackable"))
+        {
+            other.GetComponent<Destructible>().CrackObject();
+        }
+        if(other.tag != "Boss")
         {
             Destroy(gameObject);
         }

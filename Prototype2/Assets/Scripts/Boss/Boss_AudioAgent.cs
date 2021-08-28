@@ -6,7 +6,7 @@ public class Boss_AudioAgent : MultiAudioAgent
 {
     public void PlayStep()
     {
-        base.Play("HeavySlash", false, Random.Range(0.85f, 1.25f));
+        base.PlayOnce("BossFootStep", false, Random.Range(0.85f, 1.25f));
     }
     public void PlaySlash()
     {
