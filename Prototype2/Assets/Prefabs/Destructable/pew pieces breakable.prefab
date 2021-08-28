@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1489681440235865020}
   - component: {fileID: 271299577156470589}
   - component: {fileID: 3309060084602088046}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: pew_piece_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 6576718006069620552}
   - component: {fileID: 2084560507405050004}
   - component: {fileID: 4660935468913254129}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: pew_piece_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 2245938833793759394}
   - component: {fileID: 8514488500058087994}
   - component: {fileID: 3948361611342236570}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: pew_piece_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 116642733908886880}
   - component: {fileID: 1616000403900043915}
   - component: {fileID: 3179242174373133035}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: pew_piece_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -457,7 +457,7 @@ GameObject:
   - component: {fileID: 10776157088759368}
   - component: {fileID: 7945772869017626940}
   - component: {fileID: 7183093815451807471}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: pew_piece_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -564,7 +564,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8209308697796187030}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: pew pieces breakable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
