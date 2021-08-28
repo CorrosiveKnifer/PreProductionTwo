@@ -9,7 +9,7 @@ public class Boss_Movement : MonoBehaviour
     public float m_maxStearingAngle = 180;
     public float m_stearDecay = 5.0f;
 
-    public float m_stearModifier = 1.0f;
+    public float m_stearModifier = 1.5f;
     private NavMeshAgent m_myAgent;
     private Quaternion m_targetRotation;
     // Start is called before the first frame update
@@ -22,7 +22,7 @@ public class Boss_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_stearModifier = Mathf.Clamp(m_stearModifier - m_stearDecay * Time.deltaTime, 1.0f, 10.0f);
+        m_stearModifier = Mathf.Clamp(m_stearModifier - m_stearDecay * Time.deltaTime, 1.5f, 10.0f);
         transform.rotation = Quaternion.Slerp(transform.rotation, m_targetRotation, Time.deltaTime * m_stearModifier);
         m_myAgent.destination = transform.position;
     }

@@ -161,6 +161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1320013256}
   - component: {fileID: 1320013257}
+  - component: {fileID: 486415793}
   m_Layer: 5
   m_Name: BossHealthBar
   m_TagString: Untagged
@@ -203,7 +204,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_value: 0
   m_barImage: {fileID: 866740214}
-  m_isHidden: 1
+--- !u!95 &486415793
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320013255}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5cd8d21b586dc1a4b91161b494aa2844, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1823882860
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,7 +735,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ser Shoeless
+  m_text: Hunter of the Abyss
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0fadfac1205e02149bdcfb5e63fe64ff, type: 2}
   m_sharedMaterial: {fileID: -892388438303906621, guid: 0fadfac1205e02149bdcfb5e63fe64ff,

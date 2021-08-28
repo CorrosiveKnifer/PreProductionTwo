@@ -604,7 +604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf0deb60f02ddb847b5da99b1d5286a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localVolume: 0.5
+  localVolume: 0.3
   isMuted: 0
   mainClip: {fileID: 8300000, guid: 09bdc424d0235d44294061a524f76b29, type: 3}
   channel: 1

@@ -49,6 +49,7 @@ public class Boss_AI : MonoBehaviour
     private Boss_Animator m_myAnimator;
     private Boss_Weapon m_myWeapon;
     private Boss_Kick m_myKick;
+    private Boss_AudioAgent m_myAudio;
     private UI_Bar m_myHealthBar;
 
     // Start is called before the first frame update
@@ -66,6 +67,8 @@ public class Boss_AI : MonoBehaviour
         m_myAnimator = GetComponentInChildren<Boss_Animator>();
 
         m_myKick = GetComponentInChildren<Boss_Kick>();
+
+        m_myAudio = GetComponentInChildren<Boss_AudioAgent>();
 
         m_myWeapon = GetComponentInChildren<Boss_Weapon>();
         m_myWeapon.m_weaponDamage = m_myData.weaponDamage;
@@ -197,6 +200,7 @@ public class Boss_AI : MonoBehaviour
                     float angle = m_myMovement.GetAngle(target);
                     if (angle <= 65 || angle >= -65)
                     {
+                        m_myAudio.PlayMad();
                         m_myAnimator.IsRanged = true;
                         m_canCancel = true;
                     }
@@ -371,8 +375,10 @@ public class Boss_AI : MonoBehaviour
         damageMod = Mathf.Clamp(damageMod, 0.0f, 1.0f);
         m_currentHealth -= damage * damageMod;
 
+        m_myAudio.PlayHurt();
+
         //Deal with death
-        if(m_currentHealth <= 0)
+        if (m_currentHealth <= 0)
         {
             m_isDead = true;
             m_myAnimator.IsDead = true;
@@ -400,6 +406,7 @@ public class Boss_AI : MonoBehaviour
                 m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, m_myData.aoeForce);
                 m_player.GetComponent<PlayerController>().Damage(m_myData.aoeDamage);
                 m_aoeVFX.transform.parent = null;
+                continue;
             }
             if(hit.gameObject.layer == LayerMask.NameToLayer("Attackable"))
             {
@@ -407,6 +414,12 @@ public class Boss_AI : MonoBehaviour
                 direction.y = 0;
 
                 hit.GetComponent<Destructible>()?.ExplodeObject(m_aoeVFX.transform.position, m_myData.aoeForce * 7.5f, m_myData.aoeRadius * 1.5f);
+                continue;
+            }
+            if(hit.GetComponent<Rigidbody>() != null)
+            {
+                hit.GetComponent<Rigidbody>().AddExplosionForce(m_myData.aoeForce * 7.5f, m_aoeVFX.transform.position, m_myData.aoeRadius * 1.5f, 1.0f);
+                continue;
             }
         }
     }

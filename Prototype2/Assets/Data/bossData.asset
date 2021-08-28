@@ -19,7 +19,7 @@ MonoBehaviour:
   weaponAdrenalineModifier: 1
   tripleMaxCooldown: 15
   projectileDamage: 15
-  projectileForce: 50
+  projectileForce: 40
   projectileAdrenalineModifier: 1
   aoeDamage: 30
   aoeRadius: 4.9

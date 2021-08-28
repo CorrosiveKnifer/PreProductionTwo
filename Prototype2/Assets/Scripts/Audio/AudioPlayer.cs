@@ -25,6 +25,8 @@ public class AudioPlayer
 
     protected AudioSource source; //Created in constructor.
 
+    private bool isDelayed = false;
+
     //Constructor
     public AudioPlayer(GameObject owner, AudioClip clip)
     {
@@ -38,7 +40,7 @@ public class AudioPlayer
     public void Play() { source.Play(); }
     public void Pause() { source.Pause(); }
     public void Stop() { source.Stop(); }
-    public bool IsPlaying() { return source.isPlaying; }
+    public bool IsPlaying() { return source.isPlaying || isDelayed; }
     public void SetLooping(bool isLooping = true) { source.loop = isLooping; }
     public void SetPitch(float pitch) { source.pitch = pitch; }
 
@@ -133,6 +135,15 @@ public class AudioPlayer
         }
         Pause();
         isMutating = false;
+        yield return null;
+    }
+    public IEnumerator PlayDelayed(float delay)
+    {
+        isDelayed = true;
+        yield return new WaitForSecondsRealtime(delay);
+        isDelayed = false;
+
+        Play();
         yield return null;
     }
 }

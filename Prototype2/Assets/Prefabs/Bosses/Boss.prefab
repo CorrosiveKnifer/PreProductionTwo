@@ -806,7 +806,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_waitOnAwake: 1
   m_behavour: 
-  m_startingHealthPercentage: 1
+  m_startingHealthPercentage: 100
   m_currentHealth: 0
   m_currentPatiences: 0
   m_meleeRange: 0
@@ -848,7 +848,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 1
   m_Speed: 3
-  m_Acceleration: 8
+  m_Acceleration: 10
   avoidancePriority: 50
   m_AngularSpeed: 0
   m_StoppingDistance: 0
@@ -894,6 +894,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 54e974d76a30f2a42801003c2111d826, type: 3}
   - {fileID: 8300000, guid: b1d6d7b9ae7e52c4596400d7b8d36557, type: 3}
   - {fileID: 8300000, guid: c210ca5cabf45d3459b7eb70380b341a, type: 3}
+  - {fileID: 8300000, guid: d0f7436d0d4758e449d22070b000f43f, type: 3}
+  - {fileID: 8300000, guid: 4a65e240de1f73249b273fe75d2aba8c, type: 3}
+  - {fileID: 8300000, guid: 0ea910654cce19f46b4690408d41d3ac, type: 3}
   audioPlayersCount: 5
   channel: 1
 --- !u!1 &3139500413270300782
@@ -1998,6 +2001,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2336777783338161661}
+        m_MethodName: PlaySlam
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   eventFive:
     m_PersistentCalls:
       m_Calls:
@@ -2116,17 +2130,6 @@ MonoBehaviour:
         - m_Target: {fileID: 6320767458574498990}
           m_MethodName: SetWeaponDisplay
           m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 2336777783338161661}
-          m_MethodName: PlaySlam
-          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

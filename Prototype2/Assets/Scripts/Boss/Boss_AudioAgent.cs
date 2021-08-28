@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Boss_AudioAgent : MultiAudioAgent
 {
+    public void PlayHurt()
+    {
+        base.Play($"BossHurt{Random.Range(1, 3)}", false, Random.Range(0.9f, 1.1f));
+    }
+    public void PlayMad()
+    {
+        base.PlayDelayed("BossMad", 0.6f, false, Random.Range(0.9f, 1.1f));
+    }
     public void PlayStep()
     {
         base.PlayOnce("BossFootStep", false, Random.Range(0.85f, 1.25f));
