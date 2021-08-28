@@ -90,7 +90,7 @@ public class Boss_AI : MonoBehaviour
         if(!m_isDead)
         {
             BehavourUpdate();
-
+            DestructionCheck();
             if (m_myAnimator != null)
                 AnimationUpdate();
 
@@ -114,7 +114,18 @@ public class Boss_AI : MonoBehaviour
             m_tripleCD = 5f;
         }
     }
+    public void DestructionCheck()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position + transform.forward * 0.5f, 1f);
 
+        foreach (var hit in hits)
+        {
+            if (hit.gameObject.layer == LayerMask.NameToLayer("Attackable"))
+            {
+                hit.GetComponent<Destructible>()?.CrackObject();
+            }
+        }
+    }
     public void AnimationUpdate()
     {
         //transform.rotation = Quaternion.LookRotation(transform.position - m_player.transform.position, Vector3.up);
@@ -395,7 +406,7 @@ public class Boss_AI : MonoBehaviour
                 Vector3 direction = (hit.transform.position - transform.position);
                 direction.y = 0;
 
-                hit.GetComponent<Destructible>()?.ExplodeObject(m_aoeVFX.transform.position, m_myData.aoeForce, m_myData.aoeRadius * 1.5f);
+                hit.GetComponent<Destructible>()?.ExplodeObject(m_aoeVFX.transform.position, m_myData.aoeForce * 7.5f, m_myData.aoeRadius * 1.5f);
             }
         }
     }
