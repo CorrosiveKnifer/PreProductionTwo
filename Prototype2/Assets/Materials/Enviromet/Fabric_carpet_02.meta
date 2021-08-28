@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Prototype2/Assets/Materials/Enviromet/Fabric_carpet_02.meta
 guid: 10594c4fb1fe202468add49acf125766
+=======
+guid: 04a76c46634174d49b99d521fa71fd70
+>>>>>>> origin/Petre:Prototype2/Assets/VFX/Texture.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

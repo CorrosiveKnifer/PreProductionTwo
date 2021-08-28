@@ -36,7 +36,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_C54539EC:
-        m_Texture: {fileID: 2800000, guid: 9efba1cb4fb52ee41b210185296a88ad, type: 3}
+        m_Texture: {fileID: 2800000, guid: f815331e6b7d1f14ea1d79c48ca6c7ef, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AnisotropyMap:
@@ -244,7 +244,7 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - Color_4C523135: {r: 2.1185474, g: 2.1185474, b: 2.1185474, a: 1}
+    - Color_4C523135: {r: 31.999996, g: 31.999996, b: 31.999996, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
