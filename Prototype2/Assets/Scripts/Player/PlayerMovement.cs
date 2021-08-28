@@ -46,7 +46,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (m_knockedDown)
         {
-            m_characterController.Move(m_knockVelocity * Time.deltaTime);
+            m_characterController.Move(m_knockVelocity * Time.deltaTime
+                + transform.up * m_yVelocity * Time.deltaTime);
             m_knockVelocity = Vector3.Lerp(m_knockVelocity, Vector3.zero, 5 * Time.deltaTime);
         }
     }
@@ -74,6 +75,9 @@ public class PlayerMovement : MonoBehaviour
 
         // Rolling process
         RollUpdate();
+
+        // Object destruction
+        DestroyNearbyObjects();
     }
 
     private void RollUpdate()
@@ -87,9 +91,28 @@ public class PlayerMovement : MonoBehaviour
             m_playerController.CeaseSwing();
         }
     }
-
+    private void DestroyNearbyObjects()
+    {
+        if (m_isRolling || m_knockedDown)
+        {
+            // Find all colliders
+            Destructible[] destructibles = FindObjectsOfType<Destructible>();
+            foreach (var destruct in destructibles)
+            {
+                if (Vector3.Distance(destruct.transform.position, transform.position) < 5.0f)
+                {
+                    if (Vector3.Distance(destruct.GetComponent<Collider>().ClosestPoint(transform.position), transform.position) < 1.0f)
+                    {
+                        destruct.CrackObject();
+                    }
+                }
+            }
+        }
+    }
     public void Move(Vector2 _move, bool _jump, bool _roll)
     {
+        _jump = false;
+
         if (m_knockedDown)
             RotateToFaceDirection(new Vector3(m_knockbackSourceDir.x, 0, m_knockbackSourceDir.z));
 
@@ -114,7 +137,7 @@ public class PlayerMovement : MonoBehaviour
         normalizedMove += _move.y * cameraForward.normalized;
 
         // If player is trying to roll and can
-        if (!_jump && m_grounded && _roll && normalizedMove.magnitude >= 0.1f && m_playerController.m_playerResources.m_stamina > 0.0f)
+        if (!_jump && _roll && normalizedMove.magnitude >= 0.1f && m_playerController.m_playerResources.m_stamina > 0.0f)
         {
             // Subtract stamina
             m_playerController.m_playerResources.ChangeStamina(-30.0f);

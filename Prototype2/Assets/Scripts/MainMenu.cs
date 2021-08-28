@@ -39,7 +39,7 @@ public class MainMenu : MonoBehaviour
         {
             QuitGame();
         }
-        if (InputManager.instance.IsGamepadButtonDown(ButtonType.SOUTH, 0))
+        if (InputManager.instance.IsGamepadButtonDown(ButtonType.SOUTH, 0) || InputManager.instance.IsKeyDown(KeyType.SPACE))
         {
             StartGame();
         }
