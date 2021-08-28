@@ -151,7 +151,9 @@ public class PlayerMovement : MonoBehaviour
             if(o_adrenalineProvider != null)
             {
                 m_playerController.m_playerResources.ChangeAdrenaline(100 * o_adrenalineProvider.m_value);
-                GetComponent<Player_AudioAgent>().PlayAdrenalineGain();
+
+                if(o_adrenalineProvider.m_value > 0)
+                    GetComponent<Player_AudioAgent>().PlayAdrenalineGain();
 
                 // Slow motion calculation (Pretty terrible honestly, would not recommend)
                 GameManager.instance.SlowTime(0.4f, o_adrenalineProvider.m_value);

@@ -13,13 +13,18 @@ public class Boss_Cinematic : MonoBehaviour
     private PlayerController player;
     private void Update()
     {
-        if(m_isShowTime && !CameraManager.instance.IsDirectorPlaying("BossRoar"))
+        if (InputManager.instance.IsGamepadButtonDown(ButtonType.SOUTH, 0) || InputManager.instance.IsKeyDown(KeyType.SPACE))
+        {
+            CameraManager.instance.StopDirector("BossRoar");
+        }
+        if (m_isShowTime && !CameraManager.instance.IsDirectorPlaying("BossRoar"))
         {
             m_boss.WakeUp();
             player.m_functionalityEnabled = true;
             m_door.SetBool("IsOpen", false);
             m_UI.SetTrigger("reveal");
             HUDManager.instance.GetElement<UI_SpeedrunTimer>()?.StartTimer();
+            Destroy(m_UI, 1.0f);
             Destroy(gameObject);
         }
     }
