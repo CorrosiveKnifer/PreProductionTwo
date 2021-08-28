@@ -7,6 +7,7 @@ public class Boss_Cinematic : MonoBehaviour
     public Boss_AI m_boss;
     public SoloAudioAgent m_mainGameMusic;
     public SoloAudioAgent m_bossMusic;
+    public Animator m_door;
 
     private bool m_isShowTime = false;
     private PlayerController player;
@@ -16,6 +17,7 @@ public class Boss_Cinematic : MonoBehaviour
         {
             m_boss.WakeUp();
             player.m_functionalityEnabled = true;
+            m_door.SetBool("IsOpen", false);
             Destroy(gameObject);
         }
     }
