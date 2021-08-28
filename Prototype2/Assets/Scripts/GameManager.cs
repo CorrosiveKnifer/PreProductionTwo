@@ -55,12 +55,24 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    public static Vector2 m_sensitivity = new Vector2(-400.0f, -100.0f);
+    public static Vector2 m_sensitivity = new Vector2(-400.0f, -250.0f);
+
+    public bool useGamepad = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        int gamepadID = InputManager.instance.GetAnyGamePad();
+        if (InputManager.instance.IsAnyKeyDown() || InputManager.instance.IsAnyMouseButtonDown())
+        {
+            useGamepad = false;
+        }
+        if (InputManager.instance.IsAnyGamePadInput(gamepadID))
+        {
+            useGamepad = true;
+        }
     }
 
     // Update is called once per frame
@@ -70,6 +82,16 @@ public class GameManager : MonoBehaviour
         currentTime += Time.deltaTime;
         currentTime = Mathf.Clamp(currentTime, 0.0f, 1.0f);
         Time.timeScale = currentTime;
+
+        int gamepadID = InputManager.instance.GetAnyGamePad();
+        if (InputManager.instance.IsAnyKeyDown() || InputManager.instance.IsAnyMouseButtonDown())
+        {
+            useGamepad = false;
+        }
+        if (InputManager.instance.IsAnyGamePadInput(gamepadID))
+        {
+            useGamepad = true;
+        }
     }
 
     private void InitialiseFunc()

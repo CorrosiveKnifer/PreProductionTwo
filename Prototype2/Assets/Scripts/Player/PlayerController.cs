@@ -26,7 +26,9 @@ public class PlayerController : MonoBehaviour
     private float m_resetSwingTimer = 0.0f;
     private float m_damage = 100.0f;
 
-    
+    [Header("Keyboard Things")]
+    private Vector3 m_currentVelocity = Vector3.zero;
+    private Vector3 m_movementVelocity = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -49,10 +51,10 @@ public class PlayerController : MonoBehaviour
                 // Get movement inputs and apply
                 m_playerMovement.Move(GetPlayerMovementVector(), // Run
                     InputManager.instance.IsGamepadButtonDown(ButtonType.SOUTH, gamepadID), // Jump
-                    InputManager.instance.IsGamepadButtonDown(ButtonType.EAST, gamepadID)); // Roll
+                    InputManager.instance.IsGamepadButtonDown(ButtonType.EAST, gamepadID) || InputManager.instance.IsKeyDown(KeyType.SPACE)); // Roll
             }
             // Roll
-            if (InputManager.instance.IsGamepadButtonDown(ButtonType.RB, gamepadID) 
+            if ((InputManager.instance.IsGamepadButtonDown(ButtonType.RB, gamepadID) || InputManager.instance.GetMouseDown(MouseButton.LEFT))
                 && !m_playerMovement.m_knockedDown 
                 && !m_playerMovement.m_stagger 
                 && !m_playerMovement.m_isRolling)
@@ -74,30 +76,30 @@ public class PlayerController : MonoBehaviour
         m_cameraController.MoveCamera(GetCameraMovementVector());
 
         // Lock on
-        if (InputManager.instance.IsGamepadButtonDown(ButtonType.RS, gamepadID))
+        if (InputManager.instance.IsGamepadButtonDown(ButtonType.RS, gamepadID) || InputManager.instance.IsKeyDown(KeyType.Q))
         {
             m_cameraController.ToggleLockOn();
         }
 
-        // Debug inputs
-        if (InputManager.instance.IsKeyDown(KeyType.H))
-        {
-            m_playerResources.ChangeHealth(20.0f);
-        }
-        if (InputManager.instance.IsKeyDown(KeyType.D))
-        {
-            Damage(20.0f);
-        }
-        if (InputManager.instance.IsKeyDown(KeyType.A))
-        {
-            m_playerResources.ChangeAdrenaline(20.0f);
-        }
-        if (InputManager.instance.IsKeyDown(KeyType.K))
-        {
-            Vector3 m_direction = transform.position;
-            m_direction.y = 0;
-            m_playerMovement.Knockdown(m_direction, 10.0f);
-        }
+        //// Debug inputs
+        //if (InputManager.instance.IsKeyDown(KeyType.H))
+        //{
+        //    m_playerResources.ChangeHealth(20.0f);
+        //}
+        //if (InputManager.instance.IsKeyDown(KeyType.D))
+        //{
+        //    Damage(20.0f);
+        //}
+        //if (InputManager.instance.IsKeyDown(KeyType.A))
+        //{
+        //    m_playerResources.ChangeAdrenaline(20.0f);
+        //}
+        //if (InputManager.instance.IsKeyDown(KeyType.K))
+        //{
+        //    Vector3 m_direction = transform.position;
+        //    m_direction.y = 0;
+        //    m_playerMovement.Knockdown(m_direction, 10.0f);
+        //}
 
         CalculateAdrenalineBoost();
 
@@ -188,13 +190,33 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 GetPlayerMovementVector()
     {
-        int gamepadID = InputManager.instance.GetAnyGamePad();
-        return InputManager.instance.GetGamepadStick(StickType.LEFT, gamepadID);
+        if (GameManager.instance.useGamepad)
+        {
+            int gamepadID = InputManager.instance.GetAnyGamePad();
+            return InputManager.instance.GetGamepadStick(StickType.LEFT, gamepadID);
+        }
+        else
+        {
+            Vector2 movement = Vector2.zero;
+            movement.x += (InputManager.instance.IsKeyPressed(KeyType.D) ? 1.0f : 0.0f);
+            movement.x -= (InputManager.instance.IsKeyPressed(KeyType.A) ? 1.0f : 0.0f);
+            movement.y += (InputManager.instance.IsKeyPressed(KeyType.W) ? 1.0f : 0.0f);
+            movement.y -= (InputManager.instance.IsKeyPressed(KeyType.S) ? 1.0f : 0.0f);
+            m_currentVelocity = Vector3.SmoothDamp(m_currentVelocity, movement, ref m_movementVelocity, 0.1f);
+            return m_currentVelocity;
+        }
     }
     private Vector2 GetCameraMovementVector()
     {
-        int gamepadID = InputManager.instance.GetAnyGamePad();
-        return InputManager.instance.GetGamepadStick(StickType.RIGHT, gamepadID);
+        if (GameManager.instance.useGamepad)
+        {
+            int gamepadID = InputManager.instance.GetAnyGamePad();
+            return InputManager.instance.GetGamepadStick(StickType.RIGHT, gamepadID);
+        }
+        else
+        {
+            return InputManager.instance.GetMouseDelta() * -GameManager.m_sensitivity * 0.0001f;
+        }
     }
 
     private void SwingSword()
