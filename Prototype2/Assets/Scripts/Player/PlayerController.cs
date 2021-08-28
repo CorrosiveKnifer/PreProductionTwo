@@ -33,7 +33,8 @@ public class PlayerController : MonoBehaviour
     [Header("VFX")]
     public ParticleSystem m_runningDust;
     public GameObject sparkPrefab;
-    public ParticleSystem m_swordTrail; 
+    public ParticleSystem m_swordTrail;
+    public ParticleSystem[] m_eyeTrail;
 
     private void Awake()
     {
@@ -93,6 +94,16 @@ public class PlayerController : MonoBehaviour
 
         var em2 = m_swordTrail.emission;
         em2.enabled = m_animator.GetBool("TrailActive");
+
+        foreach (var trail in m_eyeTrail)
+        {
+            var trailMain = trail.main;
+            Color newColor = trailMain.startColor.color;
+            newColor.a = m_effectsPercentage;
+
+            trailMain.startColor = new ParticleSystem.MinMaxGradient(newColor); 
+        }
+
 
         // Get camera inputs and apply
         m_cameraController.MoveCamera(GetCameraMovementVector());
