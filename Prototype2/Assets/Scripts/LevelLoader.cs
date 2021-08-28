@@ -14,7 +14,8 @@ public class LevelLoader : MonoBehaviour
     public enum Transition
     {
         CROSSFADE,
-        YOUDIED
+        YOUDIED,
+        YOUWIN
     }
 
     private static LevelLoader _instance = null;
@@ -36,6 +37,7 @@ public class LevelLoader : MonoBehaviour
     {
         transitionPrefab = Resources.Load<GameObject>("Prefabs/Transitions/TransitionCanvas");
         youdiedPrefab = Resources.Load<GameObject>("Prefabs/Transitions/YouDiedCanvas");
+        youwinPrefab = Resources.Load<GameObject>("Prefabs/Transitions/YouWinCanvas");
 
         if (_instance == null)
         {
@@ -69,6 +71,7 @@ public class LevelLoader : MonoBehaviour
 
     public static GameObject transitionPrefab;
     public static GameObject youdiedPrefab;
+    public static GameObject youwinPrefab;
     public static Animator transition;
 
     public bool isTransitioning = false;
@@ -145,6 +148,10 @@ public class LevelLoader : MonoBehaviour
                 break;
             case Transition.YOUDIED:
                 transition = Instantiate(youdiedPrefab, transform).GetComponent<Animator>();
+                timeMult = 3.5f;
+                break;
+            case Transition.YOUWIN:
+                transition = Instantiate(youwinPrefab, transform).GetComponent<Animator>();
                 timeMult = 3.5f;
                 break;
         }

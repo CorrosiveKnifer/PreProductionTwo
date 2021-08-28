@@ -30,6 +30,18 @@ public class PlayerController : MonoBehaviour
     private Vector3 m_currentVelocity = Vector3.zero;
     private Vector3 m_movementVelocity = Vector3.zero;
 
+    [Header("VFX")]
+    public ParticleSystem m_runningDust;
+    public GameObject sparkPrefab;
+    public ParticleSystem m_swordTrail;
+    public ParticleSystem[] m_eyeTrail;
+
+    private void Awake()
+    {
+        Physics.IgnoreLayerCollision(8, 13);
+        Physics.IgnoreLayerCollision(13, 13);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,11 +59,16 @@ public class PlayerController : MonoBehaviour
         if (!m_playerResources.m_dead && m_functionalityEnabled)
         {
             if (m_animator.GetInteger("NextSwing") == 0)
-            { 
+            {
+                Vector2 movement = GetPlayerMovementVector();
+
                 // Get movement inputs and apply
-                m_playerMovement.Move(GetPlayerMovementVector(), // Run
+                m_playerMovement.Move(movement, // Run
                     InputManager.instance.IsGamepadButtonDown(ButtonType.SOUTH, gamepadID), // Jump
                     InputManager.instance.IsGamepadButtonDown(ButtonType.EAST, gamepadID) || InputManager.instance.IsKeyDown(KeyType.SPACE)); // Roll
+
+                var em = m_runningDust.emission;
+                em.enabled = (m_animator.GetFloat("VelocityVertical") > 0.5f);
             }
             // Roll
             if ((InputManager.instance.IsGamepadButtonDown(ButtonType.RB, gamepadID) || InputManager.instance.GetMouseDown(MouseButton.LEFT))
@@ -70,7 +87,23 @@ public class PlayerController : MonoBehaviour
         {
             m_animator.SetFloat("VelocityHorizontal", 0.0f);
             m_animator.SetFloat("VelocityVertical", 0.0f);
+            var em1 = m_runningDust.emission;
+            em1.enabled = false;
         }
+
+
+        var em2 = m_swordTrail.emission;
+        em2.enabled = m_animator.GetBool("TrailActive");
+
+        foreach (var trail in m_eyeTrail)
+        {
+            var trailMain = trail.main;
+            Color newColor = trailMain.startColor.color;
+            newColor.a = m_effectsPercentage;
+
+            trailMain.startColor = new ParticleSystem.MinMaxGradient(newColor); 
+        }
+
 
         // Get camera inputs and apply
         m_cameraController.MoveCamera(GetCameraMovementVector());
@@ -90,10 +123,10 @@ public class PlayerController : MonoBehaviour
         //{
         //    Damage(20.0f);
         //}
-        //if (InputManager.instance.IsKeyDown(KeyType.A))
-        //{
-        //    m_playerResources.ChangeAdrenaline(20.0f);
-        //}
+        if (InputManager.instance.IsKeyDown(KeyType.L))
+        {
+            m_playerResources.ChangeAdrenaline(20.0f);
+        }
         //if (InputManager.instance.IsKeyDown(KeyType.K))
         //{
         //    Vector3 m_direction = transform.position;
@@ -240,6 +273,11 @@ public class PlayerController : MonoBehaviour
             {
                 if (m_weaponCollider.GetComponent<Collider>().bounds.Intersects(collider.bounds)) // If intersects with sword
                 {
+                    if (sparkPrefab != null)
+                    {
+                        Vector3 collisionPoint = collider.ClosestPointOnBounds(m_weaponCollider.transform.position);
+                        Instantiate(sparkPrefab, collisionPoint, Quaternion.Euler(0, 0, 0));
+                    }
                     if (!m_hitList.Contains(collider)) // If not already hit this attack
                     {
                         // Action here
@@ -255,6 +293,7 @@ public class PlayerController : MonoBehaviour
                         if (collider.GetComponent<Boss_AI>())
                         {
                             collider.GetComponent<Boss_AI>().DealDamage(m_damage * m_adrenalineMult);
+
                             Heal(20.0f);
                         }
                         if (collider.GetComponent<Destructible>())

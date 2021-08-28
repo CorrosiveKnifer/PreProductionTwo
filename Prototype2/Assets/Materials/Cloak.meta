@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Prototype2/Assets/Materials/Cloak.meta
 guid: c897281795666bc4e9e2bc355a3e64f3
+=======
+guid: b020d11e19a5ac5428a15a58f40f6e62
+>>>>>>> origin/Petre:Prototype2/Assets/VFX/Material.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

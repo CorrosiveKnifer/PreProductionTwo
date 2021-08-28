@@ -18,8 +18,8 @@ TagManager:
   - Attackable
   - Projectile
   - Environment
-  - 
-  - 
+  - Destructible
+  - Rubble
   - 
   - 
   - 

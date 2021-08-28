@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     //External Link to adrenaline giver
     private PlayerAdrenalineProvider o_adrenalineProvider;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -111,6 +112,9 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Move(Vector2 _move, bool _jump, bool _roll)
     {
+
+
+
         _jump = false;
 
         if (m_knockedDown)
