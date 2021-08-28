@@ -6495,7 +6495,7 @@ PrefabInstance:
     - target: {fileID: 3139500413192414135, guid: 4e80d87faa15f114a88ddea9ac99c420,
         type: 3}
       propertyPath: m_startingHealthPercentage
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e80d87faa15f114a88ddea9ac99c420, type: 3}
