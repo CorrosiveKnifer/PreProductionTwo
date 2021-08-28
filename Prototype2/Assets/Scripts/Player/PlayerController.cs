@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         Physics.IgnoreLayerCollision(8, 13);
+        Physics.IgnoreLayerCollision(13, 13);
     }
 
     // Start is called before the first frame update

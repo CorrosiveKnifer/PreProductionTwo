@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a30c04122148c148ab09a66e695d3e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crackedObject: {fileID: 6904546585067744997, guid: 4d8a938841b26bc4580de1043f510f3f,
+  crackedObject: {fileID: 8837894704450947372, guid: 4d8a938841b26bc4580de1043f510f3f,
     type: 3}
 --- !u!64 &9035076036718611301
 MeshCollider:
