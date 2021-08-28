@@ -19,6 +19,7 @@ public class Boss_Cinematic : MonoBehaviour
             player.m_functionalityEnabled = true;
             m_door.SetBool("IsOpen", false);
             m_UI.SetTrigger("reveal");
+            HUDManager.instance.GetElement<UI_SpeedrunTimer>()?.StartTimer();
             Destroy(gameObject);
         }
     }

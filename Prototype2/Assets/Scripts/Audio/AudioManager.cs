@@ -52,7 +52,8 @@ public class AudioManager
 
     //private array of volumes
     public float[] volumes;
-    
+    public float m_globalPitch = 1.0f;
+
     //Volume types: 
     //(Add more to dynamically expand the above array)
     public enum VolumeChannel

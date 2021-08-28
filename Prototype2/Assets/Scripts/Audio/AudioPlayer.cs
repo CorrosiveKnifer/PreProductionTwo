@@ -21,9 +21,8 @@ public class AudioPlayer
 
     public bool isMutating { get; protected set; } = false; //If coroutine is active.
 
-    public AudioManager.VolumeChannel type { get; set; }
-
     protected AudioSource source; //Created in constructor.
+    protected float m_localPitch = 1.0f;
 
     private bool isDelayed = false;
 
@@ -31,6 +30,7 @@ public class AudioPlayer
     public AudioPlayer(GameObject owner, AudioClip clip)
     {
         source = owner.AddComponent<AudioSource>();
+        source.pitch = AudioManager.instance.m_globalPitch * m_localPitch;
         source.playOnAwake = false;
         source.clip = clip;
     }
@@ -42,9 +42,18 @@ public class AudioPlayer
     public void Stop() { source.Stop(); }
     public bool IsPlaying() { return source.isPlaying || isDelayed; }
     public void SetLooping(bool isLooping = true) { source.loop = isLooping; }
-    public void SetPitch(float pitch) { source.pitch = pitch; }
+    public void SetPitch(float pitch) 
+    {
+        m_localPitch = pitch;
+        source.pitch = AudioManager.instance.m_globalPitch * m_localPitch;
+    }
 
     #endregion
+
+    public void Update()
+    {
+        source.pitch = AudioManager.instance.m_globalPitch * m_localPitch;
+    }
 
     /// <summary>
     /// Calculate the time remaining of the current clip.

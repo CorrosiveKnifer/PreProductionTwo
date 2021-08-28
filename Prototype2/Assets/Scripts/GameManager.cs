@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
     public static Vector2 m_sensitivity = new Vector2(-400.0f, -250.0f);
 
     public bool useGamepad = false;
+    internal bool enableTimer = false;
 
     // Start is called before the first frame update
     void Start()
@@ -78,10 +79,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float currentTime = Time.timeScale;
-        currentTime += Time.deltaTime;
-        currentTime = Mathf.Clamp(currentTime, 0.0f, 1.0f);
-        Time.timeScale = currentTime;
+        //float currentTime = Time.timeScale;
+        //currentTime += Time.deltaTime;
+        //currentTime = Mathf.Clamp(currentTime, 0.0f, 1.0f);
+        //Time.timeScale = currentTime;
 
         int gamepadID = InputManager.instance.GetAnyGamePad();
         if (InputManager.instance.IsAnyKeyDown() || InputManager.instance.IsAnyMouseButtonDown())
@@ -102,8 +103,28 @@ public class GameManager : MonoBehaviour
     {
 
     }
-    public void SlowTime(float _percentage)
+    public void SlowTime(float _percentage, float _duration)
     {
-        Time.timeScale = 1 - _percentage;
+        StartCoroutine(SlowTimeRoutine(_percentage, _duration));
+    }
+    private IEnumerator SlowTimeRoutine(float _percentage, float _duration)
+    {
+        
+        Time.timeScale = _percentage;
+        AudioManager.instance.m_globalPitch = Time.timeScale;
+        Time.fixedDeltaTime = 0.02f * _percentage;
+        float rate = _duration / (1f - _percentage);
+        while (_duration > 0)
+        {
+            _duration -= Time.unscaledDeltaTime;
+            yield return new WaitForEndOfFrame();
+            AudioManager.instance.m_globalPitch = Time.timeScale;
+            Time.timeScale += rate * Time.unscaledDeltaTime;
+            Time.fixedDeltaTime = 0.02f * _percentage;
+        }
+        Time.timeScale = 1.0f;
+        AudioManager.instance.m_globalPitch = Time.timeScale;
+        Time.fixedDeltaTime = 0.02f;
+        yield return null;
     }
 }

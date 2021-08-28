@@ -383,6 +383,7 @@ public class Boss_AI : MonoBehaviour
             m_isDead = true;
             m_myAnimator.IsDead = true;
             GetComponent<Collider>().enabled = false;
+            HUDManager.instance.GetElement<UI_SpeedrunTimer>()?.StopTimer();
         }
         m_damageMemory += 3.0f;
         m_myMovement.SetStearModifier(5.0f);
@@ -404,7 +405,7 @@ public class Boss_AI : MonoBehaviour
 
                 //AOE damage
                 m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, m_myData.aoeForce);
-                m_player.GetComponent<PlayerController>().Damage(m_myData.aoeDamage);
+                m_player.GetComponent<PlayerController>().Damage(m_myData.aoeDamage, true);
                 m_aoeVFX.transform.parent = null;
                 continue;
             }

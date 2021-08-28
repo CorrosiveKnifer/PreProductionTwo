@@ -43,6 +43,11 @@ public class MainMenu : MonoBehaviour
         {
             StartGame();
         }
+        if(InputManager.instance.IsGamepadButtonDown(ButtonType.NORTH, 0) || InputManager.instance.IsKeyDown(KeyType.T))
+        {
+            GameManager.instance.enableTimer = true;
+            GetComponent<SoloAudioAgent>().Play();
+        }
     }
 
     public void ChangeSliderNumber(Slider _slider)
