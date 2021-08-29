@@ -72,7 +72,8 @@ public class PlayerController : MonoBehaviour
                 em.enabled = (m_animator.GetFloat("VelocityVertical") > 0.5f);
             }
             // Roll
-            if ((InputManager.instance.IsGamepadButtonDown(ButtonType.RB, gamepadID) || InputManager.instance.GetMouseDown(MouseButton.LEFT))
+            if ((InputManager.instance.IsGamepadButtonDown(ButtonType.RB, gamepadID) || InputManager.instance.GetMouseDown(MouseButton.LEFT) 
+                                                                                    || InputManager.instance.GetMouseDown(MouseButton.RIGHT))
                 && !m_playerMovement.m_knockedDown 
                 && !m_playerMovement.m_stagger 
                 && !m_playerMovement.m_isRolling)
