@@ -381,6 +381,7 @@ public class Boss_AI : MonoBehaviour
         if (m_currentHealth <= 0)
         {
             m_myAnimator.CancelAnimation();
+            StartCoroutine(EndGame());
             m_isDead = true;
             m_myAnimator.IsDead = true;
             GetComponent<Collider>().enabled = false;
@@ -388,6 +389,12 @@ public class Boss_AI : MonoBehaviour
         }
         m_damageMemory += 3.0f;
         m_myMovement.SetStearModifier(5.0f);
+    }
+    IEnumerator EndGame()
+    {
+        yield return new WaitForSecondsRealtime(5.0f);
+        LevelLoader.instance.LoadNewLevel("MainGame", LevelLoader.Transition.YOUWIN);
+
     }
     public void StartAOEWindow(float window)
     {
@@ -434,10 +441,10 @@ public class Boss_AI : MonoBehaviour
         if(m_myKick.isPlayerWithin)
         {
             m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, m_myData.kickForce);
+            m_myAudio.PlayKick();
             m_player.GetComponent<PlayerController>().Damage(m_myData.kickDamage);
         }
     }
-
     public void ShakePlayerCam(float _intensity)
     {
         m_player.GetComponent<PlayerController>().m_cameraController.ScreenShake(0.5f, _intensity, 1.0f);

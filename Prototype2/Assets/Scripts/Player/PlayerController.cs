@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     public GameObject sparkPrefab;
     public ParticleSystem m_swordTrail;
     public ParticleSystem[] m_eyeTrail;
+    public LayerMask m_vfxDetectionLayers;
 
     private void Awake()
     {
@@ -127,12 +128,16 @@ public class PlayerController : MonoBehaviour
         {
             m_playerResources.ChangeAdrenaline(20.0f);
         }
-        //if (InputManager.instance.IsKeyDown(KeyType.K))
-        //{
-        //    Vector3 m_direction = transform.position;
-        //    m_direction.y = 0;
-        //    m_playerMovement.Knockdown(m_direction, 10.0f);
-        //}
+        if (InputManager.instance.IsKeyDown(KeyType.K))
+        {
+            Vector3 m_direction = transform.position;
+            m_direction.y = 0;
+            m_playerMovement.Knockback(m_direction, 20.0f);
+        }
+        if (InputManager.instance.IsKeyDown(KeyType.F))
+        {
+            Damage(100.0f);
+        }
 
         CalculateAdrenalineBoost();
 
@@ -202,6 +207,8 @@ public class PlayerController : MonoBehaviour
     public void KillPlayer()
     {
         m_animator.SetTrigger("Die");
+        m_animator.SetBool("IsDead", true);
+        GetComponent<Player_AudioAgent>().PlayDeath();
         LevelLoader.instance.LoadNewLevel("MainGame", LevelLoader.Transition.YOUDIED);
     }
 
@@ -294,6 +301,7 @@ public class PlayerController : MonoBehaviour
                         {
                             collider.GetComponent<Boss_AI>().DealDamage(m_damage * m_adrenalineMult);
 
+                            GetComponent<Player_AudioAgent>().PlaySwordHit();
                             Heal(20.0f);
                         }
                         if (collider.GetComponent<Destructible>())
@@ -328,7 +336,7 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
-            m_cameraController.ScreenShake(0.15f, 1.0f * m_effectsPercentage, 5.0f);
+            m_cameraController.ScreenShake(0.25f, 1.0f * m_effectsPercentage, 5.0f);
         }
 
         m_lastWeaponPosition = localPos;
