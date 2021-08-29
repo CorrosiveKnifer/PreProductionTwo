@@ -269,7 +269,7 @@ public class Boss_AI : MonoBehaviour
 
         if(isWithinMeleeRange)
         {
-            if(isWithinKickCollider && isAbleToTriple && !CheckForwardForEnvironment())
+            if(CheckForward(LayerMask.NameToLayer("Player")) && isAbleToTriple && !CheckForward(LayerMask.NameToLayer("Environment")))
             {
                 m_myMovement.Stop();
                 m_canCancel = true;
@@ -380,6 +380,7 @@ public class Boss_AI : MonoBehaviour
         //Deal with death
         if (m_currentHealth <= 0)
         {
+            m_myAnimator.CancelAnimation();
             StartCoroutine(EndGame());
             m_isDead = true;
             m_myAnimator.IsDead = true;
@@ -449,7 +450,7 @@ public class Boss_AI : MonoBehaviour
         m_player.GetComponent<PlayerController>().m_cameraController.ScreenShake(0.5f, _intensity, 1.0f);
     }
 
-    public bool CheckForwardForEnvironment()
+    public bool CheckForward(LayerMask mask)
     {
         Vector3 start = transform.position + Vector3.up * 1.6f;
         Debug.DrawRay(start, transform.forward * 5.0f, Color.red);
@@ -457,7 +458,7 @@ public class Boss_AI : MonoBehaviour
 
         foreach (var hit in hits)
         {
-            if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Environment"))
+            if(hit.collider.gameObject.layer == mask)
             {
                 return true;
             }

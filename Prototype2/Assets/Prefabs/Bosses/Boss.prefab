@@ -806,7 +806,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_waitOnAwake: 1
   m_behavour: 
-  m_startingHealthPercentage: 100
+  m_startingHealthPercentage: 1
   m_currentHealth: 0
   m_currentPatiences: 0
   m_meleeRange: 0

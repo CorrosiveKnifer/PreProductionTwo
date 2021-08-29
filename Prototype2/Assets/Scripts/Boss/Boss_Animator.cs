@@ -35,6 +35,7 @@ public class Boss_Animator : MonoBehaviour
         {
             transform.localRotation = Quaternion.identity;
         }
+
         m_animator.SetFloat("VelocityVertical", direction.z);
         m_animator.SetFloat("VelocityHorizontal", -direction.x);
 
