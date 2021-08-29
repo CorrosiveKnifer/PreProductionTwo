@@ -34,6 +34,7 @@ public class Boss_Animator : MonoBehaviour
         if (m_animator.GetBool("CanRotate"))
         {
             transform.localRotation = Quaternion.identity;
+            transform.localPosition = Vector3.zero;
         }
 
         m_animator.SetFloat("VelocityVertical", direction.z);
