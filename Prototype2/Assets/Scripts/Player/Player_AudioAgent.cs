@@ -16,4 +16,8 @@ public class Player_AudioAgent : MultiAudioAgent
     {
         base.PlayOnce("PlayerAdrenalineGain", false, 1.0f);
     }
+    public void PlaySwordHit()
+    {
+        base.PlayOnce("SwordHit", false, Random.Range(0.95f, 1.05f));
+    }
 }
