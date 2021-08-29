@@ -23,7 +23,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 966910209252640739}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 6973377048940520918}
   - component: {fileID: 7937770036292584857}
   - component: {fileID: 3675882953386921140}
+  - component: {fileID: 3209968236377475113}
   m_Layer: 0
   m_Name: Banner_BannerChainBall
   m_TagString: Untagged
@@ -113,6 +114,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &3209968236377475113
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3170932068358089840}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1796915521730987677, guid: 7c8c657d705cf684d929eee65a9e2da5, type: 3}
 --- !u!1 &4213771862947545304
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,6 +139,7 @@ GameObject:
   - component: {fileID: 7161887563974642891}
   - component: {fileID: 8353353322808104194}
   - component: {fileID: 6432182176643612212}
+  - component: {fileID: 5478034721361756292}
   m_Layer: 0
   m_Name: BannerChain_Banner
   m_TagString: Untagged
@@ -192,6 +208,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &5478034721361756292
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4213771862947545304}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5055914656996188638, guid: 7c8c657d705cf684d929eee65a9e2da5, type: 3}
 --- !u!1 &7826615344637656870
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,6 +233,8 @@ GameObject:
   - component: {fileID: 6730514061918727405}
   - component: {fileID: 1985440516417795940}
   - component: {fileID: 3028128696838258075}
+  - component: {fileID: 5869785780478672797}
+  - component: {fileID: 3249767609265351590}
   m_Layer: 0
   m_Name: Banner_BannerMain
   m_TagString: Untagged
@@ -271,6 +303,36 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!208 &5869785780478672797
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7826615344637656870}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.34100002, y: 1.5410001, z: 0.34100002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.054, y: 1.5410001, z: 0.014}
+  m_TimeToStationary: 0.5
+--- !u!64 &3249767609265351590
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7826615344637656870}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -468769006255060574, guid: 7c8c657d705cf684d929eee65a9e2da5, type: 3}
 --- !u!1 &8207032779741886061
 GameObject:
   m_ObjectHideFlags: 0
