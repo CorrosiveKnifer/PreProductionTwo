@@ -22,7 +22,7 @@ public class Boss_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_stearModifier = Mathf.Clamp(m_stearModifier - m_stearDecay * Time.deltaTime, 10f, 10.0f);
+        m_stearModifier = Mathf.Clamp(m_stearModifier - m_stearDecay * Time.deltaTime, 4f, 10.0f);
         transform.rotation = Quaternion.Slerp(transform.rotation, m_targetRotation, Time.deltaTime * m_stearModifier);
         m_myAgent.destination = transform.position;
     }
