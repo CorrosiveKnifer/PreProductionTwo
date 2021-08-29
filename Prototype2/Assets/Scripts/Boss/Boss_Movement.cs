@@ -24,7 +24,6 @@ public class Boss_Movement : MonoBehaviour
     {
         m_stearModifier = Mathf.Clamp(m_stearModifier - m_stearDecay * Time.deltaTime, 4f, 10.0f);
         transform.rotation = Quaternion.Slerp(transform.rotation, m_targetRotation, Time.deltaTime * m_stearModifier);
-        m_myAgent.destination = transform.position;
     }
 
     public void Stop()
@@ -86,4 +85,5 @@ public class Boss_Movement : MonoBehaviour
     {
         m_stearModifier = Mathf.Clamp(_val, 1.0f, 10.0f);
     }
+
 }
