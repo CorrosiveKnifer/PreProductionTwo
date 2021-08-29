@@ -44,8 +44,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.3766868, y: 1, z: 2.2147853}
-  m_Center: {x: 0.0023548598, y: 1.2532161e-11, z: -0.60739756}
+  m_Size: {x: 2.6506262, y: 1, z: 2.9748757}
+  m_Center: {x: -0.019631505, y: 0, z: -0.46202946}
 --- !u!136 &1918809667
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2063,7 +2063,7 @@ MonoBehaviour:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
-            m_FloatArgument: 0.21666667
+            m_FloatArgument: 0.73125
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
@@ -2193,7 +2193,7 @@ MonoBehaviour:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
-            m_FloatArgument: 0.17500006
+            m_FloatArgument: 0.5250003
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
@@ -2241,7 +2241,7 @@ MonoBehaviour:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
-            m_FloatArgument: 0.15
+            m_FloatArgument: 0.45
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
@@ -2289,7 +2289,7 @@ MonoBehaviour:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
-            m_FloatArgument: 0.12500001
+            m_FloatArgument: 0.375
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
