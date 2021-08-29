@@ -148,7 +148,7 @@ public class LevelLoader : MonoBehaviour
                 break;
             case Transition.YOUDIED:
                 transition = Instantiate(youdiedPrefab, transform).GetComponent<Animator>();
-                timeMult = 3.5f;
+                timeMult = 5.0f;
                 break;
             case Transition.YOUWIN:
                 transition = Instantiate(youwinPrefab, transform).GetComponent<Animator>();

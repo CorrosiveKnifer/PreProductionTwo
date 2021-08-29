@@ -138,7 +138,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Poggers
+  m_text: victory is yours
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7074b557a5dd9104aa52bd80e14cf8a9, type: 2}
   m_sharedMaterial: {fileID: 2950284235205244569, guid: 7074b557a5dd9104aa52bd80e14cf8a9,
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 16739092
+    rgba: 4294929172
   m_fontColor: {r: 0.08018869, g: 0.42112973, b: 1, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
