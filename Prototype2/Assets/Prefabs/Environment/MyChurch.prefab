@@ -1077,7 +1077,7 @@ NavMeshObstacle:
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: 365.27002, y: 20.566002, z: 6.2630005}
+  m_Center: {x: 365.27002, y: 20.566002, z: -6.1660004}
   m_TimeToStationary: 0.5
 --- !u!1 &2767763052736285709
 GameObject:
@@ -1264,7 +1264,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6e479132ca2be8545b60fbbaca075d57, type: 2}
+  - {fileID: 2100000, guid: f57d219e363bec44a8f92f9fc8a97066, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1934,7 +1934,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6e479132ca2be8545b60fbbaca075d57, type: 2}
+  - {fileID: 2100000, guid: f57d219e363bec44a8f92f9fc8a97066, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
