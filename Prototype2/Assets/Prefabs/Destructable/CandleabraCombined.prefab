@@ -107,4 +107,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a30c04122148c148ab09a66e695d3e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crackedObject: {fileID: 0}
+  crackedObject: {fileID: 4902256531051659181, guid: 300b7356b33ebf54283ab51f8cfbecec,
+    type: 3}
