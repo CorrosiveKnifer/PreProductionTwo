@@ -6,11 +6,15 @@ public class Boss_AudioAgent : MultiAudioAgent
 {
     public void PlayHurt()
     {
-        base.Play($"BossHurt{Random.Range(1, 3)}", false, Random.Range(0.9f, 1.1f));
+        base.Play($"BossHurt{Random.Range(0, 3)}", false, Random.Range(0.9f, 1.1f));
     }
     public void PlayMad()
     {
         base.PlayDelayed("BossMad", 0.6f, false, Random.Range(0.9f, 1.1f));
+    }
+    public void PlayKick()
+    {
+        base.Play("KickSE", false, 1.0f);
     }
     public void PlayStep()
     {
