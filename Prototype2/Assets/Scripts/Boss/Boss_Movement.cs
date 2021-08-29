@@ -22,7 +22,7 @@ public class Boss_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_stearModifier = Mathf.Clamp(m_stearModifier - m_stearDecay * Time.deltaTime, 1.5f, 10.0f);
+        m_stearModifier = Mathf.Clamp(m_stearModifier - m_stearDecay * Time.deltaTime, 10f, 10.0f);
         transform.rotation = Quaternion.Slerp(transform.rotation, m_targetRotation, Time.deltaTime * m_stearModifier);
         m_myAgent.destination = transform.position;
     }
@@ -76,7 +76,7 @@ public class Boss_Movement : MonoBehaviour
             case Space.Self: 
                 //Removes self rotation
                 Vector3 worldDirect = (m_targetPos - transform.position).normalized;
-                return Quaternion.AngleAxis(transform.rotation.eulerAngles.y, -Vector3.up) * worldDirect;
+                return (Quaternion.AngleAxis(transform.rotation.eulerAngles.y, -Vector3.up) * worldDirect).normalized;
             default:
                 return Vector3.zero;
         }
