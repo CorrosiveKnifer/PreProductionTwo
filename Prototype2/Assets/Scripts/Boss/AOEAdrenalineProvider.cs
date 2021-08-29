@@ -15,7 +15,7 @@ public class AOEAdrenalineProvider : PlayerAdrenalineProvider
         m_maxWindow = window;
         m_currentWindow = window;
         m_value = 1.0f * m_modifier;
-        m_player.GetComponent<PlayerMovement>().SetPotentialAdrenaline(this);
+        //m_player.GetComponent<PlayerMovement>().SetPotentialAdrenaline(this);
     }
 
     // Update is called once per frame
