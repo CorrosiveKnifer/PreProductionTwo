@@ -10113,6 +10113,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 5667744037412146115, guid: 4e80d87faa15f114a88ddea9ac99c420,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 2.6506262
+      objectReference: {fileID: 0}
+    - target: {fileID: 5667744037412146115, guid: 4e80d87faa15f114a88ddea9ac99c420,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 2.9748757
+      objectReference: {fileID: 0}
+    - target: {fileID: 5667744037412146115, guid: 4e80d87faa15f114a88ddea9ac99c420,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.019631505
+      objectReference: {fileID: 0}
+    - target: {fileID: 5667744037412146115, guid: 4e80d87faa15f114a88ddea9ac99c420,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5667744037412146115, guid: 4e80d87faa15f114a88ddea9ac99c420,
+        type: 3}
+      propertyPath: m_Center.z
+      value: -0.46202946
+      objectReference: {fileID: 0}
     - target: {fileID: 7684161544378328312, guid: 4e80d87faa15f114a88ddea9ac99c420,
         type: 3}
       propertyPath: animEvents.Array.data[0]._event.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_FloatArgument
