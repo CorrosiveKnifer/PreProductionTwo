@@ -48,6 +48,10 @@ public class Boss_Weapon : PlayerAdrenalineProvider
             {
                 other.GetComponent<PlayerController>().Damage(m_weaponDamage);
             }
+            if(other.gameObject.layer == LayerMask.NameToLayer("Attackable"))
+            {
+                other.GetComponent<Destructible>().CrackObject();
+            }
             m_damaged.Add(other.gameObject);
         }
     }

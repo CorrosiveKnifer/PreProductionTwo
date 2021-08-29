@@ -46,6 +46,8 @@ public class SoloAudioAgent : AudioAgent
             player.SetVolume(0.0f);
         else
             player.SetVolume(AudioManager.instance.GetVolume(channel, this) * localVolume);
+
+        player.Update();
     }
 
     /// <summary>

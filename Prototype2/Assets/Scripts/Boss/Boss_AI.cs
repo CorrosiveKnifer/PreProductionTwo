@@ -49,6 +49,7 @@ public class Boss_AI : MonoBehaviour
     private Boss_Animator m_myAnimator;
     private Boss_Weapon m_myWeapon;
     private Boss_Kick m_myKick;
+    private Boss_AudioAgent m_myAudio;
     private UI_Bar m_myHealthBar;
 
     // Start is called before the first frame update
@@ -66,6 +67,8 @@ public class Boss_AI : MonoBehaviour
         m_myAnimator = GetComponentInChildren<Boss_Animator>();
 
         m_myKick = GetComponentInChildren<Boss_Kick>();
+
+        m_myAudio = GetComponentInChildren<Boss_AudioAgent>();
 
         m_myWeapon = GetComponentInChildren<Boss_Weapon>();
         m_myWeapon.m_weaponDamage = m_myData.weaponDamage;
@@ -90,7 +93,7 @@ public class Boss_AI : MonoBehaviour
         if(!m_isDead)
         {
             BehavourUpdate();
-
+            DestructionCheck();
             if (m_myAnimator != null)
                 AnimationUpdate();
 
@@ -114,7 +117,18 @@ public class Boss_AI : MonoBehaviour
             m_tripleCD = 5f;
         }
     }
+    public void DestructionCheck()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position + transform.forward * 0.5f, 1f);
 
+        foreach (var hit in hits)
+        {
+            if (hit.gameObject.layer == LayerMask.NameToLayer("Attackable"))
+            {
+                hit.GetComponent<Destructible>()?.CrackObject();
+            }
+        }
+    }
     public void AnimationUpdate()
     {
         //transform.rotation = Quaternion.LookRotation(transform.position - m_player.transform.position, Vector3.up);
@@ -186,6 +200,7 @@ public class Boss_AI : MonoBehaviour
                     float angle = m_myMovement.GetAngle(target);
                     if (angle <= 65 || angle >= -65)
                     {
+                        m_myAudio.PlayMad();
                         m_myAnimator.IsRanged = true;
                         m_canCancel = true;
                     }
@@ -310,6 +325,7 @@ public class Boss_AI : MonoBehaviour
         Boss_Projectile boss_proj = proj.GetComponent<Boss_Projectile>();
         boss_proj.m_sender = transform;
         boss_proj.m_target = m_player;
+        boss_proj.m_damage = m_myData.projectileDamage;
         proj.gameObject.SetActive(true);
     }
 
@@ -359,12 +375,15 @@ public class Boss_AI : MonoBehaviour
         damageMod = Mathf.Clamp(damageMod, 0.0f, 1.0f);
         m_currentHealth -= damage * damageMod;
 
+        m_myAudio.PlayHurt();
+
         //Deal with death
-        if(m_currentHealth <= 0)
+        if (m_currentHealth <= 0)
         {
             m_isDead = true;
             m_myAnimator.IsDead = true;
             GetComponent<Collider>().enabled = false;
+            HUDManager.instance.GetElement<UI_SpeedrunTimer>()?.StopTimer();
         }
         m_damageMemory += 3.0f;
         m_myMovement.SetStearModifier(5.0f);
@@ -375,15 +394,34 @@ public class Boss_AI : MonoBehaviour
     }
     public void ApplyAOE()
     {
-        if(Vector3.Distance(m_player.transform.position, transform.position) < m_myData.aoeRadius * 1.5f)
-        {
-            Vector3 direction = (m_player.transform.position - transform.position);
-            direction.y = 0;
+        Collider[] hits = Physics.OverlapSphere(transform.position, m_myData.aoeRadius * 1.5f);
 
-            //AOE damage
-            m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, m_myData.aoeForce);
-            m_player.GetComponent<PlayerController>().Damage(m_myData.aoeDamage);
-            m_aoeVFX.transform.parent = null;
+        foreach (var hit in hits)
+        {
+            if(hit.tag == "Player")
+            {
+                Vector3 direction = (hit.transform.position - transform.position);
+                direction.y = 0;
+
+                //AOE damage
+                m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, m_myData.aoeForce);
+                m_player.GetComponent<PlayerController>().Damage(m_myData.aoeDamage, true);
+                m_aoeVFX.transform.parent = null;
+                continue;
+            }
+            if(hit.gameObject.layer == LayerMask.NameToLayer("Attackable"))
+            {
+                Vector3 direction = (hit.transform.position - transform.position);
+                direction.y = 0;
+
+                hit.GetComponent<Destructible>()?.ExplodeObject(m_aoeVFX.transform.position, m_myData.aoeForce * 7.5f, m_myData.aoeRadius * 1.5f);
+                continue;
+            }
+            if(hit.GetComponent<Rigidbody>() != null)
+            {
+                hit.GetComponent<Rigidbody>().AddExplosionForce(m_myData.aoeForce * 7.5f, m_aoeVFX.transform.position, m_myData.aoeRadius * 1.5f, 1.0f);
+                continue;
+            }
         }
     }
     public void ApplyKickAction()
