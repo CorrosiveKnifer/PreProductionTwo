@@ -1069,22 +1069,22 @@ PrefabInstance:
     - target: {fileID: 5519596425744812592, guid: b95c9b921dabda84a876463c11517fe8,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.635016
+      value: 0.6350161
       objectReference: {fileID: 0}
     - target: {fileID: 5519596425744812592, guid: b95c9b921dabda84a876463c11517fe8,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.030699529
+      value: -0.030699527
       objectReference: {fileID: 0}
     - target: {fileID: 5519596425744812592, guid: b95c9b921dabda84a876463c11517fe8,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7709883
+      value: -0.7709882
       objectReference: {fileID: 0}
     - target: {fileID: 5519596425744812592, guid: b95c9b921dabda84a876463c11517fe8,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.037273034
+      value: -0.03727303
       objectReference: {fileID: 0}
     - target: {fileID: 5519596425744812593, guid: b95c9b921dabda84a876463c11517fe8,
         type: 3}
@@ -3845,7 +3845,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18992
+  m_Name: pb_Mesh92470
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6597,6 +6597,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 7022330506278610237, guid: 4e80d87faa15f114a88ddea9ac99c420,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 49d5b8f8a05bbf848ad923bee95b721a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e80d87faa15f114a88ddea9ac99c420, type: 3}
 --- !u!114 &2114307642 stripped
