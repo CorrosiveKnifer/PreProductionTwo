@@ -20,4 +20,8 @@ public class Player_AudioAgent : MultiAudioAgent
     {
         base.PlayOnce("SwordHit", false, Random.Range(0.95f, 1.05f));
     }
+    public void PlayDeath()
+    {
+        base.PlayOnce("PlayerDeath", false, Random.Range(0.95f, 1.05f));
+    }
 }
