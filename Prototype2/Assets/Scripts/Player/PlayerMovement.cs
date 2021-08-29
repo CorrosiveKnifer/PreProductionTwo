@@ -141,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
         normalizedMove += _move.y * cameraForward.normalized;
 
         // If player is trying to roll and can
-        if (!_jump && _roll && normalizedMove.magnitude >= 0.1f && m_playerController.m_playerResources.m_stamina > 0.0f)
+        if (!_jump && _roll && m_playerController.m_playerResources.m_stamina > 0.0f)
         {
             // Subtract stamina
             m_playerController.m_playerResources.ChangeStamina(-30.0f);
@@ -161,7 +161,15 @@ public class PlayerMovement : MonoBehaviour
                 o_adrenalineProvider = null;
             }
 
-            m_lastMoveDirection = normalizedMove;
+            if (normalizedMove.magnitude > 0)
+            {
+                m_lastMoveDirection = normalizedMove;
+            }
+            else
+            {
+                m_lastMoveDirection = m_playerModel.transform.forward;
+            }
+
             // Play animation
             m_playerController.m_animator.SetTrigger("Roll");
             m_playerController.CeaseSwing();
