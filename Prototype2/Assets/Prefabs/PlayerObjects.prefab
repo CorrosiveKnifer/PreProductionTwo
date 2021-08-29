@@ -3756,7 +3756,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_staminaRechargeDelay: 2
   m_rechargeRate: 40
-  m_adrenalineDecayRate: 3
+  m_adrenalineDecayRate: 1.5
 --- !u!114 &8422007746411455706
 MonoBehaviour:
   m_ObjectHideFlags: 0
