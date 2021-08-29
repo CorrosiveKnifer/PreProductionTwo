@@ -4518,7 +4518,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c0d810a5ea8a1204c8ba67b5e019e98b, type: 2}
+  - {fileID: 2100000, guid: 1b65c6377e984fa49921d0f10fa62ac4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4604,6 +4604,26 @@ PrefabInstance:
         type: 3}
       propertyPath: ShapeModule.radius.value
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362978345518280826, guid: 7124c8b0d1d75b840ae31dadd56d3803,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.a
+      value: 0.05882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362978345518280826, guid: 7124c8b0d1d75b840ae31dadd56d3803,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.39602685
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362978345518280826, guid: 7124c8b0d1d75b840ae31dadd56d3803,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362978345518280826, guid: 7124c8b0d1d75b840ae31dadd56d3803,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7362978345825446076, guid: 7124c8b0d1d75b840ae31dadd56d3803,
         type: 3}
