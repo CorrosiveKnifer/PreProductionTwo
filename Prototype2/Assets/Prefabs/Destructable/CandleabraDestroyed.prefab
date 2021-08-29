@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 724317264994394982}
   - component: {fileID: 6749397307371509113}
   - component: {fileID: 4172157846547119780}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: CandleabraDestroyed_pCube11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 2891574345554582163}
   - component: {fileID: 8197474346816685833}
   - component: {fileID: 8676006645494414356}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: CandleabraDestroyed_pCylinder46
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 435010417543357158}
   - component: {fileID: 8005038383169101570}
   - component: {fileID: 7931663318251010219}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: CandleabraDestroyed_pCylinder45
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 1179910692973363439}
   - component: {fileID: 8542255906128259883}
   - component: {fileID: 2527828730073383292}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: CandleabraDestroyed_pCylinder47
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -457,7 +457,7 @@ GameObject:
   - component: {fileID: 1937490929683196001}
   - component: {fileID: 4485278776786514719}
   - component: {fileID: 4012543531316326156}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: CandleabraDestroyed_pCylinder33
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -568,7 +568,7 @@ GameObject:
   - component: {fileID: 5501335256505277316}
   - component: {fileID: 6811258408591000923}
   - component: {fileID: 6287702769348920712}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: CandleabraDestroyed_pCube17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -752,7 +752,7 @@ GameObject:
   - component: {fileID: 701798759731584463}
   - component: {fileID: 925156588702554669}
   - component: {fileID: 1853700595680226980}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: CandleabraDestroyed_pCylinder36
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -863,7 +863,7 @@ GameObject:
   - component: {fileID: 7125758029373092423}
   - component: {fileID: 700397041428614228}
   - component: {fileID: 4346795749138275763}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: CandleabraDestroyed_pCube18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -974,7 +974,7 @@ GameObject:
   - component: {fileID: 4125130830950251804}
   - component: {fileID: 5879514062775564392}
   - component: {fileID: 3495620019807682885}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: CandleabraDestroyed_pCube19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1085,7 +1085,7 @@ GameObject:
   - component: {fileID: 5125768922239260360}
   - component: {fileID: 5914869469609686955}
   - component: {fileID: 4199418597772932130}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: pCylinder31_CandleabraDestroyed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1196,7 +1196,7 @@ GameObject:
   - component: {fileID: 2110944217114626625}
   - component: {fileID: 6655036371441126734}
   - component: {fileID: 3149886930834481612}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: CandleabraDestroyed_pCylinder35
   m_TagString: Untagged
   m_Icon: {fileID: 0}
