@@ -35,14 +35,10 @@ public class MainMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (InputManager.instance.IsKeyDown(KeyType.ESC))
-        {
-            QuitGame();
-        }
-        if (InputManager.instance.IsGamepadButtonDown(ButtonType.SOUTH, 0) || InputManager.instance.IsKeyDown(KeyType.SPACE))
-        {
-            StartGame();
-        }
+        //if (InputManager.instance.IsGamepadButtonDown(ButtonType.SOUTH, 0) || InputManager.instance.IsKeyDown(KeyType.SPACE))
+        //{
+        //    StartGame();
+        //}
         if(InputManager.instance.IsGamepadButtonDown(ButtonType.NORTH, 0) || InputManager.instance.IsKeyDown(KeyType.T))
         {
             GameManager.instance.enableTimer = true;
@@ -52,9 +48,9 @@ public class MainMenu : MonoBehaviour
 
     public void ChangeSliderNumber(Slider _slider)
     {
-        //float newValue = _slider.value;
-        //_slider.GetComponentInChildren<Text>().text = ((int)(newValue * 100.0f)).ToString();
-        //AudioManager.instance.volumes[(int)m_sliders[_slider]] = newValue;
+        float newValue = _slider.value;
+        _slider.GetComponentInChildren<Text>().text = ((int)(newValue * 100.0f)).ToString();
+        AudioManager.instance.volumes[(int)m_sliders[_slider]] = newValue;
         //
         //Debug.Log(m_sliders[_slider].ToString() + ": " + AudioManager.instance.volumes[(int)m_sliders[_slider]]);
     }
@@ -70,25 +66,24 @@ public class MainMenu : MonoBehaviour
 
         //LevelLoader.instance.LoadNewLevel(m_sceneName);
     }
-    //public void Settings()
-    //{
-    //    m_settings.SetActive(!m_settings.activeInHierarchy);
-    //    if (m_settings.activeInHierarchy)
-    //    {
-    //        EventSystem.current.SetSelectedGameObject(m_masterVolume.gameObject);
-    //    }
-    //    else
-    //    {
-    //        EventSystem.current.SetSelectedGameObject(m_settingsButton);
-    //    }
-    //}
+    public void Settings()
+    {
+        m_settings.SetActive(!m_settings.activeInHierarchy);
+        if (m_settings.activeInHierarchy)
+        {
+            EventSystem.current.SetSelectedGameObject(m_masterVolume.gameObject);
+        }
+        else
+        {
+            EventSystem.current.SetSelectedGameObject(m_settingsButton);
+        }
+    }
 
     public void QuitGame()
     {
-        Application.Quit();
         #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
         #endif
-        //LevelLoader.instance.QuitGame();
+        LevelLoader.instance.QuitGame();
     }
 }
