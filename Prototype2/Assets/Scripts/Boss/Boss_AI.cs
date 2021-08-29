@@ -380,6 +380,7 @@ public class Boss_AI : MonoBehaviour
         //Deal with death
         if (m_currentHealth <= 0)
         {
+            StartCoroutine(EndGame());
             m_isDead = true;
             m_myAnimator.IsDead = true;
             GetComponent<Collider>().enabled = false;
@@ -387,6 +388,12 @@ public class Boss_AI : MonoBehaviour
         }
         m_damageMemory += 3.0f;
         m_myMovement.SetStearModifier(5.0f);
+    }
+    IEnumerator EndGame()
+    {
+        yield return new WaitForSecondsRealtime(5.0f);
+        LevelLoader.instance.LoadNewLevel("MainGame", LevelLoader.Transition.YOUWIN);
+
     }
     public void StartAOEWindow(float window)
     {
