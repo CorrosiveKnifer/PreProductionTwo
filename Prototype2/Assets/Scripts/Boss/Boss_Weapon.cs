@@ -16,10 +16,14 @@ public class Boss_Weapon : PlayerAdrenalineProvider
     public float m_maxWindow = 0.0f;
     public float m_modifier = 1.0f;
     public Transform parentTransform;
+
+    protected ParticleSystem particles;
     // Start is called before the first frame update
     void Start()
     {
         m_damaged = new List<GameObject>();
+        particles = GetComponentInChildren<ParticleSystem>();
+        SetWeaponStatus(false);
     }
 
     // Update is called once per frame
@@ -70,6 +74,9 @@ public class Boss_Weapon : PlayerAdrenalineProvider
     public void SetWeaponStatus(bool status)
     {
         m_isLive = status;
+
+        var emission = particles.emission;
+        emission.enabled = status;
     }
 
     public void StartAdrenalineWindow(float window)
