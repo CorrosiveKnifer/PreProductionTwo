@@ -69,6 +69,7 @@ MonoBehaviour:
   m_currentWindow: 0
   m_maxWindow: 0
   m_modifier: 1
+  parentTransform: {fileID: 0}
 --- !u!1 &2474001385085647514
 GameObject:
   m_ObjectHideFlags: 0
@@ -4809,7 +4810,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2d91a73f9a864e947ac955d79af563c9, type: 2}
+  - {fileID: 2100000, guid: 64cac810f33b029459b1cf480976be15, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
