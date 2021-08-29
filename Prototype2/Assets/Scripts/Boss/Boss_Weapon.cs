@@ -14,8 +14,8 @@ public class Boss_Weapon : PlayerAdrenalineProvider
     public List<GameObject> m_damaged;
     public float m_currentWindow = 0.0f;
     public float m_maxWindow = 0.0f;
-    public float m_modifier = 1.0f; 
-
+    public float m_modifier = 1.0f;
+    public Transform parentTransform;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +47,9 @@ public class Boss_Weapon : PlayerAdrenalineProvider
             if(other.tag == "Player")
             {
                 other.GetComponent<PlayerController>().Damage(m_weaponDamage);
+                Vector3 direction = other.transform.position - parentTransform.position;
+                direction.y = 0;
+                other.GetComponent<PlayerMovement>().Knockback(direction.normalized, 10.0f);
             }
             if(other.gameObject.layer == LayerMask.NameToLayer("Attackable"))
             {
