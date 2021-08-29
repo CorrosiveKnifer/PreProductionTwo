@@ -85,7 +85,11 @@ public class Boss_Projectile : MonoBehaviour
         float radius = transform.localScale.x;
         Gizmos.color = (m_providerInfo.m_value > 0) ? Color.green: Color.red; 
         Gizmos.DrawWireSphere(projPoint, radius);
-        Handles.color = (m_providerInfo.m_value > 0) ? Color.green : Color.red;
-        Handles.Label(projPoint, $"Dodge:{m_providerInfo.m_value }");
+
+        #if UNITY_EDITOR
+                Handles.color = (m_providerInfo.m_value > 0) ? Color.green : Color.red;
+                Handles.Label(projPoint, $"Dodge:{m_providerInfo.m_value }");
+        #endif
+
     }
 }

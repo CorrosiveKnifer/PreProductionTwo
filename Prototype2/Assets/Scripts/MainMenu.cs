@@ -12,6 +12,7 @@ public class MainMenu : MonoBehaviour
     public Animator doors;
     public GameObject player;
     public GameObject m_tutorialText;
+    public Button m_playButton;
 
     [Header("Settings")]
     public GameObject m_settings;
@@ -20,18 +21,22 @@ public class MainMenu : MonoBehaviour
     public Slider m_soundEffectVolume;
     public Slider m_musicVolume;
     private GameObject m_lastSelected;
-
-    Dictionary<Slider,AudioManager.VolumeChannel> m_sliders = new Dictionary<Slider, AudioManager.VolumeChannel>();
+    private bool ignore = true;
+    //Dictionary<Slider,AudioManager.VolumeChannel> m_sliders = new Dictionary<Slider, AudioManager.VolumeChannel>();
 
     // Start is called before the first frame update
     void Start()
     {
+        m_playButton.Select();
         HUDManager.instance.gameObject.SetActive(false);
         player = GameObject.FindGameObjectWithTag("Player");
         player.GetComponent<PlayerController>().m_functionalityEnabled = false;
         m_tutorialText.SetActive(false);
+        m_masterVolume.value = AudioManager.instance.volumes[0];
+        m_soundEffectVolume.value = AudioManager.instance.volumes[1];
+        m_musicVolume.value = AudioManager.instance.volumes[2];
+        ignore = false;
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -44,15 +49,22 @@ public class MainMenu : MonoBehaviour
             GameManager.instance.enableTimer = true;
             GetComponent<SoloAudioAgent>().Play();
         }
+        AudioManager.instance.volumes[0] = m_masterVolume.value;        
+        AudioManager.instance.volumes[1] = m_soundEffectVolume.value;
+        AudioManager.instance.volumes[2] = m_musicVolume.value;
     }
 
     public void ChangeSliderNumber(Slider _slider)
     {
-        float newValue = _slider.value;
-        _slider.GetComponentInChildren<Text>().text = ((int)(newValue * 100.0f)).ToString();
-        AudioManager.instance.volumes[(int)m_sliders[_slider]] = newValue;
+        //float newValue = _slider.value;
+        //_slider.GetComponentInChildren<Text>().text = ((int)(newValue * 100.0f)).ToString();
+        //AudioManager.instance.volumes[(int)m_sliders[_slider]] = newValue;
         //
         //Debug.Log(m_sliders[_slider].ToString() + ": " + AudioManager.instance.volumes[(int)m_sliders[_slider]]);
+        if(!ignore)
+        {
+            GetComponent<SoloAudioAgent>().Play();
+        }
     }
 
     public void StartGame()
