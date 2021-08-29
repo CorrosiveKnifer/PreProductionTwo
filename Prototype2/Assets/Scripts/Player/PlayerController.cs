@@ -128,12 +128,16 @@ public class PlayerController : MonoBehaviour
         {
             m_playerResources.ChangeAdrenaline(20.0f);
         }
-        //if (InputManager.instance.IsKeyDown(KeyType.K))
-        //{
-        //    Vector3 m_direction = transform.position;
-        //    m_direction.y = 0;
-        //    m_playerMovement.Knockdown(m_direction, 10.0f);
-        //}
+        if (InputManager.instance.IsKeyDown(KeyType.K))
+        {
+            Vector3 m_direction = transform.position;
+            m_direction.y = 0;
+            m_playerMovement.Knockback(m_direction, 20.0f);
+        }
+        if (InputManager.instance.IsKeyDown(KeyType.F))
+        {
+            Damage(100.0f);
+        }
 
         CalculateAdrenalineBoost();
 
@@ -203,6 +207,8 @@ public class PlayerController : MonoBehaviour
     public void KillPlayer()
     {
         m_animator.SetTrigger("Die");
+        m_animator.SetBool("IsDead", true);
+        GetComponent<Player_AudioAgent>().PlayDeath();
         LevelLoader.instance.LoadNewLevel("MainGame", LevelLoader.Transition.YOUDIED);
     }
 

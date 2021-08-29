@@ -45,11 +45,15 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m_knockedDown)
+        if (m_knockVelocity.magnitude > 0.05f)
         {
             m_characterController.Move(m_knockVelocity * Time.deltaTime
                 + transform.up * m_yVelocity * Time.deltaTime);
             m_knockVelocity = Vector3.Lerp(m_knockVelocity, Vector3.zero, 5 * Time.deltaTime);
+        }
+        else if (m_knockedDown)
+        {
+            m_characterController.Move(transform.up * m_yVelocity * Time.deltaTime);
         }
     }
 
@@ -112,9 +116,6 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Move(Vector2 _move, bool _jump, bool _roll)
     {
-
-
-
         _jump = false;
 
         if (m_knockedDown)
@@ -229,6 +230,14 @@ public class PlayerMovement : MonoBehaviour
         m_knockedDown = true;
         m_stagger = false;
         m_isRolling = false;
+    }
+    public void Knockback(Vector3 _direction, float _power, bool _ignoreInv = false)
+    {
+        if (!_ignoreInv && m_isRolling)
+            return;
+
+        m_knockVelocity = _direction.normalized * _power;
+        m_knockbackSourceDir = -_direction.normalized;
     }
     public void StopKnockdown()
     {
