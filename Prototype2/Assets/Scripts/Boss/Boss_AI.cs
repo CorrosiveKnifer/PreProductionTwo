@@ -441,6 +441,7 @@ public class Boss_AI : MonoBehaviour
         if(m_myKick.isPlayerWithin)
         {
             m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, m_myData.kickForce);
+            m_myAudio.PlayKick();
             m_player.GetComponent<PlayerController>().Damage(m_myData.kickDamage);
         }
     }
