@@ -8,12 +8,14 @@ public class Destructible : MonoBehaviour
 
     public void CrackObject()
     {
-        Instantiate(crackedObject, transform.position, transform.rotation);
+        GameObject newObject = Instantiate(crackedObject, transform.position, transform.rotation);
+        newObject.transform.localScale = transform.localScale;
         Destroy(gameObject);
     }
     public void ExplodeObject(Vector3 forceLoc, float forceVal, float maxDist)
     {
         Destruction destructObject = Instantiate(crackedObject, transform.position, transform.rotation).GetComponent<Destruction>();
+        destructObject.transform.localScale = transform.localScale;
         destructObject.ApplyExplosionForce(forceLoc, forceVal, maxDist);
         Destroy(gameObject);
     }

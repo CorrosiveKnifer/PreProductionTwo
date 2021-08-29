@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dfd7832409ddbb46b4a282c2122fd7d, type: 3}
   m_Name: bossData
   m_EditorClassIdentifier: 
-  health: 200
-  resistance: 50
+  health: 250
+  resistance: 47
   meleeAttackRange: 2.75
   weaponDamage: 20
   weaponAdrenalineModifier: 1
