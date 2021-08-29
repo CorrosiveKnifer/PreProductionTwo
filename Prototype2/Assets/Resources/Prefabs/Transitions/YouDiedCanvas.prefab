@@ -138,7 +138,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Dumb Bitch
+  m_text: Lmao
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7074b557a5dd9104aa52bd80e14cf8a9, type: 2}
   m_sharedMaterial: {fileID: 2950284235205244569, guid: 7074b557a5dd9104aa52bd80e14cf8a9,
@@ -332,7 +332,7 @@ Animator:
   m_GameObject: {fileID: 9174843060130252911}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6a37c6520bc591e44aaaaab72478b394, type: 2}
+  m_Controller: {fileID: 9100000, guid: 51bc16664995243459c2f72bbdc74018, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -13,7 +13,7 @@ using UnityEngine;
 /// A single instance of the AudioAgent mainly used for multible soundeffects e.g. A player character.
 /// </summary>
 /// 
-class MultiAudioAgent : AudioAgent
+public class MultiAudioAgent : AudioAgent
 {
     public AudioClip[] audioClips;
     public uint audioPlayersCount = 5;
@@ -49,8 +49,12 @@ class MultiAudioAgent : AudioAgent
                 player.SetVolume(0.0f);
             else
                 player.SetVolume(AudioManager.instance.GetVolume(channel, this) * localVolume);
+
+            player.Update();
         }
     }
+
+    
 
     public bool Play(string clipName, bool isLooping = false, float pitch = 1.0f)
     {
@@ -131,5 +135,27 @@ class MultiAudioAgent : AudioAgent
             }
         }
         return null;
+    }
+
+    public bool PlayDelayed(string clipName, float delay = 1.0f, bool isLooping = false, float pitch = 1.0f)
+    {
+        AudioClip clip;
+        if (audioLibrary.TryGetValue(clipName, out clip))
+        {
+            AudioPlayer player = GetAvailablePlayer();
+            if (player != null)
+            {
+                player.SetClip(clip);
+                player.SetLooping(isLooping);
+                player.SetPitch(pitch);
+                StartCoroutine(player.PlayDelayed(delay));
+                
+                return true;
+            }
+            Debug.LogWarning($"MultiAudioAgent on gameObject: \"{gameObject.name}\" doesn't have enough players to play: \"{clipName}\".");
+            return false;
+        }
+        Debug.LogError($"MultiAudioAgent on gameObject: \"{gameObject.name}\" doesn't contain \"{clipName}\".");
+        return false;
     }
 }

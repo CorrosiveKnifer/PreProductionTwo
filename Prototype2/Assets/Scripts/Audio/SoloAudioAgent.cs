@@ -46,6 +46,8 @@ public class SoloAudioAgent : AudioAgent
             player.SetVolume(0.0f);
         else
             player.SetVolume(AudioManager.instance.GetVolume(channel, this) * localVolume);
+
+        player.Update();
     }
 
     /// <summary>
@@ -79,8 +81,11 @@ public class SoloAudioAgent : AudioAgent
     /// </summary>
     public void PlayWithRandomPitch()
     {
-        player.SetPitch(UnityEngine.Random.Range(0.75f, 1.25f));
-        player.Play();
+        if(!player.IsPlaying())
+        {
+            player.SetPitch(UnityEngine.Random.Range(0.75f, 1.25f));
+            player.Play();
+        }
     }
 
     /// <summary>

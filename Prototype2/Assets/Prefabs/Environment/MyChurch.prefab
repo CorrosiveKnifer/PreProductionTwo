@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5487121543820590553}
   - component: {fileID: 9120459372653655389}
   - component: {fileID: 772558037766528219}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WillsEdit:Spikes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 7984362081526407560}
   - component: {fileID: 870678721561068353}
   - component: {fileID: 6944077815390827543}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WillsEdit:SteepleFront
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8988739939174107400}
   - component: {fileID: 8497740888860031426}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 3075506679532853750}
   - component: {fileID: 2915382133539834944}
   - component: {fileID: 2147777546758177115}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WillsEdit:Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -309,7 +309,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3376016992455597587}
   - component: {fileID: 2373008018508964293}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -355,7 +355,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1892858959959345736}
-  m_Layer: 0
+  - component: {fileID: 791079807}
+  m_Layer: 11
   m_Name: MyChurch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -392,6 +393,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &791079807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229229387090137330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0deb60f02ddb847b5da99b1d5286a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localVolume: 1
+  isMuted: 0
+  mainClip: {fileID: 8300000, guid: 1620fe5d5c48ef0449f43fad4449d205, type: 3}
+  channel: 2
+  isPlayOnAwake: 0
+  isLooping: 1
 --- !u!1 &1352597816400284178
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,7 +422,7 @@ GameObject:
   - component: {fileID: 6531410051637875272}
   - component: {fileID: 1234869611821898600}
   - component: {fileID: 4376534684101922300}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WillsEdit:Bars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -482,7 +501,7 @@ GameObject:
   - component: {fileID: 3405134994924992859}
   - component: {fileID: 973154526842642566}
   - component: {fileID: 5660198280771376202}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WillsEdit:HighRoof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -560,7 +579,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1363170324341985503}
   - component: {fileID: 6585224208183155881}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (21)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -606,7 +625,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2147777546709647008}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: L_Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -620,8 +639,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2147777546709647009}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 365, y: 0, z: -13.49}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 365, y: 0, z: -12.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8013847944366167439}
@@ -638,7 +657,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2147777547769524096}
   - component: {fileID: 2147777547769524099}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Doors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -689,7 +708,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2147777548172692892}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: R_Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -703,8 +722,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2147777548172692893}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 365, y: 0, z: 13.55}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 365, y: 0, z: 12.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8698577362624791454}
@@ -721,7 +740,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3495291678608317832}
   - component: {fileID: 3834394803282669951}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -768,7 +787,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3674370925966405972}
   - component: {fileID: 2768609656814585095}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (24)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -815,7 +834,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5087825203228023702}
   - component: {fileID: 7896786384499683574}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -862,7 +881,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1276410517943352822}
   - component: {fileID: 8680137132299266843}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (23)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -909,7 +928,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8906022492382787931}
   - component: {fileID: 5893369998495662259}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -958,7 +977,8 @@ GameObject:
   - component: {fileID: 3285151317122635625}
   - component: {fileID: 456763505409665951}
   - component: {fileID: 5966416501049111862}
-  m_Layer: 0
+  - component: {fileID: 1576112600060830467}
+  m_Layer: 11
   m_Name: WillsEdit:MainDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1039,6 +1059,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.8246458, y: 40.58782, z: 12.428471}
   m_Center: {x: 365.26965, y: 20.566496, z: -6.1657057}
+--- !u!208 &1576112600060830467
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2726918917143078334}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.4120001, y: 20.294, z: 6.214}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 365.27002, y: 20.566002, z: 6.2630005}
+  m_TimeToStationary: 0.5
 --- !u!1 &2767763052736285709
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,7 +1085,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6343123204776358270}
   - component: {fileID: 7291959419065268922}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1097,7 +1133,7 @@ GameObject:
   - component: {fileID: 8482249163888791175}
   - component: {fileID: 153355534994235922}
   - component: {fileID: 3916664283385140451}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WillsEdit:TopPillars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1175,7 +1211,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6716114393572826149}
   - component: {fileID: 5678388116835456308}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1222,7 +1258,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9014724588498513775}
   - component: {fileID: 503410497047457973}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1269,7 +1305,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8791048543591615908}
   - component: {fileID: 8045229107098178303}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1318,7 +1354,7 @@ GameObject:
   - component: {fileID: 2851351159754460921}
   - component: {fileID: 4987427312969930310}
   - component: {fileID: 2147777546758177117}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WillsEdit:polySurface4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1411,7 +1447,7 @@ GameObject:
   - component: {fileID: 7159157860734749729}
   - component: {fileID: 224932706912406994}
   - component: {fileID: 9174438665469006696}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WillsEdit:SteepleBig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1489,7 +1525,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8445321979917833183}
   - component: {fileID: 5521819618936486769}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (16)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1538,7 +1574,7 @@ GameObject:
   - component: {fileID: 4891219502961585904}
   - component: {fileID: 1971191350131779566}
   - component: {fileID: 6554419532117644186}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WillsEdit:BottomChurchPillars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1658,7 +1694,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4731483091472347522}
   - component: {fileID: 2526556154998190179}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (25)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1705,7 +1741,7 @@ GameObject:
   m_Component:
   - component: {fileID: 614520212963048859}
   - component: {fileID: 2137555404218133338}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1754,7 +1790,7 @@ GameObject:
   - component: {fileID: 5143843417077549873}
   - component: {fileID: 5020290778571580225}
   - component: {fileID: 4019675600154303565}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WillsEdit:polySurface5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1847,7 +1883,7 @@ GameObject:
   - component: {fileID: 7647731183916662117}
   - component: {fileID: 5003966900523877496}
   - component: {fileID: 2261480695660457789}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WillsEdit:BackEnd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1925,7 +1961,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7792563457018780692}
   - component: {fileID: 6348716675432562890}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (22)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1973,7 +2009,7 @@ GameObject:
   - component: {fileID: 3059408179585713330}
   - component: {fileID: 829832166214008016}
   - component: {fileID: 5437164877133061188}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WillsEdit:MiddleConnection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2052,7 +2088,7 @@ GameObject:
   - component: {fileID: 1000695148995189357}
   - component: {fileID: 7604808624191665330}
   - component: {fileID: 7601144167418756198}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WillsEdit:LowRoof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2130,7 +2166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 163385758102307268}
   - component: {fileID: 21522461088762292}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (27)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2177,7 +2213,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3805603784128035819}
   - component: {fileID: 3285864003693802404}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (26)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2224,7 +2260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4522147822179682134}
   - component: {fileID: 6927553611597677719}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2271,7 +2307,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5874387200985692562}
   - component: {fileID: 344040337231491849}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2322,7 +2358,7 @@ GameObject:
   - component: {fileID: 5713624005667357453}
   - component: {fileID: 1037698611}
   - component: {fileID: 1037698612}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WillsEdit:ChurchFrontMain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2440,7 +2476,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4064338212316632287}
   - component: {fileID: 4940799554597773798}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (19)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2487,7 +2523,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3495315461538633397}
   - component: {fileID: 157513139200763908}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2534,7 +2570,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4841289530370977606}
   - component: {fileID: 4683189318708805390}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (18)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2581,7 +2617,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2808007969747255722}
   - component: {fileID: 5252217263112607102}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2628,7 +2664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3259488147631454129}
   - component: {fileID: 4588830653911571779}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2675,7 +2711,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5739041312806285262}
   - component: {fileID: 4051110256368485087}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2722,7 +2758,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3637744484817964568}
   - component: {fileID: 8869387174081376462}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (17)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2771,7 +2807,8 @@ GameObject:
   - component: {fileID: 2246055309846193329}
   - component: {fileID: 207736305188071273}
   - component: {fileID: 6247933720688844910}
-  m_Layer: 0
+  - component: {fileID: 3902518263651301527}
+  m_Layer: 11
   m_Name: WillsEdit:MainDoor2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2852,6 +2889,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.8246458, y: 40.58782, z: 12.428472}
   m_Center: {x: 365.26965, y: 20.566496, z: 6.2627654}
+--- !u!208 &3902518263651301527
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8264599519187158010}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.4120001, y: 20.294, z: 6.214}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 365.27002, y: 20.566002, z: 6.2630005}
+  m_TimeToStationary: 0.5
 --- !u!1 &8440175387866312603
 GameObject:
   m_ObjectHideFlags: 0
@@ -2862,7 +2915,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6260103505575885715}
   - component: {fileID: 8244362321303669496}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PillarData (20)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2910,7 +2963,7 @@ GameObject:
   - component: {fileID: 8473656937084181738}
   - component: {fileID: 681722576672150953}
   - component: {fileID: 394757865041245901}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WillsEdit:BehindWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
