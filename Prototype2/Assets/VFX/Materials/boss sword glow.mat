@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Fire end
+  m_Name: boss sword glow
   m_Shader: {fileID: -6465566751694194690, guid: 05988fe92bb471a459f2c490ed56cab5,
     type: 3}
   m_ShaderKeywords: 
@@ -36,7 +36,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_C54539EC:
-        m_Texture: {fileID: 2800000, guid: f815331e6b7d1f14ea1d79c48ca6c7ef, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9efba1cb4fb52ee41b210185296a88ad, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AnisotropyMap:
