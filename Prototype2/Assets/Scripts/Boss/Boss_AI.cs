@@ -445,7 +445,6 @@ public class Boss_AI : MonoBehaviour
             m_player.GetComponent<PlayerController>().Damage(m_myData.kickDamage);
         }
     }
-
     public void ShakePlayerCam(float _intensity)
     {
         m_player.GetComponent<PlayerController>().m_cameraController.ScreenShake(0.5f, _intensity, 1.0f);

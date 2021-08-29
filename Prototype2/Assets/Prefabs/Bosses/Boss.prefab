@@ -1451,6 +1451,7 @@ MonoBehaviour:
   m_currentWindow: 0
   m_maxWindow: 0
   m_modifier: 1
+  parentTransform: {fileID: 3139500413192414128}
 --- !u!1 &6342063137655918691
 GameObject:
   m_ObjectHideFlags: 0
