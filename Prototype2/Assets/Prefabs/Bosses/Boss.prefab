@@ -806,7 +806,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_waitOnAwake: 1
   m_behavour: 
-  m_startingHealthPercentage: 1
+  m_startingHealthPercentage: 100
   m_currentHealth: 0
   m_currentPatiences: 0
   m_meleeRange: 0
@@ -897,6 +897,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d0f7436d0d4758e449d22070b000f43f, type: 3}
   - {fileID: 8300000, guid: 4a65e240de1f73249b273fe75d2aba8c, type: 3}
   - {fileID: 8300000, guid: 0ea910654cce19f46b4690408d41d3ac, type: 3}
+  - {fileID: 8300000, guid: 3a9941438c28ad34daf52dcc59bf1c7a, type: 3}
+  - {fileID: 8300000, guid: fb5a8681efe9d4e409be3fa28947140c, type: 3}
   audioPlayersCount: 5
   channel: 1
 --- !u!1 &3139500413270300782
@@ -1440,8 +1442,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mutex: 0
   m_value: 0
-  m_inactive: {fileID: 2100000, guid: 088851bd8cdcbbc468b244d753d9f64c, type: 2}
-  m_active: {fileID: 2100000, guid: 7f31f71e11c26be4d8e64161480e12cc, type: 2}
+  m_inactive: {fileID: 2100000, guid: 1b65c6377e984fa49921d0f10fa62ac4, type: 2}
+  m_active: {fileID: 2100000, guid: 49d5b8f8a05bbf848ad923bee95b721a, type: 2}
   m_weaponMesh: {fileID: 7022330506278610237}
   m_isLive: 0
   m_weaponDamage: 0
@@ -2510,7 +2512,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 088851bd8cdcbbc468b244d753d9f64c, type: 2}
+  - {fileID: 2100000, guid: 1b65c6377e984fa49921d0f10fa62ac4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
