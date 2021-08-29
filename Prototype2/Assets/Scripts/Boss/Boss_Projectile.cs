@@ -10,6 +10,8 @@ public class Boss_Projectile : MonoBehaviour
     public float m_maxDistance = 100.0f;
     public GameObject m_target;
     public float m_distWindow = 20.0f;
+
+    public GameObject m_impactPrefab;
     private Vector3 forward;
 
     private Vector3 projPoint;
@@ -29,11 +31,6 @@ public class Boss_Projectile : MonoBehaviour
         //Tell the player their dodge value.
         if(!m_providerInfo.mutex)
             m_target.GetComponent<PlayerMovement>()?.SetPotentialAdrenaline(m_providerInfo);
-
-        if (Vector3.Distance(Vector3.zero, transform.position) > m_maxDistance)
-        {
-            Destroy(gameObject);
-        }
     }
 
     private void Calculate()
@@ -64,8 +61,22 @@ public class Boss_Projectile : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag != "Boss")
+        if (other.tag == "Player")
         {
+            other.GetComponent<PlayerController>().Damage(m_damage);
+        }
+        else if (other.GetComponent<Rigidbody>() != null)
+        {
+            other.GetComponent<Rigidbody>().AddExplosionForce(400f, transform.position, 1f);
+        }
+        if (other.gameObject.layer == LayerMask.NameToLayer("Attackable"))
+        {
+            other.GetComponent<Destructible>().ExplodeObject(transform.position, 400f, 1f);
+        }
+        
+        if(other.tag != "Boss")
+        {
+            Instantiate(m_impactPrefab, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }

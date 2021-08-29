@@ -29,7 +29,6 @@ public class ParentAnimationSync : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         updatingParent.position = animator.transform.position;
-        //updatingParent.rotation = animator.transform.rotation;
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

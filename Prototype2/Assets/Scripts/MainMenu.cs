@@ -10,6 +10,8 @@ public class MainMenu : MonoBehaviour
     public string m_sceneName = "MainGameScene";
     public CinemachineVirtualCamera vCamera;
     public Animator doors;
+    public GameObject player;
+    public GameObject m_tutorialText;
 
     [Header("Settings")]
     public GameObject m_settings;
@@ -25,14 +27,26 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         HUDManager.instance.gameObject.SetActive(false);
+        player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<PlayerController>().m_functionalityEnabled = false;
+        m_tutorialText.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(InputManager.instance.IsGamepadButtonDown(ButtonType.SOUTH, 0))
+        if (InputManager.instance.IsKeyDown(KeyType.ESC))
+        {
+            QuitGame();
+        }
+        if (InputManager.instance.IsGamepadButtonDown(ButtonType.SOUTH, 0) || InputManager.instance.IsKeyDown(KeyType.SPACE))
         {
             StartGame();
+        }
+        if(InputManager.instance.IsGamepadButtonDown(ButtonType.NORTH, 0) || InputManager.instance.IsKeyDown(KeyType.T))
+        {
+            GameManager.instance.enableTimer = true;
+            GetComponent<SoloAudioAgent>().Play();
         }
     }
 
@@ -48,12 +62,14 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         HUDManager.instance.gameObject.SetActive(true);
+        m_tutorialText.SetActive(true);
         doors.SetBool("IsOpen", true);
         vCamera.Priority = 0;
+        player.GetComponent<PlayerController>().m_functionalityEnabled = true;
         Destroy(gameObject);
+
         //LevelLoader.instance.LoadNewLevel(m_sceneName);
     }
-
     //public void Settings()
     //{
     //    m_settings.SetActive(!m_settings.activeInHierarchy);
@@ -69,6 +85,10 @@ public class MainMenu : MonoBehaviour
 
     public void QuitGame()
     {
-        LevelLoader.instance.QuitGame();
+        Application.Quit();
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+        //LevelLoader.instance.QuitGame();
     }
 }

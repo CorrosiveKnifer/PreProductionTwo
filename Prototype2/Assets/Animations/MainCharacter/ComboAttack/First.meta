@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Prototype2/Assets/Physics Materials/Prefabs/Bosses.meta
-guid: c3adffab35b021d409ec5595caa97c79
-=======
+<<<<<<< HEAD:Prototype2/Assets/Animations/MainCharacter/ComboAttack/First.meta
 guid: 831c02bcd15f2d3419cffc389845cbf7
->>>>>>> origin/Michael:Prototype2/Assets/Animations/MainCharacter/ComboAttack/First.meta
+=======
+guid: bd2f9742e299a5041b793845ba0985f7
+>>>>>>> origin/Fetus:Prototype2/Assets/Physics Materials/Prefabs/Bosses.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
