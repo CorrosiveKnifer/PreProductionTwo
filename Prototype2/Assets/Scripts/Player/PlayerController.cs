@@ -84,6 +84,14 @@ public class PlayerController : MonoBehaviour
                     m_playerResources.ChangeStamina(-30.0f);
                 }
             }
+            if (InputManager.instance.IsKeyDown(KeyType.L) && !GameManager.instance.enableTimer)
+            {
+                m_playerResources.ChangeAdrenaline(100.0f);
+            }
+            if (InputManager.instance.IsKeyDown(KeyType.K) && !GameManager.instance.enableTimer)
+            {
+                Damage(100.0f);
+            }
         }
         else
         {
@@ -117,28 +125,6 @@ public class PlayerController : MonoBehaviour
         }
 
         //// Debug inputs
-        //if (InputManager.instance.IsKeyDown(KeyType.H))
-        //{
-        //    m_playerResources.ChangeHealth(20.0f);
-        //}
-        //if (InputManager.instance.IsKeyDown(KeyType.D))
-        //{
-        //    Damage(20.0f);
-        //}
-        if (InputManager.instance.IsKeyDown(KeyType.L) && !GameManager.instance.enableTimer)
-        {
-            m_playerResources.ChangeAdrenaline(100.0f);
-        }
-        //if (InputManager.instance.IsKeyDown(KeyType.K))
-        //{
-        //    Vector3 m_direction = transform.position;
-        //    m_direction.y = 0;
-        //    m_playerMovement.Knockback(m_direction, 20.0f);
-        //}
-        if (InputManager.instance.IsKeyDown(KeyType.K) && !GameManager.instance.enableTimer)
-        {
-            Damage(100.0f);
-        }
 
         CalculateAdrenalineBoost();
 
