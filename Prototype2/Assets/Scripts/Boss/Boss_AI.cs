@@ -386,6 +386,7 @@ public class Boss_AI : MonoBehaviour
             m_myAnimator.IsDead = true;
             GetComponent<Collider>().enabled = false;
             HUDManager.instance.GetElement<UI_SpeedrunTimer>()?.StopTimer();
+            m_myHealthBar.SetValue(0);
         }
         m_damageMemory += 3.0f;
         m_myMovement.SetStearModifier(5.0f);

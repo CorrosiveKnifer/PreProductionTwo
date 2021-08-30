@@ -10,7 +10,7 @@ public class PlayerResources : MonoBehaviour
 
     private PlayerController m_playerController;
     float m_staminaRechargeTimer = 0.0f;
-    public float m_staminaRechargeDelay = 1.0f;
+    public float m_staminaRechargeDelay = 0.8f;
     public float m_rechargeRate = 40.0f;
     public float m_adrenalineDecayRate = 3.0f;
     public bool m_dead { get; private set; } = false;
