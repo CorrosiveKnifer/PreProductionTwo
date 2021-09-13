@@ -925,7 +925,7 @@ MonoBehaviour:
   m_mainGameMusic: {fileID: 9862144}
   m_bossMusic: {fileID: 791079807}
   m_door: {fileID: 25086331}
-  m_UI: {fileID: 0}
+  m_UI: {fileID: 991009156}
 --- !u!1001 &211057183
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4853,6 +4853,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 954688717}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &991009156 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8627261821800737965, guid: 79417dd39cb4fb34482b3092a22c60d2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1233077642}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &998365778
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6065,6 +6071,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 9862144, guid: fb30c9d1de9e1cd43bc13f4258ed38bf, type: 3}
+      propertyPath: mainClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0b8adf6534c8b0c45921dfb7716a50e8, type: 3}
     - target: {fileID: 7607167446977478564, guid: fb30c9d1de9e1cd43bc13f4258ed38bf,
         type: 3}
       propertyPath: doors
@@ -6075,6 +6085,11 @@ PrefabInstance:
       propertyPath: m_tutorialText
       value: 
       objectReference: {fileID: 29499501}
+    - target: {fileID: 7607167446977478565, guid: fb30c9d1de9e1cd43bc13f4258ed38bf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7607167448291832594, guid: fb30c9d1de9e1cd43bc13f4258ed38bf,
         type: 3}
       propertyPath: m_Name
