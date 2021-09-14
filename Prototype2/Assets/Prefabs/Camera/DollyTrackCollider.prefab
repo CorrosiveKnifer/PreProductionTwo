@@ -24,8 +24,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5519596425744812594}
-  m_LocalRotation: {x: -0.02735543, y: 0.8957778, z: 0.055672474, w: 0.44015267}
-  m_LocalPosition: {x: -2.3849945, y: 1.9759998, z: 7.4670067}
+  m_LocalRotation: {x: -0.010015933, y: 0.98041594, z: 0.05175035, w: 0.18975294}
+  m_LocalPosition: {x: 0.6150055, y: 1.9759998, z: 10.467008}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5519596427618100929}
@@ -48,7 +48,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 5
+  m_Priority: 11
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
@@ -112,8 +112,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 73.204544, y: 6.268009, z: 6}
-  m_Center: {x: -33.870796, y: 2.1340046, z: 0}
+  m_Size: {x: 62.48503, y: 6.268009, z: 6}
+  m_Center: {x: -25.768303, y: 2.1340046, z: 0}
 --- !u!114 &5519596426855907081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,6 +128,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_myCamera: {fileID: 5519596425744812593}
   m_myTrack: {fileID: 5519596427190211341}
+  x: 270
+  y: 0.5
 --- !u!1 &5519596427190211342
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,7 +180,7 @@ MonoBehaviour:
     width: 0.2
   m_Looped: 0
   m_Waypoints:
-  - position: {x: -5, y: -2, z: -5}
+  - position: {x: -2, y: -2, z: -8}
     roll: 0
   - position: {x: 5, y: 5, z: 35}
     roll: 0
@@ -246,11 +248,11 @@ MonoBehaviour:
   m_HorizontalDamping: 0.5
   m_VerticalDamping: 0.5
   m_ScreenX: 0.5
-  m_ScreenY: 0.5
+  m_ScreenY: 0.65
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
-  m_SoftZoneWidth: 0.8
-  m_SoftZoneHeight: 0.8
+  m_SoftZoneWidth: 0.01
+  m_SoftZoneHeight: 0.498
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
@@ -267,7 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Path: {fileID: 5519596427190211341}
-  m_PathPosition: 0
+  m_PathPosition: -0.09963686
   m_PositionUnits: 0
   m_PathOffset: {x: 0, y: 0, z: 0}
   m_XDamping: 0
