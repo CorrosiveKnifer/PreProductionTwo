@@ -1,14 +1,8 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Prototype2/Assets/Materials/Boss_Sword/Sword_Active/BossSword_ActiveTest/BossSword_ActiveTest.mat.meta
 guid: 540d8ea93b514ee4c9db4e46f015d8df
-NativeFormatImporter:
-=======
-guid: b875e85099ea9aa4aae4426faff99bad
 folderAsset: yes
 DefaultImporter:
->>>>>>> origin/Will_L:Prototype2/Assets/Materials/Enviromet/Candleabra.meta
   externalObjects: {}
-  mainObjectFileID: 2100000
   userData: 
   assetBundleName: 
   assetBundleVariant: 
