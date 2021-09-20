@@ -7115,11 +7115,6 @@ PrefabInstance:
       propertyPath: m_camera
       value: 
       objectReference: {fileID: 454928997}
-    - target: {fileID: 8422007746411455707, guid: d5b8d786247cebb429a033d202b62b9b,
-        type: 3}
-      propertyPath: m_shadowDuration
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5b8d786247cebb429a033d202b62b9b, type: 3}
 --- !u!4 &1452338539 stripped
