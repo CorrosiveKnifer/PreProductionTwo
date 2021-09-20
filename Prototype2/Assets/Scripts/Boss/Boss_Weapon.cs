@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss_Weapon : PlayerAdrenalineProvider
+public class Boss_Weapon : MonoBehaviour
 {
     [Header("Weapon Materials")]
     public Material m_inactive;
@@ -12,8 +12,6 @@ public class Boss_Weapon : PlayerAdrenalineProvider
     public bool m_isLive = false;
     public float m_weaponDamage;
     public List<GameObject> m_damaged;
-    public float m_currentWindow = 0.0f;
-    public float m_maxWindow = 0.0f;
     public float m_modifier = 1.0f;
     public Transform parentTransform;
 
@@ -31,16 +29,6 @@ public class Boss_Weapon : PlayerAdrenalineProvider
     {
         if (!m_isLive)
             m_damaged.Clear();
-
-        if(m_currentWindow >= 0.0f)
-        {
-            m_currentWindow -= Time.deltaTime;
-            m_value = (1.0f - (m_currentWindow / m_maxWindow)) * m_modifier;
-        }
-        else
-        {
-            m_value = 0.0f;
-        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -55,6 +43,11 @@ public class Boss_Weapon : PlayerAdrenalineProvider
                 direction.y = 0;
                 other.GetComponent<PlayerMovement>().Knockback(direction.normalized, 10.0f);
             }
+            else if(other.tag == "Adrenaline Shadow")
+            {
+                other.GetComponent<AdrenalineProvider>().GiveAdrenaline();
+            }
+
             if(other.gameObject.layer == LayerMask.NameToLayer("Attackable"))
             {
                 other.GetComponent<Destructible>().CrackObject();
@@ -77,12 +70,5 @@ public class Boss_Weapon : PlayerAdrenalineProvider
 
         var emission = particles.emission;
         emission.enabled = status;
-    }
-
-    public void StartAdrenalineWindow(float window)
-    {
-        m_maxWindow = window;
-        m_currentWindow = window;
-        m_value = 0.0f * m_modifier;
     }
 }

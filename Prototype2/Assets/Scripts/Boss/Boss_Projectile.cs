@@ -15,25 +15,42 @@ public class Boss_Projectile : MonoBehaviour
     private Vector3 forward;
 
     private Vector3 projPoint;
-    private PlayerAdrenalineProvider m_providerInfo;
 
     public void Start()
     {
         forward = transform.forward;
-        m_providerInfo = GetComponent<PlayerAdrenalineProvider>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        Calculate();
+        if (other.tag == "Player")
+        {
+            other.GetComponent<PlayerController>().Damage(m_damage, true);
+            Destroy(gameObject);
+            return;
+        }
 
-        //Tell the player their dodge value.
-        if(!m_providerInfo.mutex)
-            m_target.GetComponent<PlayerMovement>()?.SetPotentialAdrenaline(m_providerInfo);
+        if(other.tag == "Adrenaline Shadow")
+        {
+            if(!CanStillHitThePlayer())
+            {
+                other.GetComponent<AdrenalineProvider>().GiveAdrenaline();
+                Destroy(gameObject);
+            }
+            else
+            {
+                Destroy(other.gameObject);
+            }
+            return;
+        }
+
+        if(other.tag != "Boss")
+        {
+            Instantiate(m_impactPrefab, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
     }
-
-    private void Calculate()
+    private bool CanStillHitThePlayer()
     {
         float radius = transform.localScale.x;
         //Points: A = ball origin, B = origin + forward, P = target origin
@@ -45,51 +62,11 @@ public class Boss_Projectile : MonoBehaviour
         projPoint = transform.position + t * AB;
 
         float myDist = Vector3.Distance(transform.position, projPoint);
-        if(myDist < m_distWindow)
+        if (myDist < m_distWindow)
         {
             float theirDist = Vector3.Distance(m_target.transform.position, projPoint);
-            if(theirDist < radius && t >= 0)
-            {
-                //Danger!
-                m_providerInfo.m_value = 1.0f - ((myDist - radius) / (m_distWindow - radius));
-            }
-            else
-            {
-                m_providerInfo.m_value = 0.0f;
-            }
+            return (theirDist < radius && t >= 0);
         }
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            other.GetComponent<PlayerController>().Damage(m_damage);
-        }
-        else if (other.GetComponent<Rigidbody>() != null)
-        {
-            other.GetComponent<Rigidbody>().AddExplosionForce(400f, transform.position, 1f);
-        }
-        if (other.gameObject.layer == LayerMask.NameToLayer("Attackable"))
-        {
-            other.GetComponent<Destructible>().ExplodeObject(transform.position, 400f, 1f);
-        }
-        
-        if(other.tag != "Boss")
-        {
-            Instantiate(m_impactPrefab, transform.position, Quaternion.identity);
-            Destroy(gameObject);
-        }
-    }
-    private void OnDrawGizmos()
-    {
-        float radius = transform.localScale.x;
-        Gizmos.color = (m_providerInfo.m_value > 0) ? Color.green: Color.red; 
-        Gizmos.DrawWireSphere(projPoint, radius);
-
-        #if UNITY_EDITOR
-                Handles.color = (m_providerInfo.m_value > 0) ? Color.green : Color.red;
-                Handles.Label(projPoint, $"Dodge:{m_providerInfo.m_value }");
-        #endif
-
+        return true;
     }
 }

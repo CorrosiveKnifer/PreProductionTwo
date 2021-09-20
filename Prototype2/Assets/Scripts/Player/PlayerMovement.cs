@@ -22,6 +22,9 @@ public class PlayerMovement : MonoBehaviour
     public bool m_grounded = true;
     private float m_yVelocity = 0.0f;
 
+    public float m_shadowDuration = 1.0f;
+    public GameObject m_adrenShadowPrefab;
+
     public bool m_stagger { get; private set; } = false;
     public bool m_knockedDown { get; private set; } = false;
     private Vector3 m_knockVelocity = Vector3.zero;
@@ -30,10 +33,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 m_lastMoveDirection;
 
     private Vector3 m_knockbackSourceDir;
-
-    //External Link to adrenaline giver
-    private PlayerAdrenalineProvider o_adrenalineProvider;
-
 
     // Start is called before the first frame update
     void Start()
@@ -148,19 +147,10 @@ public class PlayerMovement : MonoBehaviour
             m_playerController.m_playerResources.ChangeStamina(-30.0f);
             m_isRolling = true;
 
-            // Apply adrenaline if roll timed correctly
-            if(o_adrenalineProvider != null)
-            {
-                m_playerController.m_playerResources.ChangeAdrenaline(100 * o_adrenalineProvider.m_value);
-
-                if(o_adrenalineProvider.m_value > 0)
-                    GetComponent<Player_AudioAgent>().PlayAdrenalineGain();
-
-                // Slow motion calculation (Pretty terrible honestly, would not recommend)
-                GameManager.instance.SlowTime(0.4f, o_adrenalineProvider.m_value);
-
-                o_adrenalineProvider = null;
-            }
+            //Create Provider
+            AdrenalineProvider provider = GameObject.Instantiate(m_adrenShadowPrefab, transform.position, Quaternion.identity).GetComponent<AdrenalineProvider>();
+            provider.m_durationInSeconds = m_shadowDuration;
+            provider.m_playerRef = this;
 
             if (normalizedMove.magnitude > 0)
             {
@@ -268,21 +258,14 @@ public class PlayerMovement : MonoBehaviour
         m_stagger = false;
         m_knockedDown = false;
     }
-    public void SetPotentialAdrenaline(PlayerAdrenalineProvider _provider)
+    public void GiveAdrenaline(float _val)
     {
-        if(o_adrenalineProvider == _provider)
-        {
-            return;
-        }
 
-        //if either is null, then they will represent the maximum value of a float
-        float currentDist = (o_adrenalineProvider != null) ? Vector3.Distance(transform.position, o_adrenalineProvider.transform.position) : float.MaxValue; 
-        float newDist = (_provider != null) ? Vector3.Distance(transform.position, _provider.transform.position) : float.MaxValue;
+        m_playerController.m_playerResources.ChangeAdrenaline(100 * _val);
 
-        if(newDist < currentDist) 
-        {
-            //New provider! (Used to determine who has priority when the player is dodging).
-            o_adrenalineProvider = _provider;
-        }
+        GetComponent<Player_AudioAgent>().PlayAdrenalineGain();
+
+        //Slow mo
+        GameManager.instance.SlowTime(0.4f, _val);
     }
 }

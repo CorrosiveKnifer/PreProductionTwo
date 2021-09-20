@@ -2768,7 +2768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: c2afbe865b1c56c40a26bb28fe69f560, type: 2}
+  sharedProfile: {fileID: 0}
   isGlobal: 0
   blendDistance: 0
   weight: 1
@@ -2816,7 +2816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: c2afbe865b1c56c40a26bb28fe69f560, type: 2}
+  sharedProfile: {fileID: 0}
   isGlobal: 0
   blendDistance: 0
   weight: 1
@@ -3742,6 +3742,9 @@ MonoBehaviour:
   m_moveSpeed: 4
   m_rollSpeed: 8
   m_grounded: 1
+  m_shadowDuration: 1
+  m_adrenShadowPrefab: {fileID: 3504135104941125864, guid: 92efe45cf760c7f4e91eab82e06a0fef,
+    type: 3}
 --- !u!114 &5846868069642990467
 MonoBehaviour:
   m_ObjectHideFlags: 0

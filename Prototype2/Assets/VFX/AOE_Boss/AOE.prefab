@@ -9737,7 +9737,6 @@ GameObject:
   - component: {fileID: 8306558155217557532}
   - component: {fileID: 8306558155217557507}
   - component: {fileID: 6068632362569507701}
-  - component: {fileID: 6084723325642930446}
   m_Layer: 0
   m_Name: AOE
   m_TagString: Untagged
@@ -14495,21 +14494,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_timer: 2.9
---- !u!114 &6084723325642930446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8306558155217557506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e207f78b82ae32b4ea29d36c96dcf8e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mutex: 0
-  m_value: 0
-  m_player: {fileID: 0}
-  m_currentWindow: 0
-  m_maxWindow: 0
-  m_modifier: 1

@@ -292,7 +292,6 @@ public class Boss_AI : MonoBehaviour
                 m_myMovement.Stop();
                 m_canCancel = true;
                 m_myAnimator.IsMelee = true;
-                m_player.GetComponent<PlayerMovement>().SetPotentialAdrenaline(m_myWeapon);
                 TransitionBehavourTo(AI_BEHAVOUR_STATE.CLOSE_DISTANCE);
                 return;
             }
@@ -332,9 +331,6 @@ public class Boss_AI : MonoBehaviour
     public void CreateAOEPrefab()
     {
         m_aoeVFX = GameObject.Instantiate(m_aoePrefab, transform);
-        AOEAdrenalineProvider provider = m_aoeVFX.GetComponent<AOEAdrenalineProvider>();
-        provider.m_player = m_player;
-        provider.m_modifier = m_myData.aoeModifier;
     }
 
     private void TransitionBehavourTo(AI_BEHAVOUR_STATE nextState)
@@ -397,13 +393,11 @@ public class Boss_AI : MonoBehaviour
         LevelLoader.instance.LoadNewLevel("MainGame", LevelLoader.Transition.YOUWIN);
 
     }
-    public void StartAOEWindow(float window)
-    {
-        m_aoeVFX.GetComponent<AOEAdrenalineProvider>().StartAdrenalineWindow(window);
-    }
     public void ApplyAOE()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, m_myData.aoeRadius * 1.5f);
+        Collider playerHit = null;
+        Collider shadowHit = null;
 
         foreach (var hit in hits)
         {
@@ -416,8 +410,14 @@ public class Boss_AI : MonoBehaviour
                 m_player.GetComponent<PlayerMovement>().Knockdown(direction.normalized, m_myData.aoeForce);
                 m_player.GetComponent<PlayerController>().Damage(m_myData.aoeDamage, true);
                 m_aoeVFX.transform.parent = null;
+                playerHit = hit;
                 continue;
             }
+            else if(hit.tag == "Adrenaline Shadow")
+            {
+                shadowHit = hit;
+            }
+
             if(hit.gameObject.layer == LayerMask.NameToLayer("Attackable"))
             {
                 Vector3 direction = (hit.transform.position - transform.position);
@@ -431,6 +431,12 @@ public class Boss_AI : MonoBehaviour
                 hit.GetComponent<Rigidbody>().AddExplosionForce(m_myData.aoeForce * 7.5f, m_aoeVFX.transform.position, m_myData.aoeRadius * 1.5f, 1.0f);
                 continue;
             }
+        }
+
+        //Only if the player wasn't hit, will we provide adrenaline
+        if(playerHit == null && shadowHit != null)
+        {
+            shadowHit.GetComponent<AdrenalineProvider>().GiveAdrenaline();
         }
     }
     public void ApplyKickAction()
