@@ -3742,7 +3742,7 @@ MonoBehaviour:
   m_moveSpeed: 4
   m_rollSpeed: 8
   m_grounded: 1
-  m_shadowDuration: 1
+  m_shadowDuration: 0.5
   m_adrenShadowPrefab: {fileID: 3504135104941125864, guid: 92efe45cf760c7f4e91eab82e06a0fef,
     type: 3}
 --- !u!114 &5846868069642990467
